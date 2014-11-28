@@ -34,30 +34,34 @@
  * }
  *
  * @param {String} $theme
+ * @param {String} (null) $target-selector
  *
  * @requires {variable} $o-ft-buttons-themes
  * @requires {variable} $o-hoverable-if-hover-enabled
  */
-@mixin oFtButtonsTheme($theme) {
+@mixin oFtButtonsTheme($theme, $target-selector: null) {
 	$states: map-get($o-ft-buttons-themes, $theme);
 
-	@each $property, $value in map-get($states, normal) {
-		#{$property}: #{$value};
-	}
-
-	&:focus {
-		@each $property, $value in map-get($states, focus) {
+	& #{$target-selector} {
+		@each $property, $value in map-get($states, normal) {
 			#{$property}: #{$value};
+		}
+
+		&:focus {
+			@each $property, $value in map-get($states, focus) {
+				#{$property}: #{$value};
+			}
 		}
 	}
 
+
 	@if map-get($states, hover) {
-		#{$o-hoverable-if-hover-enabled} & {
-			// Apply :hover state only in these cases:
-			// - Not disabled
-			// - Not selected
-			// - Not pressed
-			&:not([disabled]):not([aria-selected=true]):not([aria-pressed=true]):hover {
+		// Apply :hover state only in these cases:
+		// - Not disabled
+		// - Not selected
+		// - Not pressed
+		#{$o-hoverable-if-hover-enabled} &:not([disabled]):not([aria-selected=true]):not([aria-pressed=true]) #{$target-selector} {
+			&:hover {
 				background: map-get(map-get($states, hover), background);
 			}
 		}
@@ -65,7 +69,7 @@
 
 	@if map-get($states, selected) {
 		// http://www.w3.org/TR/wai-aria/states_and_properties#aria-selected
-		&[aria-selected=true] {
+		&[aria-selected=true] #{$target-selector} {
 			@each $property, $value in map-get($states, selected) {
 				#{$property}: #{$value};
 			}
@@ -80,7 +84,7 @@
 
 	@if map-get($states, pressed) {
 		// http://www.w3.org/TR/wai-aria/states_and_properties#aria-pressed
-		&[aria-pressed=true] {
+		&[aria-pressed=true] #{$target-selector} {
 			@each $property, $value in map-get($states, pressed) {
 				#{$property}: #{$value};
 			}
@@ -94,7 +98,7 @@
 	}
 
 	@if map-get($states, disabled) {
-		&[disabled] {
+		&[disabled] #{$target-selector} {
 			@each $property, $value in map-get($states, disabled) {
 				#{$property}: #{$value};
 			}
@@ -119,38 +123,45 @@
  * .my-big-button {
  * 	@include oFtButtons(big);
  * }
+ * .button-parent {
+ * 	// Applies button styles to .button inside of .button-parent
+ * 	@include oFtButtons($target-selector: .button);
+ * }
  *
  * @param {String} (medium) $size
  * @param {String} (standard) $theme
+ * @param {String} (null) $target-selector
  *
  * @requires {mixin} oFtButtonsSize
  * @requires {mixin} oFtButtonsTheme
  * @requires {mixin} oFontsGetFontFamilyWithFallbacks
  */
-@mixin oFtButtons($size: medium, $theme: standard) {
-	display: inline-block;
-	box-sizing: border-box;
-	margin: 0;
-	outline: 0;
-	border-width: 1px;
-	border-style: solid;
-	border-radius: 5px;
-	text-align: center;
-	text-decoration: none;
-	font-family: oFontsGetFontFamilyWithFallbacks(BentonSans);
-	cursor: pointer;
-	transition: background-color 0.3s;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	user-select: none;
+@mixin oFtButtons($size: medium, $theme: standard, $target-selector: null) {
+	& #{$target-selector} {
+		display: inline-block;
+		box-sizing: border-box;
+		margin: 0;
+		outline: 0;
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 5px;
+		text-align: center;
+		text-decoration: none;
+		font-family: oFontsGetFontFamilyWithFallbacks(BentonSans);
+		cursor: pointer;
+		transition: background-color 0.3s;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		user-select: none;
+		@include oFtButtonsSize($size);
+	}
 
-	@include oFtButtonsSize($size);
-	@include oFtButtonsTheme($theme);
+	@include oFtButtonsTheme($theme, $target-selector);
 
 	// Same as aria-disabled:
 	// http://www.w3.org/TR/wai-aria/states_and_properties#aria-disabled
 	// This is a common style for all button themes
-	&[disabled] {
+	&[disabled] #{$target-selector} {
 		opacity: 0.4;
 		cursor: default;
 	}
