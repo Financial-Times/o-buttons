@@ -125,6 +125,7 @@
  * }
  * .button-parent {
  * 	// Applies button styles to .button inside of .button-parent
+ * 	// states (selected, disabled…) should be applied to the parent
  * 	@include oFtButtons($target-selector: .button);
  * }
  *
