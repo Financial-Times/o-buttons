@@ -56,7 +56,6 @@ $o-buttons-themes__standout: (
 		color: oColorsGetColorFor(o-buttons-standout-normal, text),
 		background-color: oColorsGetColorFor(o-buttons-standout-normal, background),
 		border-color: oColorsGetColorFor(o-buttons-standout-normal, background),
-		text-transform: uppercase,
 	),
 	active: (
 		color: darken(oColorsGetColorFor(o-buttons-standout-normal, text), 20%),
