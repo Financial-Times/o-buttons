@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "origami-build-tools": "^4.0.0",
+    "pa11y": "^4.0.0"
+  }
+}

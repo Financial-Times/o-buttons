@@ -11,8 +11,8 @@ dependencies:
     - "node_modules"
 test:
   pre:
-    - obt demo --runServer
+    - obt demo
   override:
     - obt test
     - obt verify
-    - pa11y http://localhost:8080/demos/local/demoname.html --arguments
+    - pa11y file://demos/local/standard.html --arguments
