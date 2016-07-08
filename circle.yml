@@ -3,12 +3,16 @@ machine:
     version: 4
   post:
     - npm install -g Financial-Times/origami-build-tools#node4
+    - npm install -g pa11y
 dependencies:
   override:
     - obt install
   cache_directories:
     - "node_modules"
 test:
+  pre:
+    - obt demo --runServer
   override:
     - obt test
     - obt verify
+    - pa11y http://localhost:8080/demos/local/demoname.html --arguments
