@@ -3,7 +3,6 @@ machine:
     version: 4
   post:
     - npm install -g Financial-Times/origami-build-tools#node4
-    - npm install -g pa11y
 dependencies:
   override:
     - obt install
@@ -15,4 +14,4 @@ test:
   override:
     - obt test
     - obt verify
-    - pa11y file://demos/local/standard.html --arguments
+    - node pa11yDemo.js
