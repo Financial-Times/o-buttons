@@ -59,8 +59,8 @@
             "description": ""
         },
         {
-            "name": "test",
-            "template": "/demos/src/test.mustache",
+            "name": "pa11y",
+            "template": "/demos/src/pa11y.mustache",
             "expanded": false,
             "description": ""
         }

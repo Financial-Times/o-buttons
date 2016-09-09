@@ -9,6 +9,9 @@ dependencies:
   cache_directories:
     - "node_modules"
 test:
+  pre:
+    - obt demo
   override:
     - obt test
     - obt verify
+    - node pa11yDemo.js
