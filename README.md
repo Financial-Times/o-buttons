@@ -198,15 +198,23 @@ Or, using Sass:
 
 #### Custom themes
 
-You can use the `oButtonsCustomTheme` mixin to create custom colored buttons using the oColors color variables.
+You can use the `oButtonsCustomTheme` mixin to create custom coloured buttons using the oColors color variables.
 
-eg to create a `lemon` on `slate` button:
+E.g. to create a `lemon` accented button on a `slate` background:
 
 ```scss
-	@include oButtonsCustomTheme(slate, lemon);
+@include oButtonsCustomTheme(slate, lemon);
 ```
 
-Where slate is the page colour, and lemon is the button colour.
+This will output styles for a slate coloured button that has lemon text and border, with a slate/lemon mixed hover state.
+
+To create a `lemon` _filled_ button on a `slate` background, use the `colorizer` parameter and set to `primary`:
+
+```scss
+@include oButtonsCustomTheme(slate, lemon, primary);
+```
+
+This will output styles for a lemon coloured button that has slate text, with a slate/lemon mixed hover state.
 
 #### Icons
 [View demo](https://origami-build.ft.com/demos/o-buttons/icons)
