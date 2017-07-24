@@ -83,12 +83,20 @@
 /// 	@include oButtonsTheme(black, paper);
 /// }
 ///
-/// @param {String} $theme
-@mixin oButtonsCustomTheme($background, $accent) {
-	// normal
+/// @param {String} $background - The background colour of the theme. Must be a colour name from o-colors
+/// @param {String} $accent - The accent colour of the theme. Must be a colour name from o-colors
+/// @param {String} $colorizer - One of primary or secondary (default)
+@mixin oButtonsCustomTheme($background, $accent, $colorizer: secondary) {
+	$testContrast: oColorsCheckContrast(oColorsGetPaletteColor($background), oColorsGetPaletteColor($accent));
+
 	border-color: oColorsGetPaletteColor($accent);
-	color: oColorsGetPaletteColor($accent);
-	background-color: transparent;
+	@if $colorizer == secondary {
+		color: oColorsGetPaletteColor($accent);
+		background-color: oColorsGetPaletteColor($background);
+	} @else {
+		color: oColorsGetPaletteColor($background);
+		background-color: oColorsGetPaletteColor($accent);
+	}
 
 	// http://www.w3.org/TR/wai-aria/states_and_properties#aria-selected
 	// http://www.w3.org/TR/wai-aria/states_and_properties#aria-pressed

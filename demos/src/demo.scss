@@ -43,12 +43,22 @@ body {
 	padding: 1em;
 }
 
-.demo_custom-theme-button--teal {
-	@include oButtonsCustomTheme(teal-60, 'white');
+.demo_custom-theme-button--teal-primary {
+	// @include oButtonsCustomTheme(teal-60, 'white', primary);
+	@include oButtonsCustomTheme(teal-60, 'white', primary);
 }
-.demo_custom-theme-button--slate {
-	@include oButtonsCustomTheme(slate, 'white');
+.demo_custom-theme-button--teal-secondary {
+	@include oButtonsCustomTheme(teal-60, 'white', secondary);
 }
-.demo_custom-theme-button--lemon {
-	@include oButtonsCustomTheme(slate, lemon);
+.demo_custom-theme-button--slate-primary {
+	@include oButtonsCustomTheme(slate, 'white', primary);
+}
+.demo_custom-theme-button--slate-secondary {
+	@include oButtonsCustomTheme(slate, 'white', secondary);
+}
+.demo_custom-theme-button--lemon-primary {
+	@include oButtonsCustomTheme(slate, lemon, primary);
+}
+.demo_custom-theme-button--lemon-secondary {
+	@include oButtonsCustomTheme(slate, lemon, secondary);
 }
