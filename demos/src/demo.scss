@@ -18,7 +18,37 @@ body {
 .faux-inline-block {
 	display: inline-block;
 }
-
 .inverse {
 	background-color: oColorsGetPaletteColor('slate');
+}
+
+.custom-button-theme-demo body {
+	margin:0;
+}
+
+.demo_custom-theme {
+	padding: 1em;
+}
+
+.demo_custom-theme--teal {
+	background-color: oColorsGetPaletteColor(teal-60);
+	padding: 1em;
+}
+.demo_custom-theme--slate {
+	background-color: oColorsGetPaletteColor(slate);
+	padding: 1em;
+}
+.demo_custom-theme--lemon {
+	background-color: oColorsGetPaletteColor(slate);
+	padding: 1em;
+}
+
+.demo_custom-theme-button--teal {
+	@include oButtonsCustomTheme(teal-60, 'white');
+}
+.demo_custom-theme-button--slate {
+	@include oButtonsCustomTheme(slate, 'white');
+}
+.demo_custom-theme-button--lemon {
+	@include oButtonsCustomTheme(slate, lemon);
 }

@@ -16,7 +16,8 @@ o-buttons provides Sass mixins and variables to create buttons.
 
 o-buttons provides styling for:
 
-- **Themes**: `o-buttons--{primary|secondary|inverse|mono|b2c}` or `@include oButtonsTheme($theme)``
+- **Themes**: `o-buttons--{primary|secondary|inverse|mono|b2c}` or `@include oButtonsTheme($theme);`
+	- **Custom themes**: [Via mixins only] `@include oButtonsCustomTheme($page-background-color, $accent-color);`
 - **Sizes**: `o-buttons--{default|big}` or `@include oButtonsSize($size);`
 - **Grouped buttons**: `o-buttons-group` or `@include oButtonsGroup;`
 - **Pagination buttons**: `o-buttons-pagination` or `@include oButtonsPagination;`
@@ -194,6 +195,18 @@ Or, using Sass:
 
 <button class="my-secondary-button">Secondary button</button>
 ```
+
+#### Custom themes
+
+You can use the `oButtonsCustomTheme` mixin to create custom colored buttons using the oColors color variables.
+
+eg to create a `lemon` on `slate` button:
+
+```scss
+	@include oButtonsCustomTheme(slate, lemon);
+```
+
+Where slate is the page colour, and lemon is the button colour.
 
 #### Icons
 [View demo](https://origami-build.ft.com/demos/o-buttons/icons)

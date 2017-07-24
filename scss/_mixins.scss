@@ -74,6 +74,46 @@
 	}
 }
 
+
+/// Button custom theme construct
+/// Ouputs styles for all button states for custom buttons based on a background color and an accent colour
+///
+/// @example
+/// .my-button--custom {
+/// 	@include oButtonsTheme(black, paper);
+/// }
+///
+/// @param {String} $theme
+@mixin oButtonsCustomTheme($background, $accent) {
+	// normal
+	border-color: oColorsGetPaletteColor($accent);
+	color: oColorsGetPaletteColor($accent);
+	background-color: transparent;
+
+	// http://www.w3.org/TR/wai-aria/states_and_properties#aria-selected
+	// http://www.w3.org/TR/wai-aria/states_and_properties#aria-pressed
+	&[aria-selected=true], // e.g. A selected tab or page number in pagination
+	&[aria-pressed=true] { // e.g. A "follow" button that is pressed
+		border-color: oColorsGetPaletteColor($accent);
+		background-color: oColorsGetPaletteColor($accent);
+		color: oColorsGetPaletteColor($background);
+	}
+
+	&:not([disabled]) {
+		&:hover {
+			background-color: oColorsMix($background, $accent);
+			text-decoration: none;
+			border-color: oColorsGetPaletteColor($accent);
+			color: oColorsGetPaletteColor($accent);
+
+		}
+		&:active {
+			background-color: oColorsGetPaletteColor($accent);
+			color: oColorsGetPaletteColor($background);
+		}
+	}
+}
+
 /// Button construct
 /// Basic button styling and default states for specific theme and size
 ///
