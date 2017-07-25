@@ -76,15 +76,15 @@
 
 
 /// Button custom theme construct
-/// Outputs styles for all button states for custom buttons based on a background color and an accent colour
+/// Outputs styles for all button states for custom buttons based on a background color and an accent color
 ///
 /// @example
 /// .my-button--custom {
 /// 	@include oButtonsTheme(black, paper);
 /// }
 ///
-/// @param {String} $background - The background colour of the theme. Must be a colour name from o-colors
-/// @param {String} $accent - The accent colour of the theme. Must be a colour name from o-colors
+/// @param {String} $background - The background color of the theme. Must be a color name from o-colors
+/// @param {String} $accent - The accent color of the theme. Must be a color name from o-colors
 /// @param {String} $colorizer - One of primary or secondary (default)
 @mixin oButtonsCustomTheme($background, $accent, $colorizer: secondary) {
 	$testContrast: oColorsCheckContrast(oColorsGetPaletteColor($background), oColorsGetPaletteColor($accent));
