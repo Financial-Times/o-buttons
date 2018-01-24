@@ -32,7 +32,6 @@
 // @param {String} $theme - One of $o-buttons-themes
 // @param {String} $state - One of normal, hover, focus, selected, disabled, pressed
 @mixin _oButtonsPropertiesForState($theme, $state) {
-	@debug $theme $state;
 	@if _oButtonsThemeHasState($theme, $state) {
 		$states: map-get($o-buttons-themes, $theme);
 		@each $property, $value in map-get($states, $state) {
