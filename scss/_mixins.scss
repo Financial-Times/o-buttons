@@ -143,7 +143,9 @@
 		@error "Please provide a background color for the custom button theme";
 	}
 
-	@if map-get($theme, "colorizer") == null {
+	// If theme colorizer is not supported default to secondary.
+	$supported-colorizers: ('secondary', 'primary');
+	@if not index($supported-colorizers, map-get($theme, "colorizer")) {
 		$theme: map-merge($theme, ('colorizer': 'secondary'));
 	}
 
