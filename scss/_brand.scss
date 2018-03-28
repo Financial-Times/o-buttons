@@ -80,23 +80,23 @@ $_o-buttons-shared-brand-config: (
 
 @include oBrandDefine('o-buttons', 'internal', (
     'variables': map-merge($_o-buttons-shared-brand-config, (
-        ('primary', 'mono'): (
-            default-color: oColorsGetPaletteColor('white'),
-            default-background: oColorsGetPaletteColor('slate'),
-            default-border: oColorsGetPaletteColor('transparent'),
-            hover-background: oColorsGetPaletteColor('slate-white-70'),
-            focus-background: oColorsGetPaletteColor('slate-white-70'),
-            active-color: oColorsGetPaletteColor('white'),
-            active-background: oColorsGetPaletteColor('slate-white-60')
-        ),
-        'mono': (
-              default-color: oColorsGetPaletteColor('slate'),
-              default-background: oColorsGetPaletteColor('transparent'),
-              default-border: oColorsGetPaletteColor('slate'),
-              hover-background: oColorsGetPaletteColor('slate-white-15'),
-              focus-background: oColorsGetPaletteColor('slate-white-15'),
-              active-color: oColorsGetPaletteColor('white'),
-              active-background: oColorsGetPaletteColor('slate')
+            ('primary', 'mono'): (
+                default-color: oColorsGetPaletteColor('white'),
+                default-background: oColorsGetPaletteColor('slate'),
+                default-border: oColorsGetPaletteColor('transparent'),
+                hover-background: oColorsGetPaletteColor('slate-white-70'),
+                focus-background: oColorsGetPaletteColor('slate-white-70'),
+                active-color: oColorsGetPaletteColor('white'),
+                active-background: oColorsGetPaletteColor('slate-white-60')
+            ),
+            'mono': (
+                default-color: oColorsGetPaletteColor('slate'),
+                default-background: oColorsGetPaletteColor('transparent'),
+                default-border: oColorsGetPaletteColor('slate'),
+                hover-background: oColorsGetPaletteColor('slate-white-15'),
+                focus-background: oColorsGetPaletteColor('slate-white-15'),
+                active-color: oColorsGetPaletteColor('white'),
+                active-background: oColorsGetPaletteColor('slate')
             )
         )
     ),
