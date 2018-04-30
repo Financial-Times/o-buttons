@@ -122,6 +122,12 @@
 			@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'focus');
 		}
 	}
+
+	// Hack to get the active state colour svg to download to prevent FOIC
+	&:after {
+		@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'active');
+		content: '';
+	}
 }
 
 /// Base styling for buttons
