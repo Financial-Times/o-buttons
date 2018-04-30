@@ -96,12 +96,15 @@
 	@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'normal');
 	// Add fallback for MS High Contrast mode.
 	// This only needs to be output once, not for every button state.
+	// sass-lint:disable no-vendor-prefixes
 	@media screen and (-ms-high-contrast: active) {
 		@include oIconsGetIcon($icon-name: $icon-name, $apply-base-styles: false, $apply-width-height: false, $color: #ffffff, $iconset-version: 1, $high-contrast-fallback: false);
 	}
 	@media screen and (-ms-high-contrast: black-on-white) {
 		@include oIconsGetIcon($icon-name: $icon-name, $apply-base-styles: false, $apply-width-height: false, $color: #000000, $iconset-version: 1, $high-contrast-fallback: false);
 	}
+	// sass-lint:enable no-vendor-prefixes
+
 	// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
 	// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
 	&[aria-selected=true], // e.g. A selected tab or page number in pagination.
