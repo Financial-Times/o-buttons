@@ -160,7 +160,7 @@
 		}
 	}
 	// 3.2. Extend the icon placeholder.
-	@extend %o-buttons-#{$icon-name}-#{$icon-color};
+	@extend %o-buttons-#{$icon-name}-#{$icon-color}; // sass-lint:disable-line extends-before-declarations
 }
 
 /// Icon Button Label
