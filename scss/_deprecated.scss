@@ -43,7 +43,7 @@
 	html > body .#{$buttonClass}-icon {
 		@include oButtonsBaseStyles;
 
-		@each $key, $theme in $o-buttons-themes {
+		@each $theme, $theme-parts in $o-buttons-themes {
 			@each $icon in $o-buttons-icons {
 				@include oButtonsGetButtonForIconAndTheme($icon, $theme);
 			}

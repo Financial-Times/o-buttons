@@ -1,3 +1,6 @@
+$o-brand: 'master';
+$o-brand-debug-mode: true;
+
 @import 'o-normalise/main';
 @import 'o-colors/main';
 @import 'o-icons/main';
@@ -26,7 +29,7 @@
 		}
 	}
 
-	@each $key, $theme in $o-buttons-themes {
+	@each $theme, $theme-parts in $o-buttons-themes {
 		$theme-selector: _oButtonsGetThemeSelector($theme, $o-buttons-class);
 		.#{$theme-selector} {
 			@include oButtonsTheme($theme);

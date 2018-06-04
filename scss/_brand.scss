@@ -1,3 +1,7 @@
+@function oButtonsGet($variables, $from: null) {
+    @return oBrandGet($component: 'o-buttons', $variables: $variables, $from: $from);
+}
+
 $_o-buttons-shared-brand-config: (
     'primary': (
         default-color: oColorsGetPaletteColor('white'),
@@ -7,7 +11,7 @@ $_o-buttons-shared-brand-config: (
         focus-background: oColorsGetPaletteColor('teal-40'),
         active-background: oColorsGetPaletteColor('teal-30')
     ),
-    ('primary', 'inverse'): (
+    ('primary-inverse'): (
         default-color: oColorsGetPaletteColor('slate'),
         default-background: oColorsGetPaletteColor('white'),
         default-border: oColorsGetPaletteColor('transparent'),
@@ -47,7 +51,7 @@ $_o-buttons-shared-brand-config: (
                 active-color: oColorsGetPaletteColor('white'),
                 active-background: oColorsGetPaletteColor('slate')
             ),
-            ('primary', 'mono'): (
+            ('primary-mono'): (
                 default-color: oColorsGetPaletteColor('white'),
                 default-background: oColorsGetPaletteColor('slate'),
                 default-border: oColorsGetPaletteColor('transparent'),
@@ -69,7 +73,7 @@ $_o-buttons-shared-brand-config: (
             )
         )
     ),
-    'settings': (
+    'supported-variants': (
         'primary': true,
         'secondary': true,
         'inverse': true,
@@ -89,7 +93,7 @@ $_o-buttons-shared-brand-config: (
                 active-color: oColorsGetPaletteColor('white'),
                 active-background: oColorsGetPaletteColor('slate')
             ),
-            ('primary', 'mono'): (
+            ('primary-mono'): (
                 default-color: oColorsGetPaletteColor('white'),
                 default-background: oColorsGetPaletteColor('slate'),
                 default-border: oColorsGetPaletteColor('transparent'),
@@ -100,7 +104,7 @@ $_o-buttons-shared-brand-config: (
             )
         )
     ),
-    'settings': (
+    'supported-variants': (
         'primary': true,
         'secondary': true,
         'inverse': true,
@@ -129,7 +133,7 @@ $_o-buttons-shared-brand-config: (
             active-background: oColorsGetPaletteColor('black')
         )
     ),
-    'settings': (
+    'supported-variants': (
         'primary': true,
         'secondary': true,
     )
