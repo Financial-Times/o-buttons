@@ -78,10 +78,6 @@
 ///
 /// @param {String} $theme
 @mixin oButtonsTheme($theme) {
-	// Transform buttons theme into o-brand variables.
-	@if type-of($theme) == 'map' {
-		$theme: _oButtonsThemeToBrandVariables($theme);
-	}
 	@include _oButtonsColors('default', $theme);
 	// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
 	// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
@@ -114,11 +110,11 @@
 	border-color: oButtonsGetColor($state, 'border', $theme);
 }
 
-/// Transform button theme map into o-brand variables map.
+/// Transform custom theme into variant variables, see `_brand.scss`.
 ///
 /// @param {Map} $theme
 /// @return {Map} o-brand variables for the custom button theme
-@function _oButtonsThemeToBrandVariables($theme) {
+@function _oButtonsGetCustomThemeVariables($theme) {
 	@if type-of($theme) != 'map' {
 		@error 'Expecting custom button theme `$theme` to be a map.';
 	}
