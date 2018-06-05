@@ -11,8 +11,8 @@
 	@if type-of($theme) == 'map' {
 		$theme: _oButtonsGetCustomThemeVariables($theme);
 	}
-	$state-color: oButtonsGet($variables: '#{$state}-#{$property}', $from: $theme);
-	$default-color: oButtonsGet($variables: 'default-#{$property}', $from: $theme);
+	$state-color: _oButtonsGet($variables: '#{$state}-#{$property}', $from: $theme);
+	$default-color: _oButtonsGet($variables: 'default-#{$property}', $from: $theme);
 	@return if($state-color, $state-color, $default-color);
 }
 
