@@ -10,6 +10,6 @@
     @include test('Gets the color for a button state and custom theme.') {
         $custom-theme: (background: 'slate', accent: 'claret-100', colorizer: 'secondary');
         $color: oButtonsGetColor($state: 'hover', $property: 'border', $theme: $custom-theme);
-        @include assert-equal($color, oColorsGetPaletteColor('claret-'));
+        @include assert-equal($color, oColorsGetPaletteColor('claret-100'));
     }
 }
