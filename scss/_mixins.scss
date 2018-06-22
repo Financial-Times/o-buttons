@@ -107,7 +107,6 @@
 @mixin _oButtonsColors($state, $theme) {
 	background-color: oButtonsGetColor($state, 'background', $theme);
 	color: oButtonsGetColor($state, 'color', $theme);
-	hover: oButtonsGetColor($state, 'hover', $theme);
 	border-color: oButtonsGetColor($state, 'border', $theme);
 }
 
