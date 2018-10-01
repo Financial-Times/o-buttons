@@ -48,9 +48,12 @@ $_o-buttons-shared-brand-config: (
     )
 );
 
-$brand: oBrandGetCurrentBrand();
+/// Brand to define conditionally
+///
+/// @type String
+$_o-buttons-brand: oBrandGetCurrentBrand();
 
-@if $brand == 'master' {
+@if $_o-buttons-brand == 'master' {
 	@include oBrandDefine('o-buttons', 'master', (
 		'variables': map-merge($_o-buttons-shared-brand-config, (
 			'mono': (
@@ -95,7 +98,7 @@ $brand: oBrandGetCurrentBrand();
 			)
 		)
 	);
-} @elseif $brand == 'internal' {
+} @elseif $_o-buttons-brand == 'internal' {
 	@include oBrandDefine('o-buttons', 'internal', (
 		'variables': map-merge($_o-buttons-shared-brand-config, (
 			'mono': (
@@ -126,7 +129,7 @@ $brand: oBrandGetCurrentBrand();
 			'mono'
 		))
 	);
-} @elseif $brand == 'whitelabel' {
+} @elseif $_o-buttons-brand == 'whitelabel' {
 	@include oBrandDefine('o-buttons', 'whitelabel', (
     'variables': (
       'primary': (
