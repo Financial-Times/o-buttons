@@ -10,8 +10,6 @@
     @return oBrandSupportsVariant($component: 'o-buttons', $variant: $variant);
 }
 
-// @include oBrandSetBrand();
-
 $_o-buttons-shared-brand-config: (
     'primary': (
         default-color: oColorsGetPaletteColor('white'),
@@ -49,8 +47,10 @@ $_o-buttons-shared-brand-config: (
         active-background: oColorsGetPaletteColor('white')
     )
 );
-@debug $o-brand;
-@if $o-brand == 'master' {
+
+$brand: oBrandGetCurrentBrand();
+
+@if $brand == 'master' {
 	@include oBrandDefine('o-buttons', 'master', (
 		'variables': map-merge($_o-buttons-shared-brand-config, (
 			'mono': (
@@ -95,7 +95,7 @@ $_o-buttons-shared-brand-config: (
 			)
 		)
 	);
-} @elseif $o-brand == 'internal' {
+} @elseif $brand == 'internal' {
 	@include oBrandDefine('o-buttons', 'internal', (
 		'variables': map-merge($_o-buttons-shared-brand-config, (
 			'mono': (
@@ -126,7 +126,7 @@ $_o-buttons-shared-brand-config: (
 			'mono'
 		))
 	);
-} @elseif $o-brand == 'whitelabel' {
+} @elseif $brand == 'whitelabel' {
 	@include oBrandDefine('o-buttons', 'whitelabel', (
     'variables': (
       'primary': (
