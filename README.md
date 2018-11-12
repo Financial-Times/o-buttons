@@ -296,6 +296,15 @@ To avoid this, use the `background-color` property instead of the shorthand `bac
 
 ## Migration Guide
 
+### Migrating from v5 to v6
+
+- Added a dependancy on `o-typography`.
+- Removed global variables `$o-buttons-font-family`, `$o-buttons-font-weight`, and `$o-buttons-themes__b2c`.
+- Removed deprecated mixins `oButtonsCustomTheme`, `oButtonsIcon`, `oButtonsGetButtonForIconAndTheme`, and `oButtonsBaseStyles`.
+- `oButtonsTheme` no longer accepts as `list` as a `$theme` argument.
+- Removed all deprecated [colour usecases](https://github.com/Financial-Times/o-buttons/blob/v5.15.1/scss/_deprecated.scss#L98).
+
+
 ### Migrating from v4 to v5
 
 This major includes the new o-colors and updates the themes and sizes of buttons.

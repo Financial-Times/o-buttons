@@ -1,5 +1,6 @@
 @import 'o-brand/main';
 @import 'o-colors/main';
+@import 'o-typography/main';
 @import 'o-icons/main';
 @import 'o-normalise/main';
 
@@ -12,8 +13,6 @@
 @import 'scss/group';
 @import 'scss/pagination';
 @import 'scss/icon';
-
-@import 'scss/deprecated';
 
 @if ($o-buttons-is-silent == false) {
 	.#{$o-buttons-class} {

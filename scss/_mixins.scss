@@ -26,6 +26,7 @@
 /// @param {String} $size (default)
 /// @param {String} $theme (secondary)
 @mixin oButtons($size: default, $theme: secondary) {
+	@include oTypographySansBold();
 	display: inline-block;
 	box-sizing: border-box;
 	vertical-align: middle;
@@ -33,8 +34,6 @@
 	border-style: solid;
 	text-align: center;
 	text-decoration: none;
-	font-family: $o-buttons-font-family;
-	font-weight: $o-buttons-font-weight;
 	border-radius: $_o-buttons-border-radius;
 	cursor: pointer;
 	transition: 0.3s background-color, 0.15s color ease-out, 0.15s border-color ease-out;
@@ -78,13 +77,8 @@
 ///
 /// @param {String|Map} $theme
 @mixin oButtonsTheme($theme) {
-	@if type-of($theme) == 'list' {
-		@warn 'oButtonsTheme `$theme` argument "#{$theme}" should be of type string or a custom theme map. Identifying a built-in theme with a list is deprecated. See README for avalible themes: https://github.com/Financial-Times/o-buttons#themes';
-		@each $theme-string, $theme-list  in $o-buttons-themes {
-			@if $theme-list == $theme {
-				$theme: $theme-string;
-			}
-		}
+	@if type-of($theme) != 'string' and type-of($theme) != 'map' {
+		@error 'Expected a button theme of type "string" or a custom theme of type "map", but was given a theme of type "#{type-of($theme)}": #{$theme}';
 	}
 	@include _oButtonsColors('default', $theme);
 	// https://www.w3.org/TR/wai-aria-1.1/#aria-selected

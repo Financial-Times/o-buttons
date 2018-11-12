@@ -14,19 +14,6 @@ $o-buttons-is-silent: true !default;
 /// @type String
 $o-buttons-class: o-buttons !default;
 
-/// Button font family
-///
-/// This is required to override default system form element styling,
-/// since `<input>`, `<button>`… don't inherit global font styles
-///
-/// @type String
-$o-buttons-font-family: MetricWeb, sans-serif !default;
-
-/// Button font weight
-///
-/// @type String
-$o-buttons-font-weight: 600 !default; // Semibold
-
 /// Button sizes, with their attached properties
 ///
 /// @type Map
