@@ -25,9 +25,8 @@
 		}
 	}
 
-	@each $theme, $theme-parts in $o-buttons-themes {
+	@each $theme, $theme-selector in $_o-buttons-themes {
 		@if _oButtonsSupports($theme) {
-			$theme-selector: _oButtonsGetThemeSelector($theme);
 			#{$theme-selector} {
 				@include oButtonsTheme($theme);
 			}

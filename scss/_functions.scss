@@ -15,26 +15,3 @@
 	$default-color: _oButtonsGet($variables: 'default-#{$property}', $from: $theme);
 	@return if($state-color, $state-color, $default-color);
 }
-
-/// Output button theme selector.
-///
-/// @example
-///  _oButtonsGetThemeSelector('primary') // .o-buttons--primary
-///  _oButtonsGetThemeSelector('primary', 'inverse') // .o-buttons--primary.o-buttons--inverse
-///
-/// @access private
-/// @param {String} $theme - One of $o-buttons-themes
-/// @return {String} CSS selector
-@function _oButtonsGetThemeSelector($theme) {
-	// Generate the selector.
-	$theme-selector: '';
-	$theme-parts: map-get($map: $o-buttons-themes, $key: $theme);
-	@if length($theme-parts) > 1 {
-		@each $theme-part in $theme-parts {
-			$theme-selector: $theme-selector + '.o-buttons--#{$theme-part}';
-		}
-	} @else {
-		$theme-selector: '.o-buttons--#{$theme}';
-	}
-	@return $theme-selector;
-}

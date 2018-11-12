@@ -46,6 +46,11 @@ p {
 	padding: 1em;
 }
 
+.demo__custom-theme--slate {
+	background-color: oColorsGetPaletteColor(slate);
+	padding: 1em;
+}
+
 .demo__custom-theme--lemon {
 	background-color: oColorsGetPaletteColor(slate);
 	padding: 1em;

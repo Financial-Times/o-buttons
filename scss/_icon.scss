@@ -6,7 +6,7 @@
 /// @param {String} $icon-name, any icon name found in the fticons image set
 /// http://registry.origami.ft.com/components/fticons
 /// @param {String} $size, "big" or "default"
-/// @param {String | Map} $theme, any theme name as defined in $o-buttons-themes
+/// @param {String | Map} $theme, any theme name
 /// (primary, secondary, etc) or a Map defining a custom theme.
 /// @param {Boolean} $is-icon-only, if this icon has text accompaniment or is an
 /// icon only.
@@ -26,7 +26,7 @@
 ///
 /// Outputs background-image property for all icons in all themes except custom
 /// themes.
-/// This mixin will iterate through every theme in $o-buttons-themes and every
+/// This mixin will iterate through every theme and every
 /// icon in $o-buttons-icons and create background images for each with the
 /// following class structure:
 /// ```
@@ -54,13 +54,12 @@
 		}
 	}
 
-	@each $theme, $theme-parts in $o-buttons-themes {
-		$theme-selector: '&';
-		@if $theme != 'secondary' {
-			$theme-selector: '&#{_oButtonsGetThemeSelector($theme)}';
+	@each $theme, $theme-selector in $_o-buttons-themes {
+		@if $theme == 'secondary' {
+			$theme-selector: '';
 		}
 
-		#{$theme-selector} {
+		&#{$theme-selector} {
 			@each $icon-name in $o-buttons-icons {
 				&.o-buttons-icon--#{$icon-name} {
 					@include _oButtonsIconBackgroundImage($icon-name, $theme);
@@ -90,7 +89,7 @@
 /// for the set theme.
 ///
 /// @param {String} $icon-name, any icon name found in o-ft-icons
-/// @param {String} $theme, any theme name as defined in $o-buttons-themes (primary, secondary, etc). Custom themes not supported.
+/// @param {String} $theme, any theme name (primary, secondary, etc). Custom themes not supported.
 ///
 @mixin _oButtonsIconBackgroundImage($icon-name, $theme) {
 	@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'normal');
