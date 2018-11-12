@@ -248,7 +248,7 @@ This will output styles for a lemon coloured button that has slate text, with a 
 #### Icons
 If you're using bower, you can create an icon button for **any** icon in [fticons](https://registry.origami.ft.com/components/fticons/).
 
-If you're using the Build Service, currently supported icons are defined in the `$o-buttons-icons` variable in `scss/_variables.scss`. Limiting the concrete classes keeps the compiled CSS bundle small, but if you need an icon button that we don't currently support then please open an issue.
+If you're using the Build Service, currently supported icons are defined in the `$_o-buttons-icons` variable in `scss/_variables.scss`. Limiting the concrete classes keeps the compiled CSS bundle small, but if you need an icon button that we don't currently support then please open an issue.
 
 ```html
 // Icon and text button.
@@ -301,7 +301,7 @@ To avoid this, use the `background-color` property instead of the shorthand `bac
 - Added a dependancy on `o-typography`.
 - Removes the ability to set a custom button class.
 - Removed global variables `$o-buttons-font-family`, `$o-buttons-font-weight`, `$o-buttons-themes__b2c`, and `$o-buttons-class`.
-- `$_o-buttons-themes` is now private.
+- Global variables `$o-buttons-themes`, `$o-buttons-sizes`, and `$o-buttons-icons` are now private.
 - Removed deprecated mixins `oButtonsCustomTheme`, `oButtonsIcon`, `oButtonsGetButtonForIconAndTheme`, and `oButtonsBaseStyles`.
 - Removes the `$buttonClass` argument from `oButtonsGroup`,  `oButtonsIconBaseStyles`, and `oButtonsPagination`.o
 - `oButtonsTheme` no longer accepts as `list` as a `$theme` argument.

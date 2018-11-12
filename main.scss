@@ -15,33 +15,7 @@
 @import 'scss/icon';
 
 @if ($o-buttons-is-silent == false) {
-	.o-buttons {
-		@include oButtons;
-	}
-
-	@each $size, $properties in $o-buttons-sizes {
-		.o-buttons--#{$size} {
-			@include oButtonsSize($size);
-		}
-	}
-
-	@each $theme, $theme-selector in $_o-buttons-themes {
-		@if _oButtonsSupports($theme) {
-			#{$theme-selector} {
-				@include oButtonsTheme($theme);
-			}
-		}
-	}
-
-	.o-buttons-pagination {
-		@include oButtonsPagination;
-	}
-
-	@include _oButtonsGenerateIconButtons;
-
-	.o-buttons-group {
-		@include oButtonsGroup;
-	}
+	@include oButtons;
 
 	// Set module to silent again
 	$o-buttons-is-silent: true !global;

@@ -22,53 +22,6 @@
 	@include _oButtonsIconBackgroundImage($icon-name, $theme);
 }
 
-/// Generate concrete classes icon buttons
-///
-/// Outputs background-image property for all icons in all themes except custom
-/// themes.
-/// This mixin will iterate through every theme and every
-/// icon in $o-buttons-icons and create background images for each with the
-/// following class structure:
-/// ```
-/// .o-buttons-icon.o-buttons--primary.o-buttons-icon--warning {...}
-/// .o-buttons-icon.o-buttons--secondary.o-buttons-icon--warning {...}
-/// .o-buttons-icon.o-buttons--inverse.o-buttons-icon--warning {...}
-/// ... and so on...
-/// ```
-/// This mixin also styles for icon buttons where the .o-buttons--big class is present:
-/// ```
-/// .o-buttons-icon.o-buttons-big {...}
-/// ```
-@mixin _oButtonsGenerateIconButtons() {
-
-	.o-buttons-icon {
-		@include oButtonsIconBaseStyles;
-		@include _oButtonsIconSize('default');
-
-		&.o-buttons--big {
-			@include _oButtonsIconSize('big');
-		}
-
-		&.o-buttons-icon--icon-only {
-			@include _oButtonsIconIconOnly;
-		}
-	}
-
-	@each $theme, $theme-selector in $_o-buttons-themes {
-		@if $theme == 'secondary' {
-			$theme-selector: '';
-		}
-
-		&#{$theme-selector} {
-			@each $icon-name in $o-buttons-icons {
-				&.o-buttons-icon--#{$icon-name} {
-					@include _oButtonsIconBackgroundImage($icon-name, $theme);
-				}
-			}
-		}
-	}
-}
-
 @mixin _oButtonsIconSize ($size) {
 	@if $size == big {
 		padding-left: 40px;

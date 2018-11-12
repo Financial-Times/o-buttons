@@ -1,64 +1,124 @@
-////
-/// @group o-buttons
-/// @link http://registry.origami.ft.com/components/o-buttons
-////
-
-/// Button construct
-/// Basic button styling and default states for specific theme and size
+/// Output button classes, including size and theme modifiers.
+/// Defaults to all sizes and themes.
 ///
-/// @example Base styles
-///  .my-button {
-///  	@include oButtons;
-///  }
-/// @example Custom theme
-///  .my-inverse-button {
-///  	@include oButtons($theme: inverse);
-///  }
-/// @example Custom size
-///  .my-big-button {
-///  	@include oButtons(big);
-///  }
-/// @example Custom size and theme
-///  .my-big-standout-button {
-///  	@include oButtons(big, primary);
-///  }
+/// @example Default button only.
+///     @include oButtons;
 ///
-/// @param {String} $size (default)
-/// @param {String} $theme (secondary)
-@mixin oButtons($size: default, $theme: secondary) {
-	@include oTypographySansBold();
-	display: inline-block;
-	box-sizing: border-box;
-	vertical-align: middle;
-	margin: 0;
-	border-style: solid;
-	text-align: center;
-	text-decoration: none;
-	border-radius: $_o-buttons-border-radius;
-	cursor: pointer;
-	transition: 0.3s background-color, 0.15s color ease-out, 0.15s border-color ease-out;
-	user-select: none;
-	background-clip: border-box;
-	// Prevent fat white type on a dark background
-	// sass-lint:disable no-vendor-prefixes
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	// sass-lint:enable no-vendor-prefixes
+/// @example Primary and secondary button modifier classes, plus big and small modifier classes. No icon buttons. No pagination or group classes.
+///  @include oButtons($sizes: ('big', 'default'), $themes: ('primary', 'secondary'), $icons: (), $opts: ());
+///
+/// @example Primary and secondary modifier classes, plus big and small modifier classes, plus arrow left/right icon buttons for these themes and sizes. No pagination or group classes.
+///  @include oButtons($sizes: ('big', 'default'), $themes: ('primary', 'secondary'), $icons: ('arrow-left', 'arrow-right'), $opts: ());
+///
+/// @example Primary and secondary modifier classes, plus big and small modifier classes, plus arrow left/right icon buttons for these themes and sizes, plus classes for pagination and group styles.
+///  @include oButtons(
+///		$sizes: ('big', 'default'),
+///		$themes: ('primary', 'secondary'),
+///		$icons: ('arrow-left', 'arrow-right'),
+///		$ops: ('pagination', 'groups'),
+///	 );
+///
+/// @param {List} $sizes
+/// @param {List} $themes
+/// @param {List} $icons
+/// @param {List} $opts
+@mixin oButtons(
+	$sizes: map-keys($_o-buttons-sizes),
+	$themes: map-keys($_o-buttons-themes),
+	$icons: $_o-buttons-icons,
+	$opts: ('pagination', 'groups')
+) {
+	$pagination-enabled: index($opts, 'pagination');
+	$groups-enabled: index($opts, 'groups');
 
-	// sass-lint:disable mixins-before-declarations
-	@include oButtonsSize($size);
-	@include oButtonsTheme($theme);
-	// sass-lint:enable mixins-before-declarations
+	// Base button class.
+	.o-buttons {
+		@include oTypographySansBold();
+		@include oButtonsSize('default');
+		display: inline-block;
+		box-sizing: border-box;
+		vertical-align: middle;
+		margin: 0;
+		border-style: solid;
+		text-align: center;
+		text-decoration: none;
+		border-radius: $_o-buttons-border-radius;
+		cursor: pointer;
+		transition: 0.3s background-color, 0.15s color ease-out, 0.15s border-color ease-out;
+		user-select: none;
+		background-clip: border-box;
+		// Prevent fat white type on a dark background
+		// sass-lint:disable no-vendor-prefixes
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		// sass-lint:enable no-vendor-prefixes
 
-	// Same as aria-disabled:
-	// http://www.w3.org/TR/wai-aria/states_and_properties#aria-disabled
-	// This is a common style for all button themes
-	&[disabled] {
-		pointer-events: none;
-		opacity: 0.4;
-		cursor: default;
+		// Same as aria-disabled:
+		// http://www.w3.org/TR/wai-aria/states_and_properties#aria-disabled
+		// This is a common style for all button themes
+		&[disabled] {
+			pointer-events: none;
+			opacity: 0.4;
+			cursor: default;
+		}
+	}
+
+	// Base icon class.
+	@if (length($icons) > 0) {
+		.o-buttons-icon {
+			@include oButtonsIconBaseStyles;
+			@include _oButtonsIconSize('default');
+		}
+	}
+
+
+	// Size modifiers.
+	@each $size in $sizes {
+		.o-buttons--#{$size} {
+			@include oButtonsSize($size);
+		}
+		@if (length($icons) > 0) {
+			.o-buttons--#{$size}.o-buttons-icon {
+				@include _oButtonsIconSize($size);
+			}
+		}
+	}
+
+	// Theme modifiers.
+	@each $theme in $themes {
+		$theme-selector: map-get($_o-buttons-themes, $theme);
+		@if $theme-selector == null {
+			@error 'Button theme "#{$theme}" does not exist. Must be one of "#{map-keys($_o-buttons-themes)}".';
+		}
+
+		@if _oButtonsSupports($theme) {
+			// Output theme.
+			#{$theme-selector} {
+				@include oButtonsTheme($theme);
+			}
+			// Output icons for theme.
+			@each $icon-name in $icons {
+				#{$theme-selector}.o-buttons-icon--#{$icon-name} {
+					@include _oButtonsIconBackgroundImage($icon-name, $theme);
+				}
+			}
+		}
+	}
+
+	// Pagination wrapper.
+	@if $pagination-enabled {
+		.o-buttons-pagination {
+			@include oButtonsPagination;
+		}
+	}
+
+	// Group wrapper.
+	@if $groups-enabled {
+		.o-buttons-group {
+			@include oButtonsGroup;
+		}
 	}
 }
 
@@ -162,7 +222,7 @@
 ///
 /// @param {String} $size
 @mixin oButtonsSize($size) {
-	$button-dimensions: map-get($o-buttons-sizes, $size);
+	$button-dimensions: map-get($_o-buttons-sizes, $size);
 	$border-width: map-get($button-dimensions, border-width);
 	$vertical-padding: 1/2 * (map-get($button-dimensions, min-height) - map-get($button-dimensions, font-size)) - $border-width;
 	$background-size: map-get($button-dimensions, background-size);
