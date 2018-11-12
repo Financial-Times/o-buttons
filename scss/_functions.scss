@@ -19,24 +19,22 @@
 /// Output button theme selector.
 ///
 /// @example
-///  _oButtonsGetThemeSelector('primary') // o-buttons--primary
-///  _oButtonsGetThemeSelector('primary', 'inverse') // o-buttons--primary.o-buttons--inverse
+///  _oButtonsGetThemeSelector('primary') // .o-buttons--primary
+///  _oButtonsGetThemeSelector('primary', 'inverse') // .o-buttons--primary.o-buttons--inverse
 ///
 /// @access private
 /// @param {String} $theme - One of $o-buttons-themes
-/// @param {String} $button-class - The base button class e.g. o-buttons
-/// @return {String} CSS class selector without leading `.` e.g. o-buttons.o-buttons--inverse
-@function _oButtonsGetThemeSelector($theme, $button-class: $o-buttons-class) {
+/// @return {String} CSS selector
+@function _oButtonsGetThemeSelector($theme) {
 	// Generate the selector.
 	$theme-selector: '';
 	$theme-parts: map-get($map: $o-buttons-themes, $key: $theme);
 	@if length($theme-parts) > 1 {
 		@each $theme-part in $theme-parts {
-			$prepend: if($theme-selector == '', '', '#{$theme-selector}.');
-			$theme-selector: '#{$prepend}#{$button-class}--#{$theme-part}';
+			$theme-selector: $theme-selector + '.o-buttons--#{$theme-part}';
 		}
 	} @else {
-		$theme-selector: '#{$button-class}--#{$theme}';
+		$theme-selector: '.o-buttons--#{$theme}';
 	}
 	@return $theme-selector;
 }

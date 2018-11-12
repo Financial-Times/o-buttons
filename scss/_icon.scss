@@ -39,17 +39,17 @@
 /// ```
 /// .o-buttons-icon.o-buttons-big {...}
 /// ```
-@mixin _oButtonsGenerateIconButtons($o-buttons-class: $o-buttons-class) {
+@mixin _oButtonsGenerateIconButtons() {
 
-	.#{$o-buttons-class}-icon {
+	.o-buttons-icon {
 		@include oButtonsIconBaseStyles;
 		@include _oButtonsIconSize('default');
 
-		&.#{$o-buttons-class}--big {
+		&.o-buttons--big {
 			@include _oButtonsIconSize('big');
 		}
 
-		&.#{$o-buttons-class}-icon--icon-only {
+		&.o-buttons-icon--icon-only {
 			@include _oButtonsIconIconOnly;
 		}
 	}
@@ -57,12 +57,12 @@
 	@each $theme, $theme-parts in $o-buttons-themes {
 		$theme-selector: '&';
 		@if $theme != 'secondary' {
-			$theme-selector: '&.#{_oButtonsGetThemeSelector($theme, $o-buttons-class)}';
+			$theme-selector: '&#{_oButtonsGetThemeSelector($theme)}';
 		}
 
 		#{$theme-selector} {
 			@each $icon-name in $o-buttons-icons {
-				&.#{$o-buttons-class}-icon--#{$icon-name} {
+				&.o-buttons-icon--#{$icon-name} {
 					@include _oButtonsIconBackgroundImage($icon-name, $theme);
 				}
 			}
@@ -131,14 +131,12 @@
 }
 
 /// Base styling for buttons
-///
-/// @param {String} $button-class, defaults to o-buttons ($o-buttons-class' default value)
-@mixin oButtonsIconBaseStyles($buttonClass: $o-buttons-class) {
+@mixin oButtonsIconBaseStyles() {
 	display: inline-block;
 	background-repeat: no-repeat;
 	background-position: 3px;
 
-	.#{$buttonClass}-icon__label {
+	.o-buttons-icon__label {
 		@include oButtonsIconButtonLabel;
 	}
 }

@@ -3,19 +3,15 @@
 ///
 /// @example
 /// .my-buttons-pagination {
-/// 	@include oButtonsPagination(my-buttons);
+/// 	@include oButtonsPagination();
 /// }
-///
-/// @param {String} $buttonClass ($o-buttons-class) $buttonClass
-///
-/// @link https://origami-build.ft.com/v2/files/o-buttons/demos/pagination.html
-@mixin oButtonsPagination($buttonClass: $o-buttons-class) {
-	> .#{$buttonClass} {
+@mixin oButtonsPagination() {
+	> .o-buttons {
 		padding-left: 5px;
 		padding-right: 5px;
 		min-width: 24px;
 
-		&.#{$buttonClass}--big {
+		&.o-buttons--big {
 			padding-left: 9px;
 			padding-right: 9px;
 			min-width: 36px;

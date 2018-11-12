@@ -9,18 +9,14 @@
 ///
 /// @example
 /// .my-button-group {
-/// 	@include oButtonsGroup(my-buttons);
+/// 	@include oButtonsGroup();
 /// }
-///
-/// @param {String} ($o-buttons-class) $buttonClass
-///
-/// @link https://origami-build.ft.com/v2/files/o-buttons/demos/grouped.html
-@mixin oButtonsGroup($buttonClass: $o-buttons-class) {
-	> .#{$buttonClass} {
+@mixin oButtonsGroup() {
+	> .o-buttons {
 		position: relative;
 		border-radius: 0;
 
-		+ .#{$buttonClass} {
+		+ .o-buttons {
 			margin-left: -1px;
 		}
 

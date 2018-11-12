@@ -15,32 +15,32 @@
 @import 'scss/icon';
 
 @if ($o-buttons-is-silent == false) {
-	.#{$o-buttons-class} {
+	.o-buttons {
 		@include oButtons;
 	}
 
 	@each $size, $properties in $o-buttons-sizes {
-		.#{$o-buttons-class}--#{$size} {
+		.o-buttons--#{$size} {
 			@include oButtonsSize($size);
 		}
 	}
 
 	@each $theme, $theme-parts in $o-buttons-themes {
 		@if _oButtonsSupports($theme) {
-			$theme-selector: _oButtonsGetThemeSelector($theme, $o-buttons-class);
-			.#{$theme-selector} {
+			$theme-selector: _oButtonsGetThemeSelector($theme);
+			#{$theme-selector} {
 				@include oButtonsTheme($theme);
 			}
 		}
 	}
 
-	.#{$o-buttons-class}-pagination {
+	.o-buttons-pagination {
 		@include oButtonsPagination;
 	}
 
 	@include _oButtonsGenerateIconButtons;
 
-	.#{$o-buttons-class}-group {
+	.o-buttons-group {
 		@include oButtonsGroup;
 	}
 
