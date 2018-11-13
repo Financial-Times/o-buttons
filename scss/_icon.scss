@@ -5,29 +5,21 @@
 ///
 /// @param {String} $icon-name, any icon name found in the fticons image set
 /// http://registry.origami.ft.com/components/fticons
-/// @param {String} $size, "big" or "default"
+/// @param {Null|String} $size, "big" or "null"
 /// @param {String | Map} $theme, any theme name
 /// (primary, secondary, etc) or a Map defining a custom theme.
 /// @param {Boolean} $is-icon-only, if this icon has text accompaniment or is an
 /// icon only.
 ///
-@mixin oButtonsIconButton($icon-name, $size: "default", $theme: "secondary", $is-icon-only: false) {
+@mixin oButtonsIconButton($icon-name, $size: null, $theme: "secondary", $is-icon-only: false) {
 	@include oButtonsIconBaseStyles;
-	@include _oButtonsIconSize($size);
+	padding-left: _oButtonsGet('icon-padding', $size);
 
 	@if $is-icon-only {
 		@include _oButtonsIconIconOnly;
 	}
 
 	@include _oButtonsIconBackgroundImage($icon-name, $theme);
-}
-
-@mixin _oButtonsIconSize ($size) {
-	@if $size == big {
-		padding-left: 40px;
-	} @else {
-		padding-left: 22px;
-	}
 }
 
 @mixin _oButtonsIconIconOnly {
@@ -87,6 +79,7 @@
 	display: inline-block;
 	background-repeat: no-repeat;
 	background-position: 3px;
+	padding-left: _oButtonsGet('icon-padding');
 
 	.o-buttons-icon__label {
 		@include oButtonsIconButtonLabel;

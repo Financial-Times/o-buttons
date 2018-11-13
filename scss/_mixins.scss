@@ -23,7 +23,7 @@
 /// @param {List} $icons
 /// @param {List} $opts
 @mixin oButtons(
-	$sizes: map-keys($_o-buttons-sizes),
+	$sizes: $_o-buttons-sizes,
 	$themes: map-keys($_o-buttons-themes),
 	$icons: $_o-buttons-icons,
 	$opts: ('pagination', 'groups')
@@ -34,7 +34,7 @@
 	// Base button class.
 	.o-buttons {
 		@include oTypographySansBold();
-		@include oButtonsSize('default');
+		@include oButtonsSize();
 		display: inline-block;
 		box-sizing: border-box;
 		vertical-align: middle;
@@ -69,7 +69,11 @@
 	@if (length($icons) > 0) {
 		.o-buttons-icon {
 			@include oButtonsIconBaseStyles;
-			@include _oButtonsIconSize('default');
+		}
+
+		// Icon only modifier. Higher specificity than size modifier.
+		.o-buttons.o-buttons-icon.o-buttons-icon--icon-only {
+			@include _oButtonsIconIconOnly;
 		}
 	}
 
@@ -81,7 +85,7 @@
 		}
 		@if (length($icons) > 0) {
 			.o-buttons--#{$size}.o-buttons-icon {
-				@include _oButtonsIconSize($size);
+				padding-left: _oButtonsGet('icon-padding', $size);
 			}
 		}
 	}
@@ -98,6 +102,7 @@
 			#{$theme-selector} {
 				@include oButtonsTheme($theme);
 			}
+
 			// Output icons for theme.
 			@each $icon-name in $icons {
 				#{$theme-selector}.o-buttons-icon--#{$icon-name} {
@@ -221,17 +226,11 @@
 /// }
 ///
 /// @param {String} $size
-@mixin oButtonsSize($size) {
-	$button-dimensions: map-get($_o-buttons-sizes, $size);
-	$border-width: map-get($button-dimensions, border-width);
-	$vertical-padding: 1/2 * (map-get($button-dimensions, min-height) - map-get($button-dimensions, font-size)) - $border-width;
-	$background-size: map-get($button-dimensions, background-size);
-
-	background-size: $background-size $background-size;
-	min-height: map-get($button-dimensions, min-height);
-	min-width: map-get($button-dimensions, min-width);
-	padding: $vertical-padding map-get($button-dimensions, padding-right) $vertical-padding map-get($button-dimensions, padding-left);
-	font-size: map-get($button-dimensions, font-size);
-	line-height: map-get($button-dimensions, min-height) - $border-width * 2 - $vertical-padding * 2;
-	border-width: $border-width;
+@mixin oButtonsSize($size: null) {
+	@include oTypographySans($scale: _oButtonsGet('scale', $size), $line-height: 1);
+	background-size: _oButtonsGet('background-size', $size);
+	min-height: _oButtonsGet('min-height', $size);
+	min-width: _oButtonsGet('min-width', $size);
+	padding: _oButtonsGet('padding', $size);
+	border-width: _oButtonsGet('border-width', $size);
 }

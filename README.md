@@ -303,8 +303,9 @@ To avoid this, use the `background-color` property instead of the shorthand `bac
 - Removed global variables `$o-buttons-font-family`, `$o-buttons-font-weight`, `$o-buttons-themes__b2c`, and `$o-buttons-class`.
 - Global variables `$o-buttons-themes`, `$o-buttons-sizes`, and `$o-buttons-icons` are now private.
 - Removed deprecated mixins `oButtonsCustomTheme`, `oButtonsIcon`, `oButtonsGetButtonForIconAndTheme`, and `oButtonsBaseStyles`.
-- Removes the `$buttonClass` argument from `oButtonsGroup`,  `oButtonsIconBaseStyles`, and `oButtonsPagination`.o
+- Removes the `$buttonClass` argument from `oButtonsGroup`,  `oButtonsIconBaseStyles`, and `oButtonsPagination`.
 - `oButtonsTheme` no longer accepts as `list` as a `$theme` argument.
+- `oButtonsIconButton` `$size` argument now defaults to `null`. `null` should be passed instead of default.
 - Removed all deprecated [colour usecases](https://github.com/Financial-Times/o-buttons/blob/v5.15.1/scss/_deprecated.scss#L98).
 
 
