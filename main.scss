@@ -10,12 +10,10 @@
 @import 'scss/functions';
 @import 'scss/mixins';
 
-@import 'scss/group';
-@import 'scss/pagination';
 @import 'scss/icon';
 
 @if ($o-buttons-is-silent == false) {
-	@include oButtons;
+	@include oButtons();
 
 	// Set module to silent again
 	$o-buttons-is-silent: true !global;

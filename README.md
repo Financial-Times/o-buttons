@@ -209,7 +209,7 @@ Or, using Sass:
 }
 
 // Or…
-.my-secondary-button {
+.my-claret-secondary-button {
 	@include oButtons($theme: secondary);
 }
 ```
@@ -217,7 +217,7 @@ Or, using Sass:
 ```html
 <button class="my-button-class my-button-class--secondary">Secondary button</button>
 
-<button class="my-secondary-button">Secondary button</button>
+<button class="my-claret-secondary-button">Secondary button</button>
 ```
 
 #### Custom themes
@@ -302,10 +302,11 @@ To avoid this, use the `background-color` property instead of the shorthand `bac
 - Removes the ability to set a custom button class.
 - Removed global variables `$o-buttons-font-family`, `$o-buttons-font-weight`, `$o-buttons-themes__b2c`, and `$o-buttons-class`.
 - Global variables `$o-buttons-themes`, `$o-buttons-sizes`, and `$o-buttons-icons` are now private.
+- The mixin `oButtons` has been updated. It outputs all `o-buttons` styles by default, or a subset of button styles with the `$opts` argument.
 - Removed deprecated mixins `oButtonsCustomTheme`, `oButtonsIcon`, `oButtonsGetButtonForIconAndTheme`, and `oButtonsBaseStyles`.
-- Removes the `$buttonClass` argument from `oButtonsGroup`,  `oButtonsIconBaseStyles`, and `oButtonsPagination`.
-- `oButtonsTheme` no longer accepts as `list` as a `$theme` argument.
-- `oButtonsIconButton` `$size` argument now defaults to `null`. `null` should be passed instead of default.
+- Removed mixins `oButtonsIconButton`, `oButtonsIconBaseStyles`, `oButtonsIconButtonLabel`, `oButtonsGroup`, and `oButtonsPagination`.
+- Removes the `$buttonClass` argument from `oButtonsGroup`, `oButtonsPagination`.
+- `oButtonsTheme` is now private, use `oButtonsPrimary` or `oButtonsSecondary` instead.
 - Removed all deprecated [colour usecases](https://github.com/Financial-Times/o-buttons/blob/v5.15.1/scss/_deprecated.scss#L98).
 
 

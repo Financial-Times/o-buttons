@@ -1,35 +1,43 @@
 /// Output button classes, including size and theme modifiers.
 /// Defaults to all sizes and themes.
 ///
-/// @example Default button only.
+/// @example Default button classes only.
 ///     @include oButtons;
 ///
 /// @example Primary and secondary button modifier classes, plus big and small modifier classes. No icon buttons. No pagination or group classes.
-///  @include oButtons($sizes: ('big', 'default'), $themes: ('primary', 'secondary'), $icons: (), $opts: ());
+///    @include oButtons($opts: (
+///        'sizes': ('big', 'default'),
+///        'themes': ('primary', 'secondary')
+///    ));
 ///
 /// @example Primary and secondary modifier classes, plus big and small modifier classes, plus arrow left/right icon buttons for these themes and sizes. No pagination or group classes.
-///  @include oButtons($sizes: ('big', 'default'), $themes: ('primary', 'secondary'), $icons: ('arrow-left', 'arrow-right'), $opts: ());
+///    @include oButtons($opts: (
+///        'sizes': ('big', 'default'),
+///        'themes': ('primary', 'secondary'),
+///        'icons': ('arrow-left', 'arrow-right')
+///    ));
 ///
 /// @example Primary and secondary modifier classes, plus big and small modifier classes, plus arrow left/right icon buttons for these themes and sizes, plus classes for pagination and group styles.
-///  @include oButtons(
-///		$sizes: ('big', 'default'),
-///		$themes: ('primary', 'secondary'),
-///		$icons: ('arrow-left', 'arrow-right'),
-///		$ops: ('pagination', 'groups'),
-///	 );
+///    @include oButtons($opts: (
+///        'sizes': ('big', 'default'),
+///        'themes': ('primary', 'secondary'),
+///        'icons': ('arrow-left', 'arrow-right')
+///        'opts': ('pagination', 'groups'),
+///    ));
 ///
-/// @param {List} $sizes
-/// @param {List} $themes
-/// @param {List} $icons
 /// @param {List} $opts
-@mixin oButtons(
-	$sizes: $_o-buttons-sizes,
-	$themes: map-keys($_o-buttons-themes),
-	$icons: $_o-buttons-icons,
-	$opts: ('pagination', 'groups')
-) {
-	$pagination-enabled: index($opts, 'pagination');
-	$groups-enabled: index($opts, 'groups');
+@mixin oButtons($opts: (
+	'sizes': $_o-buttons-sizes,
+	'themes': map-keys($_o-buttons-themes),
+	'icons': $_o-buttons-icons,
+	'pagination': true,
+	'groups': true
+)) {
+	$sizes: map-get($opts, 'sizes');
+	$themes: map-get($opts, 'themes');
+	$icons: map-get($opts, 'icons');
+	$pagination-enabled: map-has-key($opts, 'pagination');
+	$groups-enabled: map-has-key($opts, 'groups');
 
 	// Base button class.
 	.o-buttons {
@@ -68,12 +76,24 @@
 	// Base icon class.
 	@if (length($icons) > 0) {
 		.o-buttons-icon {
-			@include oButtonsIconBaseStyles;
+			display: inline-block;
+			background-repeat: no-repeat;
+			background-position: 3px;
+			padding-left: _oButtonsGet('icon-padding');
+		}
+
+		.o-buttons-icon__label {
+			font-size: 0;
+			height: 1px;
+			overflow: hidden;
+			display: block;
 		}
 
 		// Icon only modifier. Higher specificity than size modifier.
 		.o-buttons.o-buttons-icon.o-buttons-icon--icon-only {
-			@include _oButtonsIconIconOnly;
+			padding-left: 0;
+			background-position: 50%;
+			min-width: 40px;
 		}
 	}
 
@@ -92,77 +112,153 @@
 
 	// Theme modifiers.
 	@each $theme in $themes {
-		$theme-selector: map-get($_o-buttons-themes, $theme);
-		@if $theme-selector == null {
-			@error 'Button theme "#{$theme}" does not exist. Must be one of "#{map-keys($_o-buttons-themes)}".';
-		}
-
 		@if _oButtonsSupports($theme) {
 			// Output theme.
-			#{$theme-selector} {
-				@include oButtonsTheme($theme);
-			}
-
-			// Output icons for theme.
-			@each $icon-name in $icons {
-				#{$theme-selector}.o-buttons-icon--#{$icon-name} {
-					@include _oButtonsIconBackgroundImage($icon-name, $theme);
-				}
-			}
+			@include _oButtonsTheme($theme, $icons: $icons);
 		}
 	}
 
 	// Pagination wrapper.
 	@if $pagination-enabled {
 		.o-buttons-pagination {
-			@include oButtonsPagination;
+			> .o-buttons {
+				padding-left: 5px;
+				padding-right: 5px;
+				min-width: 24px;
+
+				&.o-buttons--big {
+					padding-left: 9px;
+					padding-right: 9px;
+					min-width: 36px;
+				}
+			}
 		}
 	}
 
 	// Group wrapper.
 	@if $groups-enabled {
 		.o-buttons-group {
-			@include oButtonsGroup;
+			> .o-buttons {
+				position: relative;
+				border-radius: 0;
+
+				+ .o-buttons {
+					margin-left: -1px;
+				}
+
+				&:hover,
+				&:focus {
+					z-index: 1;
+				}
+			}
+
+			:first-child {
+				border-bottom-left-radius: $_o-buttons-border-radius;
+				border-top-left-radius: $_o-buttons-border-radius;
+				border-left-width: 1px;
+			}
+
+			:last-child {
+				border-bottom-right-radius: $_o-buttons-border-radius;
+				border-top-right-radius: $_o-buttons-border-radius;
+			}
 		}
 	}
 }
 
+/// Outputs styles for a primary button for a given them.
+///
+/// @example Output classes for a custom primary button.
+/// 	@include oButtonsPrimary($theme: (
+/// 		$name: 'example-name',
+/// 		$background: 'slate',
+/// 		$accent: 'lemon'
+/// 	));
+///
+/// @example Output classes the primary, mono button.
+///     @include oButtonsPrimary($theme: 'mono');
+///
+/// @example Output classes with icons for the primary, mono button.
+///     @include oButtonsPrimary($theme: 'mono', $icons: ('arrow-right', 'arrow-left'));
+///
+/// @param {String|Map} $theme - A theme name or a custom theme map.
+@mixin oButtonsPrimary($theme, $icons: ()) {
+	@if type-of($theme) == 'map' {
+		$theme: map-merge($theme, ('colorizer': 'primary'));
+	}
+	@include _oButtonsTheme($theme, $icons);
+}
+
+/// Outputs styles for a secondary button for a given them.
+///
+/// @example Output classes for a custom secondary button.
+/// 	@include oButtonsSecondary($theme: (
+/// 		$name: 'example-name',
+/// 		$background: 'slate',
+/// 		$accent: 'lemon'
+/// 	));
+///
+/// @example Output classes the secondary, mono button.
+///     @include oButtonsSecondary($theme: 'mono');
+///
+/// @example Output classes with icons for the secondary, mono button.
+///     @include oButtonsSecondary($theme: 'mono', $icons: ('arrow-right', 'arrow-left'));
+///
+/// @param {String|Map} $theme - A theme name or a custom theme map.
+@mixin oButtonsSecondary($theme, $icons: ()) {
+	@include _oButtonsTheme($theme, $icons);
+}
+
+
 /// Button theme construct
 /// Outputs styles for all button states
 ///
-/// @example
-/// .my-button--inverse {
-/// 	@include oButtonsTheme($theme: 'inverse');
-/// }
-///
-/// @example
-/// .my-button--custom {
-/// 	@include oButtonsTheme($theme: ($background: 'slate', $accent: 'lemon', $colorizer: 'primary'));
-/// }
-///
 /// @param {String|Map} $theme
-@mixin oButtonsTheme($theme) {
-	@if type-of($theme) != 'string' and type-of($theme) != 'map' {
-		@error 'Expected a button theme of type "string" or a custom theme of type "map", but was given a theme of type "#{type-of($theme)}": #{$theme}';
+@mixin _oButtonsTheme($theme, $icons: ()) {
+	$custom-theme: type-of($theme) == 'map';
+	$theme-name: if($custom-theme, map-get($theme, 'name'), $theme);
+
+	@if $custom-theme and not $theme-name {
+		@error 'Cound not output custom button theme as no "name" key is specified in the theme map: "#{$theme}".';
 	}
-	@include _oButtonsColors('default', $theme);
-	// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
-	// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
-	&[aria-selected=true], // e.g. A selected tab or page number in pagination.
-	&[aria-current], // e.g. A selected tab or page number in pagination (for links only).
-	&[aria-pressed=true], // e.g. A "follow" button that is pressed.
-	&:active {
-		@include _oButtonsColors('active', $theme);
+
+	$theme-exists: map-has-key($_o-buttons-themes, $theme-name);
+	@if $theme-exists and $custom-theme {
+		@error 'Cannot output button theme "#{$theme-name}" as it already exists.';
 	}
-	&:not([disabled]) {
-		&:hover {
-			@include _oButtonsColors('hover', $theme);
-			text-decoration: none;
+
+	@if $custom-theme {
+		$_o-buttons-themes: map-merge($_o-buttons-themes, ($theme: '.o-buttons.o-buttons--#{$theme-name}')) !global;
+	}
+
+	$theme-selector: map-get($_o-buttons-themes, $theme);
+	@if $theme-selector == null {
+		@error 'Button theme "#{$theme}" does not exist. Must be one of "#{map-keys($_o-buttons-themes)}" or a custom theme map.';
+	}
+
+	#{$theme-selector} {
+		@include _oButtonsColors('default', $theme);
+		// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
+		// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
+		&[aria-selected=true], // e.g. A selected tab or page number in pagination.
+		&[aria-current], // e.g. A selected tab or page number in pagination (for links only).
+		&[aria-pressed=true], // e.g. A "follow" button that is pressed.
+		&:active {
+			@include _oButtonsColors('active', $theme);
 		}
-		&:focus {
-			@include _oButtonsColors('focus', $theme);
+		&:not([disabled]) {
+			&:hover {
+				@include _oButtonsColors('hover', $theme);
+				text-decoration: none;
+			}
+			&:focus {
+				@include _oButtonsColors('focus', $theme);
+			}
 		}
 	}
+
+	// Output icons for theme.
+	@include _oButtonsIconsForTheme($theme, $icons);
 }
 
 /// Output button colors for a given state.
@@ -233,4 +329,21 @@
 	min-width: _oButtonsGet('min-width', $size);
 	padding: _oButtonsGet('padding', $size);
 	border-width: _oButtonsGet('border-width', $size);
+
+	// Center copy with vertical padding for browsers which do not support flexbox.
+	$scale-list: oTypographyGetScale(_oButtonsGet('scale', $size));
+	$font-size: nth($scale-list, 1);
+	$min-height: _oButtonsGet('min-height', $size);
+	$border-width: _oButtonsGet('border-width', $size);
+	padding-top: calc((#{$min-height} - #{$font-size}px - (#{$border-width} * 2)) / 2);
+	padding-bottom: calc((#{$min-height} - #{$font-size}px - (#{$border-width} * 2)) / 2);
+
+	// Center copy with flexbox for browsers which support it and reset padding.
+	@supports (display: inline-flex) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: _oButtonsGet('padding', $size);
+	}
 }
+

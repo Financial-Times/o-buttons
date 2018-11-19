@@ -10,25 +10,27 @@
 	@return oBrandSupportsVariant($component: 'o-buttons', $variant: $variant);
 }
 
-$_o-buttons-shared-brand-config: () !default;
-@if oBrandGetCurrentBrand() == 'master' or oBrandGetCurrentBrand() == 'internal' {
-	$_o-buttons-shared-brand-config: (
-		'scale': -1,
-		'background-size': 21px, // Magic number to reduce poor antialiasing on icons at small sizes
-		'min-height': 28px,
-		'min-width': 60px,
-		'padding': 0 8px,
-		'icon-padding': 22px,
+$_o-buttons-shared-brand-config: (
+	'scale': -1,
+	'background-size': 21px, // Magic number to reduce poor antialiasing on icons at small sizes
+	'min-height': 28px,
+	'min-width': 60px,
+	'padding': 0 8px,
+	'icon-padding': 22px,
+	'border-width': 1px,
+	'big': (
+		'scale': 0,
+		'background-size': 40px,
+		'min-height': 40px,
+		'min-width': 80px,
+		'padding': 0 20px,
+		'icon-padding': 40px,
 		'border-width': 1px,
-		'big': (
-			'scale': 0,
-			'background-size': 40px,
-			'min-height': 40px,
-			'min-width': 80px,
-			'padding': 0 20px,
-			'icon-padding': 40px,
-			'border-width': 1px,
-		),
+	),
+) !default;
+
+@if oBrandGetCurrentBrand() == 'master' or oBrandGetCurrentBrand() == 'internal' {
+	$_o-buttons-shared-brand-config: map-merge($_o-buttons-shared-brand-config, (
 		'primary': (
 			'default-color': oColorsGetPaletteColor('white'),
 			'default-background': oColorsGetPaletteColor('teal-50'),
@@ -64,7 +66,7 @@ $_o-buttons-shared-brand-config: () !default;
 			'active-color': oColorsGetPaletteColor('black'),
 			'active-background': oColorsGetPaletteColor('white')
 		)
-	)!global;
+	))!global;
 }
 
 @if oBrandGetCurrentBrand() == 'master' {
@@ -149,7 +151,7 @@ $_o-buttons-shared-brand-config: () !default;
 
 @if oBrandGetCurrentBrand() == 'whitelabel' {
 	@include oBrandDefine('o-buttons', 'whitelabel', (
-		'variables': (
+		'variables': map-merge($_o-buttons-shared-brand-config, (
 			'primary': (
 				'default-color': oColorsGetPaletteColor('white'),
 				'default-background': oColorsGetPaletteColor('black'),
@@ -168,7 +170,7 @@ $_o-buttons-shared-brand-config: () !default;
 				'active-color': oColorsGetPaletteColor('white'),
 				'active-background': oColorsGetPaletteColor('black')
 			)
-		),
+		)),
 		'supports-variants': (
 			'primary',
 			'secondary',

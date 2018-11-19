@@ -56,51 +56,75 @@ p {
 	padding: 1em;
 }
 
-.demo__custom-theme-button--primary-mono {
-	@include oButtonsTheme('primary-mono');
-}
-.demo__custom-theme-button--teal-secondary {
-	@include oButtonsTheme($theme: (background: 'teal-60', accent: 'white', colorizer: 'secondary'));
-}
-.demo__custom-theme-button--slate-primary {
-	@include oButtonsTheme($theme: (background: 'slate', accent: 'white', colorizer: 'primary'));
-}
-.demo__custom-theme-button--slate-secondary {
-	@include oButtonsTheme($theme: (background: 'slate', accent: 'white', colorizer: 'secondary'));
-}
-.demo__custom-theme-button--lemon-primary {
-	@include oButtonsTheme($theme: (background: 'slate', accent: 'lemon', colorizer: 'primary'));
-}
-.demo__custom-theme-button--lemon-secondary {
-	@include oButtonsTheme($theme: (background: 'slate', accent: 'lemon', colorizer: 'secondary'));
+.demo__custom-theme--teal {
+	background-color: oColorsGetPaletteColor(teal-60);
+	padding: 1em;
 }
 
-.demo__custom-icon-button--book {
-	@include oButtons('big', 'secondary');
-	@include oButtonsIconButton('book', 'big', 'secondary');
-}
+// Custom icon button for existing theme.
+@include oButtonsPrimary(
+	$theme: 'primary',
+	$icons: ('book')
+);
 
-.demo__custom-icon-button--book--primary {
-	@include oButtons('big', 'primary');
-	@include oButtonsIconButton('book', 'big', 'primary');
-}
+@include oButtonsSecondary(
+	$theme: 'secondary',
+	$icons: ('book')
+);
 
-.demo__custom-icon-button--book--icon-only {
-	@include oButtons('big', 'primary');
-	@include oButtonsIconButton('book', 'big', 'primary', $is-icon-only: true);
-}
 
-.demo__custom-theme-primary-icon-button--book {
-	@include oButtons('big');
-	$custom-theme: (background: 'slate', accent: 'claret-100', colorizer: 'primary');
-	@include oButtonsTheme($theme: $custom-theme);
-	@include oButtonsIconButton('book', 'big', $custom-theme);
-}
+// Custom themes.
+@include oButtonsPrimary($theme: (
+	'name': 'my-teal-primary',
+	'background': 'teal-60',
+	'accent': 'white'
+));
 
-.demo__custom-theme-secondary-icon-button--book {
-	@include oButtons(big);
-	$custom-theme: (background: 'slate', accent: 'claret-100', colorizer: 'secondary');
+@include oButtonsSecondary($theme: (
+	'name': 'my-teal-secondary',
+	'background': 'teal-60',
+	'accent': 'white'
+));
 
-	@include oButtonsTheme($theme: $custom-theme);
-	@include oButtonsIconButton('book', 'big', $custom-theme);
-}
+@include oButtonsPrimary($theme: (
+	'name': 'my-slate-primary',
+	'background': 'slate',
+	'accent': 'white'
+));
+
+@include oButtonsSecondary($theme: (
+	'name': 'my-slate-secondary',
+	'background': 'slate',
+	'accent': 'white'
+));
+
+@include oButtonsPrimary($theme: (
+	'name': 'my-lemon-primary',
+	'background': 'slate',
+	'accent': 'lemon'
+));
+
+@include oButtonsSecondary($theme: (
+	'name': 'my-lemon-secondary',
+	'background': 'slate',
+	'accent': 'lemon'
+));
+
+// Custom themes with icons.
+@include oButtonsPrimary (
+	$theme: (
+		'name': 'my-claret-primary',
+		'background': 'slate',
+		'accent': 'claret-100'
+	),
+	$icons: ('book')
+);
+
+@include oButtonsSecondary (
+	$theme: (
+		'name': 'my-claret-secondary',
+		'background': 'slate',
+		'accent': 'claret-100'
+	),
+	$icons: ('book')
+);
