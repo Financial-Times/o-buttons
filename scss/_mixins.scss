@@ -28,11 +28,13 @@
 /// @param {List} $opts
 @mixin oButtons($opts: (
 	'sizes': $_o-buttons-sizes,
-	'themes': map-keys($_o-buttons-themes),
+	'types': $_o-buttons-types,
+	'themes': $_o-buttons-themes,
 	'icons': $_o-buttons-icons,
 	'pagination': true,
 	'groups': true
 )) {
+	$types: map-get($opts, 'types');
 	$sizes: map-get($opts, 'sizes');
 	$themes: map-get($opts, 'themes');
 	$icons: map-get($opts, 'icons');
@@ -110,11 +112,16 @@
 		}
 	}
 
-	// Theme modifiers.
-	@each $theme in $themes {
-		@if _oButtonsSupports($theme) {
-			// Output theme.
-			@include _oButtonsTheme($theme, $icons: $icons);
+	// Type & theme modifiers.
+	@each $type in $types {
+		@if _oButtonsSupports($type) {
+			@include _oButtonsVariant($type: $type, $icons: $icons);
+		}
+		@each $theme in $themes {
+			$variant: _oButtonsGetVaraint($type, $theme);
+			@if _oButtonsSupports($variant) {
+				@include _oButtonsVariant($type, $theme, $icons);
+			}
 		}
 	}
 
@@ -181,12 +188,12 @@
 /// @example Output classes with icons for the primary, mono button.
 ///     @include oButtonsPrimary($theme: 'mono', $icons: ('arrow-right', 'arrow-left'));
 ///
-/// @param {String|Map} $theme - A theme name or a custom theme map.
-@mixin oButtonsPrimary($theme, $icons: ()) {
+/// @param {String|Map|Null} $theme - A theme name or a custom theme map.
+@mixin oButtonsPrimary($theme: null, $icons: ()) {
 	@if type-of($theme) == 'map' {
 		$theme: map-merge($theme, ('colorizer': 'primary'));
 	}
-	@include _oButtonsTheme($theme, $icons);
+	@include _oButtonsVariant($type: 'primary', $theme: $theme, $icons: $icons);
 }
 
 /// Outputs styles for a secondary button for a given them.
@@ -204,73 +211,108 @@
 /// @example Output classes with icons for the secondary, mono button.
 ///     @include oButtonsSecondary($theme: 'mono', $icons: ('arrow-right', 'arrow-left'));
 ///
-/// @param {String|Map} $theme - A theme name or a custom theme map.
-@mixin oButtonsSecondary($theme, $icons: ()) {
-	@include _oButtonsTheme($theme, $icons);
+/// @param {String|Map|Null} $theme - A theme name or a custom theme map.
+@mixin oButtonsSecondary($theme: null, $icons: ()) {
+	@include _oButtonsVariant($type: 'secondary', $theme: $theme, $icons: $icons);
 }
 
 
 /// Button theme construct
 /// Outputs styles for all button states
 ///
+/// @param {String} $type
 /// @param {String|Map} $theme
-@mixin _oButtonsTheme($theme, $icons: ()) {
+/// @param {List} $icons
+@mixin _oButtonsVariant($type, $theme: null, $icons: ()) {
 	$custom-theme: type-of($theme) == 'map';
 	$theme-name: if($custom-theme, map-get($theme, 'name'), $theme);
+	$variant: _oButtonsGetVaraint($type, $theme);
 
-	@if $custom-theme and not $theme-name {
-		@error 'Cound not output custom button theme as no "name" key is specified in the theme map: "#{$theme}".';
+	@if $theme {
+		$theme-exists: index($_o-buttons-themes, $theme-name);
+		@if not $theme-exists and not $custom-theme {
+			@error 'Button theme "#{$theme-name}" does not exist. Must be one of "#{$_o-buttons-themes}" or a custom theme map.';
+		}
+		@if $custom-theme and not $theme-name {
+			@error 'Cound not output custom button theme as no "name" key is specified in the theme map: "#{$theme}".';
+		}
+		@if $theme-exists and $custom-theme {
+			@error 'Cannot output button theme "#{$theme-name}" as it already exists.';
+		}
 	}
 
-	$theme-exists: map-has-key($_o-buttons-themes, $theme-name);
-	@if $theme-exists and $custom-theme {
-		@error 'Cannot output button theme "#{$theme-name}" as it already exists.';
-	}
+	$type-selector: if($type != $_o-buttons-default-type, '.o-buttons.o-buttons--#{$type}', '.o-buttons');
+	$theme-selector: if($theme-name, '.o-buttons--#{$theme-name}', '');
 
-	@if $custom-theme {
-		$_o-buttons-themes: map-merge($_o-buttons-themes, ($theme: '.o-buttons.o-buttons--#{$theme-name}')) !global;
-	}
-
-	$theme-selector: map-get($_o-buttons-themes, $theme);
-	@if $theme-selector == null {
-		@error 'Button theme "#{$theme}" does not exist. Must be one of "#{map-keys($_o-buttons-themes)}" or a custom theme map.';
-	}
-
-	#{$theme-selector} {
-		@include _oButtonsColors('default', $theme);
+	#{$type-selector}#{$theme-selector} {
+		background-color: oButtonsGetColor('default', 'background', $variant);
+		color: oButtonsGetColor('default', 'color', $variant);
+		border-color: oButtonsGetColor('default', 'border', $variant);
 		// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
 		// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
 		&[aria-selected=true], // e.g. A selected tab or page number in pagination.
 		&[aria-current], // e.g. A selected tab or page number in pagination (for links only).
 		&[aria-pressed=true], // e.g. A "follow" button that is pressed.
 		&:active {
-			@include _oButtonsColors('active', $theme);
+			background-color: oButtonsGetColor('active', 'background', $variant);
+			color: oButtonsGetColor('active', 'color', $variant);
+			border-color: oButtonsGetColor('active', 'border', $variant);
 		}
 		&:not([disabled]) {
 			&:hover {
-				@include _oButtonsColors('hover', $theme);
+				background-color: oButtonsGetColor('hover', 'background', $variant);
+				color: oButtonsGetColor('hover', 'color', $variant);
+				border-color: oButtonsGetColor('hover', 'border', $variant);
 				text-decoration: none;
 			}
 			&:focus {
-				@include _oButtonsColors('focus', $theme);
+				background-color: oButtonsGetColor('focus', 'background', $variant);
+				color: oButtonsGetColor('focus', 'color', $variant);
+				border-color: oButtonsGetColor('focus', 'border', $variant);
 			}
 		}
 	}
 
 	// Output icons for theme.
-	@include _oButtonsIconsForTheme($theme, $icons);
-}
+	@each $icon-name in $icons {
+		#{$type-selector}#{$theme-selector}.o-buttons-icon.o-buttons-icon--#{$icon-name} {
+			@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'normal');
+			// Add fallback for MS High Contrast mode.
+			// This only needs to be output once, not for every button state.
+			// sass-lint:disable no-vendor-prefixes
+			@media screen and (-ms-high-contrast: active) {
+				@include oIconsGetIcon($icon-name: $icon-name, $apply-base-styles: false, $apply-width-height: false, $color: #ffffff, $iconset-version: 1, $high-contrast-fallback: false);
+			}
+			@media screen and (-ms-high-contrast: black-on-white) {
+				@include oIconsGetIcon($icon-name: $icon-name, $apply-base-styles: false, $apply-width-height: false, $color: #000000, $iconset-version: 1, $high-contrast-fallback: false);
+			}
+			// sass-lint:enable no-vendor-prefixes
 
-/// Output button colors for a given state.
-/// If no value is found for a brand variant,
-/// fallback to the default value for the state.
-///
-/// @param {String} $state
-/// @param {String|Map} $theme Defined theme or custom theme map.
-@mixin _oButtonsColors($state, $theme) {
-	background-color: oButtonsGetColor($state, 'background', $theme);
-	color: oButtonsGetColor($state, 'color', $theme);
-	border-color: oButtonsGetColor($state, 'border', $theme);
+			// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
+			// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
+			&[aria-selected=true], // e.g. A selected tab or page number in pagination.
+			&[aria-current], // e.g. A selected tab or page number in pagination (for links only).
+			&[aria-pressed=true], // e.g. A "follow" button that is pressed.
+			&:active {
+				@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'active');
+			}
+
+			&:not([disabled]) {
+				&:hover {
+					@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'hover');
+				}
+				&:focus {
+					@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'focus');
+				}
+			}
+
+			// Hack to get the active state colour svg to download to prevent FOIC
+			&:after {
+				@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'active');
+				content: '';
+			}
+		}
+	}
 }
 
 /// Transform custom theme into variant variables, see `_brand.scss`.
@@ -290,24 +332,18 @@
 		@error "Please provide a background color for the custom button theme";
 	}
 
-	// If theme colorizer is not supported default to secondary.
-	$supported-colorizers: ('secondary', 'primary');
-	@if not index($supported-colorizers, map-get($theme, "colorizer")) {
-		$theme: map-merge($theme, ('colorizer': 'secondary'));
-	}
-
 	$colorizer: map-get($theme, 'colorizer');
 	$background: map-get($theme, 'background');
 	$hover: map-get($theme, 'hover');
 	$accent: map-get($theme, 'accent');
 
 	@return (
-		default-color: if($colorizer == 'secondary', oColorsGetPaletteColor($accent), oColorsGetPaletteColor($background)),
-		default-background: if($colorizer == 'secondary', oColorsGetPaletteColor($background), oColorsGetPaletteColor($accent)),
+		default-color: if($colorizer == 'primary', oColorsGetPaletteColor($background), oColorsGetPaletteColor($accent)),
+		default-background: if($colorizer == 'primary', oColorsGetPaletteColor($accent), oColorsGetPaletteColor($background)),
 		default-border: oColorsGetPaletteColor($accent),
 		hover-background: if($hover == null, oColorsMix($background, $accent), oColorsGetPaletteColor($hover)),
 		hover-color: if($hover == null, oColorsGetPaletteColor($accent), oColorsGetTextColor(oColorsGetPaletteColor($hover), 100)),
-		focus-background: if($colorizer == 'secondary', transparent, oColorsGetPaletteColor($accent)),
+		focus-background: if($colorizer == 'primary', oColorsGetPaletteColor($accent), transparent),
 		active-color: oColorsGetPaletteColor($background),
 		active-background: oColorsGetPaletteColor($accent)
 	);

@@ -63,15 +63,12 @@ p {
 
 // Custom icon button for existing theme.
 @include oButtonsPrimary(
-	$theme: 'primary',
 	$icons: ('book')
 );
 
 @include oButtonsSecondary(
-	$theme: 'secondary',
 	$icons: ('book')
 );
-
 
 // Custom themes.
 @include oButtonsPrimary($theme: (

@@ -24,14 +24,17 @@ $_o-buttons-border-radius: $o-normalise-border-radius;
 /// @type Map
 /// @access private
 $_o-buttons-themes: (
-	primary: '.o-buttons.o-buttons--primary',
-	primary-inverse: '.o-buttons.o-buttons--primary.o-buttons--inverse',
-	primary-mono: '.o-buttons.o-buttons--primary.o-buttons--mono',
-	secondary: '.o-buttons', // default
-	inverse: '.o-buttons.o-buttons--inverse',
-	mono: '.o-buttons.o-buttons--mono',
-	b2c: '.o-buttons.o-buttons--b2c'
+	inverse,
+	mono,
+	b2c
 ) !default;
+
+$_o-buttons-types: (
+	primary,
+	secondary,
+) !default;
+
+$_o-buttons-default-type: secondary;
 
 /// List of icons to generate classes for icon buttons.
 /// Build service users will only be able to use these icons, but there is

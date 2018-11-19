@@ -15,3 +15,19 @@
 	$default-color: _oButtonsGet($variables: 'default-#{$property}', $from: $theme);
 	@return if($state-color, $state-color, $default-color);
 }
+
+@function _oButtonsGetVaraint($type, $theme) {
+	// mono
+	// inverse
+	// primary
+	// secondary
+	$variant: if($theme, $theme, $type);
+
+	// primary-mono
+	// primary-inverse
+	@if type-of($theme) == 'string' and $type and $type != $_o-buttons-default-type {
+		$variant: '#{$type}-#{$theme}';
+	}
+
+	@return $variant;
+}
