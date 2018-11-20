@@ -57,7 +57,7 @@ $_o-buttons-shared-brand-config: (
 			'active-color': oColorsGetPaletteColor('white'),
 			'active-background': oColorsGetPaletteColor('teal-50')
 		),
-		'inverse': (
+		'secondary-inverse': (
 			'default-color': oColorsGetPaletteColor('white'),
 			'default-background': oColorsGetPaletteColor('transparent'),
 			'default-border': oColorsGetPaletteColor('white'),
@@ -72,54 +72,52 @@ $_o-buttons-shared-brand-config: (
 @if oBrandGetCurrentBrand() == 'master' {
 	@include oBrandDefine('o-buttons', 'master', (
 		'variables': map-merge($_o-buttons-shared-brand-config, (
-			'mono': (
-					'default-color': oColorsGetPaletteColor('slate'),
-					'default-background': oColorsGetPaletteColor('transparent'),
-					'default-border': oColorsGetPaletteColor('slate'),
-					'hover-background': oColorsGetPaletteColor('slate-paper-10'),
-					'focus-background': oColorsGetPaletteColor('slate-paper-10'),
-					'active-color': oColorsGetPaletteColor('white'),
-					'active-background': oColorsGetPaletteColor('slate')
-				),
-				'primary-mono': (
-					'default-color': oColorsGetPaletteColor('white'),
-					'default-background': oColorsGetPaletteColor('slate'),
-					'default-border': oColorsGetPaletteColor('transparent'),
-					'hover-background': oColorsGetPaletteColor('slate-paper-70'),
-					'focus-background': oColorsGetPaletteColor('slate-paper-70'),
-					'active-color': oColorsGetPaletteColor('white'),
-					'active-background': oColorsGetPaletteColor('slate-paper-60')
-				),
-				'b2c': (
-					'default-color': oColorsGetPaletteColor('white'),
-					'default-background': oColorsGetPaletteColor('org-b2c-dark'),
-					'default-border': oColorsGetPaletteColor('org-b2c-dark'),
-					'hover-color': oColorsGetPaletteColor('black-90'),
-					'hover-background': oColorsGetPaletteColor('org-b2c'),
-					'focus-color': oColorsGetPaletteColor('black-90'),
-					'focus-background': oColorsGetPaletteColor('org-b2c'),
-					'active-color': oColorsGetPaletteColor('black-90'),
-					'active-background': oColorsGetPaletteColor('org-b2c-light'),
-				)
+			'secondary-mono': (
+				'default-color': oColorsGetPaletteColor('slate'),
+				'default-background': oColorsGetPaletteColor('transparent'),
+				'default-border': oColorsGetPaletteColor('slate'),
+				'hover-background': oColorsGetPaletteColor('slate-paper-10'),
+				'focus-background': oColorsGetPaletteColor('slate-paper-10'),
+				'active-color': oColorsGetPaletteColor('white'),
+				'active-background': oColorsGetPaletteColor('slate')
+			),
+			'primary-mono': (
+				'default-color': oColorsGetPaletteColor('white'),
+				'default-background': oColorsGetPaletteColor('slate'),
+				'default-border': oColorsGetPaletteColor('transparent'),
+				'hover-background': oColorsGetPaletteColor('slate-paper-70'),
+				'focus-background': oColorsGetPaletteColor('slate-paper-70'),
+				'active-color': oColorsGetPaletteColor('white'),
+				'active-background': oColorsGetPaletteColor('slate-paper-60')
+			),
+			'secondary-b2c': (
+				'default-color': oColorsGetPaletteColor('white'),
+				'default-background': oColorsGetPaletteColor('org-b2c-dark'),
+				'default-border': oColorsGetPaletteColor('org-b2c-dark'),
+				'hover-color': oColorsGetPaletteColor('black-90'),
+				'hover-background': oColorsGetPaletteColor('org-b2c'),
+				'focus-color': oColorsGetPaletteColor('black-90'),
+				'focus-background': oColorsGetPaletteColor('org-b2c'),
+				'active-color': oColorsGetPaletteColor('black-90'),
+				'active-background': oColorsGetPaletteColor('org-b2c-light'),
 			)
-		),
+		)),
 		'supports-variants': (
 			'primary',
+			'secondary',
 			'primary-inverse',
 			'primary-mono',
-			'secondary',
-			'inverse',
-			'mono',
-			'b2c'
-			)
-		)
+			'secondary-inverse',
+			'secondary-mono',
+			'secondary-b2c'
+		))
 	);
 }
 
 @if oBrandGetCurrentBrand() == 'internal' {
 	@include oBrandDefine('o-buttons', 'internal', (
 		'variables': map-merge($_o-buttons-shared-brand-config, (
-			'mono': (
+			'secondary-mono': (
 				'default-color': oColorsGetPaletteColor('slate'),
 				'default-background': oColorsGetPaletteColor('transparent'),
 				'default-border': oColorsGetPaletteColor('slate'),
@@ -143,8 +141,8 @@ $_o-buttons-shared-brand-config: (
 			'primary-inverse',
 			'primary-mono',
 			'secondary',
-			'inverse',
-			'mono'
+			'secondary-inverse',
+			'secondary-mono'
 		))
 	);
 }

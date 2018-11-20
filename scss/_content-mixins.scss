@@ -84,31 +84,30 @@
 }
 
 @mixin _oButtonsVariantContent($type, $theme: null) {
-    $variant: _oButtonsGetVaraint($type, $theme);
-    background-color: oButtonsGetColor('default', 'background', $variant);
-    color: oButtonsGetColor('default', 'color', $variant);
-    border-color: oButtonsGetColor('default', 'border', $variant);
+    background-color: oButtonsGetColor('default', 'background', $type, $theme);
+    color: oButtonsGetColor('default', 'color', $type, $theme);
+    border-color: oButtonsGetColor('default', 'border', $type, $theme);
     // https://www.w3.org/TR/wai-aria-1.1/#aria-selected
     // https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
     &[aria-selected=true], // e.g. A selected tab or page number in pagination.
     &[aria-current], // e.g. A selected tab or page number in pagination (for links only).
     &[aria-pressed=true], // e.g. A "follow" button that is pressed.
     &:active {
-        background-color: oButtonsGetColor('active', 'background', $variant);
-        color: oButtonsGetColor('active', 'color', $variant);
-        border-color: oButtonsGetColor('active', 'border', $variant);
+        background-color: oButtonsGetColor('active', 'background', $type, $theme);
+        color: oButtonsGetColor('active', 'color', $type, $theme);
+        border-color: oButtonsGetColor('active', 'border', $type, $theme);
     }
     &:not([disabled]) {
         &:hover {
-            background-color: oButtonsGetColor('hover', 'background', $variant);
-            color: oButtonsGetColor('hover', 'color', $variant);
-            border-color: oButtonsGetColor('hover', 'border', $variant);
+            background-color: oButtonsGetColor('hover', 'background', $type, $theme);
+            color: oButtonsGetColor('hover', 'color', $type, $theme);
+            border-color: oButtonsGetColor('hover', 'border', $type, $theme);
             text-decoration: none;
         }
         &:focus {
-            background-color: oButtonsGetColor('focus', 'background', $variant);
-            color: oButtonsGetColor('focus', 'color', $variant);
-            border-color: oButtonsGetColor('focus', 'border', $variant);
+            background-color: oButtonsGetColor('focus', 'background', $type, $theme);
+            color: oButtonsGetColor('focus', 'color', $type, $theme);
+            border-color: oButtonsGetColor('focus', 'border', $type, $theme);
         }
     }
 }

@@ -81,13 +81,12 @@
 
 	// Type & theme modifiers.
 	@each $type in $types {
-		@if $type and _oButtonsSupports($type) {
-			@include _oButtonsVariant($type: $type, $icons: $icons);
+		@if _oButtonsSupports($type) {
+			@include _oButtonsVariantWithIcons($type: $type, $icons: $icons);
 		}
 		@each $theme in $themes {
-			$variant: _oButtonsGetVaraint($type, $theme);
-			@if $variant and _oButtonsSupports($variant) {
-				@include _oButtonsVariant($type, $theme, $icons);
+			@if _oButtonsSupports('#{$type}-#{$theme}') {
+				@include _oButtonsVariantWithIcons($type, $theme, $icons);
 			}
 		}
 	}
@@ -143,10 +142,8 @@
 /// Custom theme class for a button of a given type. With support for given icons.
 /// @param {String|Map|Null} $theme - A theme name or a custom theme map.
 @mixin oButtonsCustom($type, $theme, $icons: null) {
-	$theme: map-merge($theme, ('colorizer': $type));
-	@include _oButtonsVariant($type, $theme, $icons);
+	@include _oButtonsVariantWithIcons($type, $theme, $icons);
 }
-
 
 /// Button theme construct
 /// Outputs styles for all button states
@@ -154,70 +151,31 @@
 /// @param {String} $type
 /// @param {String|Map} $theme
 /// @param {List} $icons
-@mixin _oButtonsVariant($type, $theme: null, $icons: null) {
-	$custom-theme: type-of($theme) == 'map';
-	$theme-name: if($custom-theme, map-get($theme, 'name'), $theme);
-	$variant: _oButtonsGetVaraint($type, $theme);
-
-	@if $theme {
-		$theme-exists: index($_o-buttons-themes, $theme-name);
-		@if not $theme-exists and not $custom-theme {
-			@error 'Button theme "#{$theme-name}" does not exist. Must be one of "#{$_o-buttons-themes}" or a custom theme map.';
-		}
-		@if $custom-theme and not $theme-name {
-			@error 'Cound not output custom button theme as no "name" key is specified in the theme map: "#{$theme}".';
-		}
-		@if $theme-exists and $custom-theme {
-			@error 'Cannot output button theme "#{$theme-name}" as it already exists.';
-		}
+@mixin _oButtonsVariantWithIcons($type, $theme: null, $icons: null) {
+	// Get theme name if the theme is a custom theme map.
+	$theme-name: if(type-of($theme) == 'map', map-get($theme, 'name'), $theme);
+	// Requested a variant with a default theme.
+	@if type-of($theme) == 'string' and not index($_o-buttons-themes, $theme) {
+		@error 'Button theme "#{$theme}" does not exist. Must be one of "#{$_o-buttons-themes}" or a custom theme map.';
 	}
-
+	// Requested a variant with a custom theme.
+	@if type-of($theme) == 'map' and not $theme-name {
+		@error 'Cound not output a custom button of type "#{$type}" as no "name" key is specified in the theme map: "#{$theme}".';
+	}
+	@if type-of($theme) == 'map' and index($_o-buttons-themes, $theme-name) {
+		@error 'Cannot output a custom button of type "#{$type}" with theme "#{$theme-name}" as a theme of that name already exists.';
+	}
+	// Output classes.
 	$type-selector: if($type != $_o-buttons-default-type, '.o-buttons.o-buttons--#{$type}', '.o-buttons');
 	$theme-selector: if($theme-name, '.o-buttons--#{$theme-name}', '');
-
+	// Output variant classes.
 	#{$type-selector}#{$theme-selector} {
 		@include _oButtonsVariantContent($type, $theme);
 	}
-
-	// Output icons for theme.
+	// Output variant icon classes.
 	@each $icon in $icons {
 		#{$type-selector}#{$theme-selector}.o-buttons-icon.o-buttons-icon--#{$icon} {
 			@include _oButtonsIconContent($icon, $type, $theme);
 		}
 	}
 }
-
-/// Transform custom theme into variant variables, see `_brand.scss`.
-///
-/// @param {Map} $theme
-/// @return {Map} o-brand variables for the custom button theme
-@function _oButtonsGetCustomThemeVariables($theme) {
-	@if type-of($theme) != 'map' {
-		@error 'Expecting custom button theme `$theme` to be a map.';
-	}
-
-	@if not map-has-key($theme, "accent") {
-		@error "Please provide an accent color for the custom button theme";
-	}
-
-	@if not map-has-key($theme, "background") {
-		@error "Please provide a background color for the custom button theme";
-	}
-
-	$colorizer: map-get($theme, 'colorizer');
-	$background: map-get($theme, 'background');
-	$hover: map-get($theme, 'hover');
-	$accent: map-get($theme, 'accent');
-
-	@return (
-		default-color: if($colorizer == 'primary', oColorsGetPaletteColor($background), oColorsGetPaletteColor($accent)),
-		default-background: if($colorizer == 'primary', oColorsGetPaletteColor($accent), oColorsGetPaletteColor($background)),
-		default-border: oColorsGetPaletteColor($accent),
-		hover-background: if($hover == null, oColorsMix($background, $accent), oColorsGetPaletteColor($hover)),
-		hover-color: if($hover == null, oColorsGetPaletteColor($accent), oColorsGetTextColor(oColorsGetPaletteColor($hover), 100)),
-		focus-background: if($colorizer == 'primary', oColorsGetPaletteColor($accent), transparent),
-		active-color: oColorsGetPaletteColor($background),
-		active-background: oColorsGetPaletteColor($accent)
-	);
-}
-

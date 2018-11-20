@@ -1,33 +1,62 @@
 /// Gets the color of a button property for a given theme and state.
 ///
-/// @example background: oButtonsGetColor($state: 'hover', $property: 'border', $theme: 'primary');
+/// @example background: oButtonsGetColor($state: 'hover', $property: 'border', $type: 'primary');
+/// @example background: oButtonsGetColor($state: 'hover', $property: 'border', $type: 'secondary', $theme: 'primary');
 ///
 /// @access public
 /// @param {String} $state
 /// @param {String} $property
+/// @param {String} $type
 /// @param {String|List|Map} $theme A theme string/list or a custom theme map. Will default to the currently configured theme.
 /// @return {Color}
-@function oButtonsGetColor($state, $property, $theme: null) {
-	@if type-of($theme) == 'map' {
-		$theme: _oButtonsGetCustomThemeVariables($theme);
-	}
-	$state-color: _oButtonsGet($variables: '#{$state}-#{$property}', $from: $theme);
-	$default-color: _oButtonsGet($variables: 'default-#{$property}', $from: $theme);
+@function oButtonsGetColor($state, $property, $type, $theme: null) {
+	$variant: _oButtonsGetVaraint($type, $theme);
+	$state-color: _oButtonsGet($variables: '#{$state}-#{$property}', $from: $variant);
+	$default-color: _oButtonsGet($variables: 'default-#{$property}', $from: $variant);
 	@return if($state-color, $state-color, $default-color);
 }
 
 @function _oButtonsGetVaraint($type, $theme) {
-	// mono
-	// inverse
-	// primary
-	// secondary
-	$variant: if($theme, $theme, $type);
-
-	// primary-mono
-	// primary-inverse
-	@if type-of($theme) == 'string' and $type and $type != $_o-buttons-default-type {
-		$variant: '#{$type}-#{$theme}';
+	// From a custom theme.
+	@if type-of($theme) == 'map' {
+		@return _oButtonsVariantWithIconsFromCustomTheme($type, $theme);
 	}
 
-	@return $variant;
+	// Variant for type and theme, from brand config.
+	// e.g. primary-mono
+	@if type-of($theme) == 'string' {
+		@return '#{$type}-#{$theme}';
+	}
+
+	// Variant for type and default theme, from brand config.
+	// e.g. primary
+	@return $type;
+}
+
+@function _oButtonsVariantWithIconsFromCustomTheme($type, $theme) {
+	@if type-of($theme) != 'map' {
+		@error 'Expecting custom button theme to be a map.';
+	}
+	@if not $type {
+		@error 'Button type ("secondary" or "primary") must be specified to output styles for a button of theme "#{$theme}".';
+	}
+	@if not map-has-key($theme, "accent") {
+		@error "Please provide an accent color for the custom button theme";
+	}
+	@if not map-has-key($theme, "background") {
+		@error "Please provide a background color for the custom button theme";
+	}
+	$background: map-get($theme, 'background');
+	$hover: map-get($theme, 'hover');
+	$accent: map-get($theme, 'accent');
+	@return (
+		default-color: if($type == 'primary', oColorsGetPaletteColor($background), oColorsGetPaletteColor($accent)),
+		default-background: if($type == 'primary', oColorsGetPaletteColor($accent), oColorsGetPaletteColor($background)),
+		default-border: oColorsGetPaletteColor($accent),
+		hover-background: if($hover == null, oColorsMix($background, $accent), oColorsGetPaletteColor($hover)),
+		hover-color: if($hover == null, oColorsGetPaletteColor($accent), oColorsGetTextColor(oColorsGetPaletteColor($hover), 100)),
+		focus-background: if($type == 'primary', oColorsGetPaletteColor($accent), transparent),
+		active-color: oColorsGetPaletteColor($background),
+		active-background: oColorsGetPaletteColor($accent)
+	);
 }
