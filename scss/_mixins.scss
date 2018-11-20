@@ -21,8 +21,9 @@
 ///    @include oButtons($opts: (
 ///        'sizes': ('big', 'default'),
 ///        'themes': ('primary', 'secondary'),
-///        'icons': ('arrow-left', 'arrow-right')
-///        'opts': ('pagination', 'groups'),
+///        'icons': ('arrow-left', 'arrow-right'),
+///        'pagination': true,
+///        'groups': true
 ///    ));
 ///
 /// @param {List} $opts
@@ -43,45 +44,13 @@
 
 	// Base button class.
 	.o-buttons {
-		@include oTypographySansBold();
-		@include oButtonsSize();
-		display: inline-block;
-		box-sizing: border-box;
-		vertical-align: middle;
-		margin: 0;
-		border-style: solid;
-		text-align: center;
-		text-decoration: none;
-		border-radius: $_o-buttons-border-radius;
-		cursor: pointer;
-		transition: 0.3s background-color, 0.15s color ease-out, 0.15s border-color ease-out;
-		user-select: none;
-		background-clip: border-box;
-		// Prevent fat white type on a dark background
-		// sass-lint:disable no-vendor-prefixes
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		-moz-appearance: none;
-		-webkit-appearance: none;
-		// sass-lint:enable no-vendor-prefixes
-
-		// Same as aria-disabled:
-		// http://www.w3.org/TR/wai-aria/states_and_properties#aria-disabled
-		// This is a common style for all button themes
-		&[disabled] {
-			pointer-events: none;
-			opacity: 0.4;
-			cursor: default;
-		}
+		@include _oButtonsBaseContent();
 	}
 
 	// Base icon class.
 	@if (length($icons) > 0) {
 		.o-buttons-icon {
-			display: inline-block;
-			background-repeat: no-repeat;
-			background-position: 3px;
-			padding-left: _oButtonsGet('icon-padding');
+			@include _oButtonsIconBaseContent();
 		}
 
 		.o-buttons-icon__label {
@@ -93,20 +62,18 @@
 
 		// Icon only modifier. Higher specificity than size modifier.
 		.o-buttons.o-buttons-icon.o-buttons-icon--icon-only {
-			padding-left: 0;
-			background-position: 50%;
-			min-width: 40px;
+			@include _oButtonsIconOnlyContent();
 		}
 	}
 
 
 	// Size modifiers.
 	@each $size in $sizes {
-		.o-buttons--#{$size} {
-			@include oButtonsSize($size);
+		.o-buttons.o-buttons--#{$size} {
+			@include _oButtonsSizeContent($size);
 		}
 		@if (length($icons) > 0) {
-			.o-buttons--#{$size}.o-buttons-icon {
+			.o-buttons.o-buttons--#{$size}.o-buttons-icon {
 				padding-left: _oButtonsGet('icon-padding', $size);
 			}
 		}
@@ -114,12 +81,12 @@
 
 	// Type & theme modifiers.
 	@each $type in $types {
-		@if _oButtonsSupports($type) {
+		@if $type and _oButtonsSupports($type) {
 			@include _oButtonsVariant($type: $type, $icons: $icons);
 		}
 		@each $theme in $themes {
 			$variant: _oButtonsGetVaraint($type, $theme);
-			@if _oButtonsSupports($variant) {
+			@if $variant and _oButtonsSupports($variant) {
 				@include _oButtonsVariant($type, $theme, $icons);
 			}
 		}
@@ -173,47 +140,11 @@
 	}
 }
 
-/// Outputs styles for a primary button for a given them.
-///
-/// @example Output classes for a custom primary button.
-/// 	@include oButtonsPrimary($theme: (
-/// 		$name: 'example-name',
-/// 		$background: 'slate',
-/// 		$accent: 'lemon'
-/// 	));
-///
-/// @example Output classes the primary, mono button.
-///     @include oButtonsPrimary($theme: 'mono');
-///
-/// @example Output classes with icons for the primary, mono button.
-///     @include oButtonsPrimary($theme: 'mono', $icons: ('arrow-right', 'arrow-left'));
-///
+/// Custom theme class for a button of a given type. With support for given icons.
 /// @param {String|Map|Null} $theme - A theme name or a custom theme map.
-@mixin oButtonsPrimary($theme: null, $icons: ()) {
-	@if type-of($theme) == 'map' {
-		$theme: map-merge($theme, ('colorizer': 'primary'));
-	}
-	@include _oButtonsVariant($type: 'primary', $theme: $theme, $icons: $icons);
-}
-
-/// Outputs styles for a secondary button for a given them.
-///
-/// @example Output classes for a custom secondary button.
-/// 	@include oButtonsSecondary($theme: (
-/// 		$name: 'example-name',
-/// 		$background: 'slate',
-/// 		$accent: 'lemon'
-/// 	));
-///
-/// @example Output classes the secondary, mono button.
-///     @include oButtonsSecondary($theme: 'mono');
-///
-/// @example Output classes with icons for the secondary, mono button.
-///     @include oButtonsSecondary($theme: 'mono', $icons: ('arrow-right', 'arrow-left'));
-///
-/// @param {String|Map|Null} $theme - A theme name or a custom theme map.
-@mixin oButtonsSecondary($theme: null, $icons: ()) {
-	@include _oButtonsVariant($type: 'secondary', $theme: $theme, $icons: $icons);
+@mixin oButtonsCustom($type, $theme, $icons: null) {
+	$theme: map-merge($theme, ('colorizer': $type));
+	@include _oButtonsVariant($type, $theme, $icons);
 }
 
 
@@ -223,7 +154,7 @@
 /// @param {String} $type
 /// @param {String|Map} $theme
 /// @param {List} $icons
-@mixin _oButtonsVariant($type, $theme: null, $icons: ()) {
+@mixin _oButtonsVariant($type, $theme: null, $icons: null) {
 	$custom-theme: type-of($theme) == 'map';
 	$theme-name: if($custom-theme, map-get($theme, 'name'), $theme);
 	$variant: _oButtonsGetVaraint($type, $theme);
@@ -245,72 +176,13 @@
 	$theme-selector: if($theme-name, '.o-buttons--#{$theme-name}', '');
 
 	#{$type-selector}#{$theme-selector} {
-		background-color: oButtonsGetColor('default', 'background', $variant);
-		color: oButtonsGetColor('default', 'color', $variant);
-		border-color: oButtonsGetColor('default', 'border', $variant);
-		// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
-		// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
-		&[aria-selected=true], // e.g. A selected tab or page number in pagination.
-		&[aria-current], // e.g. A selected tab or page number in pagination (for links only).
-		&[aria-pressed=true], // e.g. A "follow" button that is pressed.
-		&:active {
-			background-color: oButtonsGetColor('active', 'background', $variant);
-			color: oButtonsGetColor('active', 'color', $variant);
-			border-color: oButtonsGetColor('active', 'border', $variant);
-		}
-		&:not([disabled]) {
-			&:hover {
-				background-color: oButtonsGetColor('hover', 'background', $variant);
-				color: oButtonsGetColor('hover', 'color', $variant);
-				border-color: oButtonsGetColor('hover', 'border', $variant);
-				text-decoration: none;
-			}
-			&:focus {
-				background-color: oButtonsGetColor('focus', 'background', $variant);
-				color: oButtonsGetColor('focus', 'color', $variant);
-				border-color: oButtonsGetColor('focus', 'border', $variant);
-			}
-		}
+		@include _oButtonsVariantContent($type, $theme);
 	}
 
 	// Output icons for theme.
-	@each $icon-name in $icons {
-		#{$type-selector}#{$theme-selector}.o-buttons-icon.o-buttons-icon--#{$icon-name} {
-			@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'normal');
-			// Add fallback for MS High Contrast mode.
-			// This only needs to be output once, not for every button state.
-			// sass-lint:disable no-vendor-prefixes
-			@media screen and (-ms-high-contrast: active) {
-				@include oIconsGetIcon($icon-name: $icon-name, $apply-base-styles: false, $apply-width-height: false, $color: #ffffff, $iconset-version: 1, $high-contrast-fallback: false);
-			}
-			@media screen and (-ms-high-contrast: black-on-white) {
-				@include oIconsGetIcon($icon-name: $icon-name, $apply-base-styles: false, $apply-width-height: false, $color: #000000, $iconset-version: 1, $high-contrast-fallback: false);
-			}
-			// sass-lint:enable no-vendor-prefixes
-
-			// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
-			// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
-			&[aria-selected=true], // e.g. A selected tab or page number in pagination.
-			&[aria-current], // e.g. A selected tab or page number in pagination (for links only).
-			&[aria-pressed=true], // e.g. A "follow" button that is pressed.
-			&:active {
-				@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'active');
-			}
-
-			&:not([disabled]) {
-				&:hover {
-					@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'hover');
-				}
-				&:focus {
-					@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'focus');
-				}
-			}
-
-			// Hack to get the active state colour svg to download to prevent FOIC
-			&:after {
-				@include _oButtonsGetIconForThemeAndState($icon-name, $variant, 'active');
-				content: '';
-			}
+	@each $icon in $icons {
+		#{$type-selector}#{$theme-selector}.o-buttons-icon.o-buttons-icon--#{$icon} {
+			@include _oButtonsIconContent($icon, $type, $theme);
 		}
 	}
 }
@@ -347,39 +219,5 @@
 		active-color: oColorsGetPaletteColor($background),
 		active-background: oColorsGetPaletteColor($accent)
 	);
-}
-
-/// Button size
-/// Outputs dimensions for a specific button size
-///
-/// @example
-/// .my-button--big {
-/// 	@include oButtonsSize(big);
-/// }
-///
-/// @param {String} $size
-@mixin oButtonsSize($size: null) {
-	@include oTypographySans($scale: _oButtonsGet('scale', $size), $line-height: 1);
-	background-size: _oButtonsGet('background-size', $size);
-	min-height: _oButtonsGet('min-height', $size);
-	min-width: _oButtonsGet('min-width', $size);
-	padding: _oButtonsGet('padding', $size);
-	border-width: _oButtonsGet('border-width', $size);
-
-	// Center copy with vertical padding for browsers which do not support flexbox.
-	$scale-list: oTypographyGetScale(_oButtonsGet('scale', $size));
-	$font-size: nth($scale-list, 1);
-	$min-height: _oButtonsGet('min-height', $size);
-	$border-width: _oButtonsGet('border-width', $size);
-	padding-top: calc((#{$min-height} - #{$font-size}px - (#{$border-width} * 2)) / 2);
-	padding-bottom: calc((#{$min-height} - #{$font-size}px - (#{$border-width} * 2)) / 2);
-
-	// Center copy with flexbox for browsers which support it and reset padding.
-	@supports (display: inline-flex) {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: _oButtonsGet('padding', $size);
-	}
 }
 

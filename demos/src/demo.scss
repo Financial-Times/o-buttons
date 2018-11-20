@@ -1,4 +1,3 @@
-$o-buttons-is-silent: false;
 @import "../../main";
 
 html {
@@ -61,67 +60,80 @@ p {
 	padding: 1em;
 }
 
-// Custom icon button for existing theme.
-@include oButtonsPrimary(
-	$icons: ('book')
-);
+// Include o-buttons.
+@include oButtons();
 
-@include oButtonsSecondary(
-	$icons: ('book')
-);
+// Include icon not in the defaut set.
+// This will include the base styles for a second time.
+@include oButtons($opts: (
+	'types': ('primary', 'secondary'),
+	'icons': ('book')
+));
+
 
 // Custom themes.
-@include oButtonsPrimary($theme: (
-	'name': 'my-teal-primary',
+$teal-theme: (
+	'name': 'my-teal',
 	'background': 'teal-60',
 	'accent': 'white'
-));
+);
 
-@include oButtonsSecondary($theme: (
-	'name': 'my-teal-secondary',
-	'background': 'teal-60',
-	'accent': 'white'
-));
+@include oButtonsCustom(
+	$type: 'primary',
+	$theme: $teal-theme
+);
 
-@include oButtonsPrimary($theme: (
-	'name': 'my-slate-primary',
+@include oButtonsCustom(
+	$type: 'secondary',
+	$theme: $teal-theme
+);
+
+$slate-theme: (
+	'name': 'my-slate',
 	'background': 'slate',
 	'accent': 'white'
-));
+);
 
-@include oButtonsSecondary($theme: (
-	'name': 'my-slate-secondary',
-	'background': 'slate',
-	'accent': 'white'
-));
+@include oButtonsCustom(
+	$type: 'primary',
+	$theme: $slate-theme
+);
 
-@include oButtonsPrimary($theme: (
-	'name': 'my-lemon-primary',
+@include oButtonsCustom(
+	$type: 'secondary',
+	$theme: $slate-theme
+);
+
+$lemon-theme: (
+	'name': 'my-lemon',
 	'background': 'slate',
 	'accent': 'lemon'
-));
+);
 
-@include oButtonsSecondary($theme: (
-	'name': 'my-lemon-secondary',
-	'background': 'slate',
-	'accent': 'lemon'
-));
+@include oButtonsCustom(
+	$type: 'primary',
+	$theme: $lemon-theme
+);
+
+@include oButtonsCustom(
+	$type: 'secondary',
+	$theme: $lemon-theme
+);
 
 // Custom themes with icons.
-@include oButtonsPrimary (
-	$theme: (
-		'name': 'my-claret-primary',
-		'background': 'slate',
-		'accent': 'claret-100'
-	),
+$claret-theme: (
+	'name': 'my-claret',
+	'background': 'slate',
+	'accent': 'claret-100'
+);
+@include oButtonsCustom(
+	$type: 'primary',
+	$theme: $claret-theme,
 	$icons: ('book')
 );
 
-@include oButtonsSecondary (
-	$theme: (
-		'name': 'my-claret-secondary',
-		'background': 'slate',
-		'accent': 'claret-100'
-	),
+@include oButtonsCustom(
+	$type: 'secondary',
+	$theme: $claret-theme,
 	$icons: ('book')
 );

@@ -304,9 +304,10 @@ To avoid this, use the `background-color` property instead of the shorthand `bac
 - Global variables `$o-buttons-themes`, `$o-buttons-sizes`, and `$o-buttons-icons` are now private.
 - The mixin `oButtons` has been updated. It outputs all `o-buttons` styles by default, or a subset of button styles with the `$opts` argument.
 - Removed deprecated mixins `oButtonsCustomTheme`, `oButtonsIcon`, `oButtonsGetButtonForIconAndTheme`, and `oButtonsBaseStyles`.
-- Removed mixins `oButtonsIconButton`, `oButtonsIconBaseStyles`, `oButtonsIconButtonLabel`, `oButtonsGroup`, and `oButtonsPagination`.
+- Removed mixins `oButtonsSize`, `oButtonsIconButton`, `oButtonsIconBaseStyles`, `oButtonsIconButtonLabel`, `oButtonsGroup`, and `oButtonsPagination`.
+- Added `oButtonsContent` to output button styles without classes.
 - Removes the `$buttonClass` argument from `oButtonsGroup`, `oButtonsPagination`.
-- `oButtonsTheme` is now private, use `oButtonsPrimary` or `oButtonsSecondary` instead.
+- `oButtonsTheme` is now private, use `oButtonsCustom` or `oButtonsContent` instead.
 - Removed all deprecated [colour usecases](https://github.com/Financial-Times/o-buttons/blob/v5.15.1/scss/_deprecated.scss#L98).
 
 
