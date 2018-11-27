@@ -93,13 +93,6 @@
 			"description": "oButtons includes styles for some common icon buttons and the ability to add more using Sass mixins."
 		},
 		{
-			"title": "Test",
-			"name": "test",
-			"template": "/demos/src/test.mustache",
-			"hidden": true,
-			"description": "Really big page of demos for all buttons for testing"
-		},
-		{
 			"title": "Custom Icon Button",
 			"name": "custom icon button",
 			"template": "/demos/src/custom-icon-button.mustache",
