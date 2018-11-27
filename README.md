@@ -299,6 +299,7 @@ To avoid this, use the `background-color` property instead of the shorthand `bac
 ### Migrating from v5 to v6
 
 - Added a dependancy on `o-typography`.
+- There is no default button use `o-buttons--secondary`.
 - Removes the ability to set a custom button class.
 - Removed global variables `$o-buttons-font-family`, `$o-buttons-font-weight`, `$o-buttons-themes__b2c`, and `$o-buttons-class`.
 - Global variables `$o-buttons-themes`, `$o-buttons-sizes`, and `$o-buttons-icons` are now private.

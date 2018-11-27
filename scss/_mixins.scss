@@ -54,10 +54,7 @@
 		}
 
 		.o-buttons-icon__label {
-			font-size: 0;
-			height: 1px;
-			overflow: hidden;
-			display: block;
+			@include oNormaliseVisuallyHidden();
 		}
 
 		// Icon only modifier. Higher specificity than size modifier.
@@ -166,7 +163,7 @@
 		@error 'Cannot output a custom button of type "#{$type}" with theme "#{$theme-name}" as a theme of that name already exists.';
 	}
 	// Output classes.
-	$type-selector: if($type != $_o-buttons-default-type, '.o-buttons.o-buttons--#{$type}', '.o-buttons');
+	$type-selector: '.o-buttons.o-buttons--#{$type}';
 	$theme-selector: if($theme-name, '.o-buttons--#{$theme-name}', '');
 	// Output variant classes.
 	#{$type-selector}#{$theme-selector} {

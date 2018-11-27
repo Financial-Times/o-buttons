@@ -34,8 +34,6 @@ $_o-buttons-types: (
 	secondary,
 ) !default;
 
-$_o-buttons-default-type: secondary;
-
 /// List of icons to generate classes for icon buttons.
 /// Build service users will only be able to use these icons, but there is
 /// a mixin for people using this via Sass, meaning any icon in 'fticons' is
