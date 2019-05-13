@@ -5,6 +5,18 @@
 /// @param {String} $state - One of normal, hover, focus, selected, disabled, pressed
 @mixin _oButtonsGetIcon($icon-name, $type, $theme, $state) {
 	// 1. Get the icon color for the button state and theme.
+	$icon-color: _oButtonsGetIconColor($state, $type, $theme);
+
+	// 3. Output the icon.
+	@include oIconsGetIcon($icon-name: $icon-name, $apply-base-styles: false, $apply-width-height: false, $color: $icon-color, $iconset-version: 1, $high-contrast-fallback: false);
+}
+
+/// Request an icon from o-icons with color based on the o-buttons theme and state
+///
+/// @param {String} $state - One of normal, hover, focus, selected, disabled, pressed
+/// @param {String|Map} $theme, one of $o-colors-theme or a custom theme map
+@function _oButtonsGetIconColor($state, $type, $theme) {
+	// 1. Get the icon color for the button state and theme.
 	$icon-color: oButtonsGetColor($state, 'color', $type, $theme);
 
 	// 2. If the icon color is not a color assume it is in the palette.
@@ -12,6 +24,5 @@
 		$icon-color: oColorsGetPaletteColor($icon-color);
 	}
 
-	// 3. Output the icon.
-	@include oIconsGetIcon($icon-name: $icon-name, $apply-base-styles: false, $apply-width-height: false, $color: $icon-color, $iconset-version: 1, $high-contrast-fallback: false);
+	@return $icon-color;
 }
