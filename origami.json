@@ -1,5 +1,5 @@
 {
-	"description": "Buttons module",
+	"description": "Styles for buttons. This component supports all products under the FT, and provides customisation options with the FT colour palette.",
 	"origamiType": "module",
 	"origamiCategory": "components",
 	"origamiVersion": 1,
