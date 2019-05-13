@@ -78,14 +78,14 @@ $teal-theme: (
 	'accent': 'white'
 );
 
-@include oButtonsCustom(
-	$type: 'primary',
-	$theme: $teal-theme
+@include oButtonsAddTheme(
+	$theme: $teal-theme,
+	$type: 'primary'
 );
 
-@include oButtonsCustom(
-	$type: 'secondary',
-	$theme: $teal-theme
+@include oButtonsAddTheme(
+	$theme: $teal-theme,
+	$type: 'secondary'
 );
 
 $slate-theme: (
@@ -94,14 +94,14 @@ $slate-theme: (
 	'accent': 'white'
 );
 
-@include oButtonsCustom(
-	$type: 'primary',
-	$theme: $slate-theme
+@include oButtonsAddTheme(
+	$theme: $slate-theme,
+	$type: 'primary'
 );
 
-@include oButtonsCustom(
-	$type: 'secondary',
-	$theme: $slate-theme
+@include oButtonsAddTheme(
+	$theme: $slate-theme,
+	$type: 'secondary'
 );
 
 $lemon-theme: (
@@ -110,14 +110,14 @@ $lemon-theme: (
 	'accent': 'lemon'
 );
 
-@include oButtonsCustom(
-	$type: 'primary',
-	$theme: $lemon-theme
+@include oButtonsAddTheme(
+	$theme: $lemon-theme,
+	$type: 'primary'
 );
 
-@include oButtonsCustom(
-	$type: 'secondary',
-	$theme: $lemon-theme
+@include oButtonsAddTheme(
+	$theme: $lemon-theme,
+	$type: 'secondary'
 );
 
 // Custom themes with icons.
@@ -126,14 +126,14 @@ $claret-theme: (
 	'background': 'slate',
 	'accent': 'claret-100'
 );
-@include oButtonsCustom(
-	$type: 'primary',
+@include oButtonsAddTheme(
 	$theme: $claret-theme,
+	$type: 'primary',
 	$icons: ('book')
 );
 
-@include oButtonsCustom(
-	$type: 'secondary',
+@include oButtonsAddTheme(
 	$theme: $claret-theme,
+	$type: 'secondary',
 	$icons: ('book')
 );

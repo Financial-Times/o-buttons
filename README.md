@@ -309,7 +309,7 @@ To avoid this, use the `background-color` property instead of the shorthand `bac
 - Removed mixins `oButtonsSize`, `oButtonsIconButton`, `oButtonsIconBaseStyles`, `oButtonsIconButtonLabel`, `oButtonsGroup`, and `oButtonsPagination`.
 - Added `oButtonsContent` to output button styles without classes.
 - Removes the `$buttonClass` argument from `oButtonsGroup`, `oButtonsPagination`.
-- `oButtonsTheme` is now private, use `oButtonsCustom` or `oButtonsContent` instead.
+- `oButtonsTheme` is now private, use `oButtonsAddTheme` or `oButtonsContent` instead.
 - Removed all deprecated [colour usecases](https://github.com/Financial-Times/o-buttons/blob/v5.15.1/scss/_deprecated.scss#L98).
 
 
