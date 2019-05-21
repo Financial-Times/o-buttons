@@ -31,7 +31,7 @@
 	'sizes': $_o-buttons-sizes,
 	'types': $_o-buttons-types,
 	'themes': $_o-buttons-themes,
-	'icons': $_o-buttons-icons,
+	'icons': $o-buttons-icons,
 	'pagination': true,
 	'groups': true
 )) {
@@ -58,7 +58,7 @@
 		}
 
 		// Icon only modifier. Higher specificity than size modifier.
-		.o-buttons.o-buttons-icon.o-buttons-icon--icon-only {
+		.o-buttons-icon.o-buttons-icon--icon-only {
 			@include _oButtonsIconOnlyContent();
 		}
 	}
@@ -70,7 +70,7 @@
 			@include _oButtonsSizeContent($size);
 		}
 		@if (length($icons) > 0) {
-			.o-buttons.o-buttons--#{$size}.o-buttons-icon {
+			.o-buttons--#{$size}.o-buttons-icon {
 				padding-left: _oButtonsGet('icon-padding', $size);
 			}
 		}
@@ -140,7 +140,7 @@
 /// @param {String|Map|Null} $theme - A theme name or a custom theme map.
 /// @param {String|Map|Null} $type - A button type the theme should support e.g. primary, secondary.
 /// @param {List|Null} $icons [null] - The icons which the button type and theme should support.
-@mixin oButtonsAddTheme($theme, $type, $icons: null) {
+@mixin oButtonsAddCustom($theme, $type, $icons: null) {
 	@include _oButtonsVariantWithIcons($type, $theme, $icons);
 }
 
@@ -165,7 +165,7 @@
 		@error 'Cannot output a custom button of type "#{$type}" with theme "#{$theme-name}" as a theme of that name already exists.';
 	}
 	// Output classes.
-	$type-selector: '.o-buttons.o-buttons--#{$type}';
+	$type-selector: '.o-buttons--#{$type}';
 	$theme-selector: if($theme-name, '.o-buttons--#{$theme-name}', '');
 	// Output variant classes.
 	#{$type-selector}#{$theme-selector} {

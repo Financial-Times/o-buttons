@@ -61,7 +61,23 @@ p {
 }
 
 // Include o-buttons.
-@include oButtons();
+@include oButtons($opts: (
+	'sizes': (
+		'big'
+	),
+	'types': (
+		'primary',
+		'secondary',
+	),
+	'themes': (
+		'inverse',
+		'mono',
+		'b2c'
+	),
+	'icons': $o-buttons-icons,
+	'pagination': true,
+	'groups': true
+));
 
 // Include icon not in the defaut set.
 // This will include the base styles for a second time.
@@ -70,7 +86,6 @@ p {
 	'icons': ('book')
 ));
 
-
 // Custom themes.
 $teal-theme: (
 	'name': 'my-teal',
@@ -78,12 +93,12 @@ $teal-theme: (
 	'accent': 'white'
 );
 
-@include oButtonsAddTheme(
+@include oButtonsAddCustom(
 	$theme: $teal-theme,
 	$type: 'primary'
 );
 
-@include oButtonsAddTheme(
+@include oButtonsAddCustom(
 	$theme: $teal-theme,
 	$type: 'secondary'
 );
@@ -94,12 +109,12 @@ $slate-theme: (
 	'accent': 'white'
 );
 
-@include oButtonsAddTheme(
+@include oButtonsAddCustom(
 	$theme: $slate-theme,
 	$type: 'primary'
 );
 
-@include oButtonsAddTheme(
+@include oButtonsAddCustom(
 	$theme: $slate-theme,
 	$type: 'secondary'
 );
@@ -110,12 +125,12 @@ $lemon-theme: (
 	'accent': 'lemon'
 );
 
-@include oButtonsAddTheme(
+@include oButtonsAddCustom(
 	$theme: $lemon-theme,
 	$type: 'primary'
 );
 
-@include oButtonsAddTheme(
+@include oButtonsAddCustom(
 	$theme: $lemon-theme,
 	$type: 'secondary'
 );
@@ -126,13 +141,13 @@ $claret-theme: (
 	'background': 'slate',
 	'accent': 'claret-100'
 );
-@include oButtonsAddTheme(
+@include oButtonsAddCustom(
 	$theme: $claret-theme,
 	$type: 'primary',
 	$icons: ('book')
 );
 
-@include oButtonsAddTheme(
+@include oButtonsAddCustom(
 	$theme: $claret-theme,
 	$type: 'secondary',
 	$icons: ('book')
