@@ -8,15 +8,19 @@
 /// @param {String} $property
 /// @param {String} $type
 /// @param {String|List|Map} $theme A theme string/list or a custom theme map. Will default to the currently configured theme.
-/// @return {Color}
+/// @return {Color} - The hex colour for a button property.
 @function oButtonsGetColor($state, $property, $type, $theme: null) {
-	$variant: _oButtonsGetVaraint($type, $theme);
-	$state-color: _oButtonsGet($variables: '#{$state}-#{$property}', $from: $variant);
-	$default-color: _oButtonsGet($variables: 'default-#{$property}', $from: $variant);
+	$variant: _oButtonsGetThemeMap($type, $theme);
+	$state-color: map-get($variant, '#{$state}-#{$property}');
+	$default-color:  map-get($variant, 'default-#{$property}');
 	@return if($state-color, $state-color, $default-color);
 }
 
-@function _oButtonsGetVaraint($type, $theme) {
+@function _oButtonsGetThemeMap($type, $theme) {
+	@if(not index(('map', 'string', 'null'), type-of($theme))) {
+		@error('Theme of type "#{type-of($theme)}" is not allowed, it must be of type map, string, or null.');
+	}
+
 	// From a custom theme.
 	@if type-of($theme) == 'map' {
 		@return _oButtonsVariantWithIconsFromCustomTheme($type, $theme);
@@ -24,13 +28,74 @@
 
 	// Variant for type and theme, from brand config.
 	// e.g. primary-mono
-	@if type-of($theme) == 'string' {
-		@return '#{$type}-#{$theme}';
+	$variant: ();
+
+	$context: _oButtonsGet($variables: 'context', $from: $theme);
+	$color: _oButtonsGet($variables: 'color', $from: $theme);
+
+	@if($type == 'primary') {
+		$default-background:  _oButtonsGetPrimaryBackgroundColor($color, 'default', $context);
+		$variant: (
+			'default-color': oColorsGetTextColor($default-background, $opacity: 100),
+			'default-background': $default-background,
+			'default-border': transparent,
+			'hover-background': _oButtonsGetPrimaryBackgroundColor($color, 'hover', $context),
+			'focus-background': _oButtonsGetPrimaryBackgroundColor($color, 'focus', $context),
+			'active-background': _oButtonsGetPrimaryBackgroundColor($color, 'active', $context)
+		);
 	}
 
-	// Variant for type and default theme, from brand config.
-	// e.g. primary
-	@return $type;
+	@if($type == 'secondary') {
+		$default-background:  _oButtonsGetPrimaryBackgroundColor($color, 'default', $context);
+		$variant: (
+			'default-color': oColorsGetPaletteColor($color),
+			'default-background': oColorsGetPaletteColor('transparent'),
+			'default-border': oColorsGetPaletteColor($color),
+			'hover-background': oColorsMix($color: $color, $background: 'transparent', $percentage: 10),
+			'focus-background': oColorsMix($color: $color, $background: 'transparent', $percentage: 10),
+			'active-color': oColorsGetTextColor(oColorsGetPaletteColor($color), $opacity: 100),
+			'active-background': oColorsGetPaletteColor($color)
+		);
+	}
+
+	@return $variant;
+}
+
+@function _oButtonsGetPrimaryBackgroundColor($color, $state, $context: null) {
+	$supported-states: ('default', 'hover', 'focus', 'active');
+	@if(not index($supported-states, $state)) {
+		@error 'Could not get a colour for the "#{$state}" state. The following states are supported "#{$supported-states}".';
+	}
+
+	$tint-levels: (
+		'default': 50,
+		'hover': 40,
+		'focus': 40,
+		'active': 30,
+	);
+
+	$mix-levels: (
+		'default': 100,
+		'hover': 80,
+		'focus': 80,
+		'active': 70,
+	);
+
+	$tint-config: map-get($o-colors-tints, $color);
+	$use-tint: $context == null and $tint-config and map-has-key($tint-config, 'tints');
+
+	@if($use-tint) {
+		$value: map-get($tint-levels, $state);
+		@return oColorsGetTint($color, $value);
+	}
+
+	$percentage: map-get($mix-levels, $state);
+
+	@if($context == null) {
+		@return oColorsMix($color: $color, $percentage: $percentage);
+	}
+
+	@return oColorsMix($color: $color, $background: $context, $percentage: $percentage);
 }
 
 @function _oButtonsVariantWithIconsFromCustomTheme($type, $theme) {
