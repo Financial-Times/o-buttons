@@ -8,8 +8,8 @@
         @include assert-equal($color, oColorsGetPaletteColor('transparent'));
     }
     @include test('Gets the color for a button state and custom theme.') {
-        $custom-theme: (background: 'slate', accent: 'claret-100');
+        $custom-theme: (color: 'claret');
         $color: oButtonsGetColor($state: 'hover', $property: 'border', $type: 'secondary', $theme: $custom-theme);
-        @include assert-equal($color, oColorsGetPaletteColor('claret-100'));
+        @include assert-equal($color, oColorsGetPaletteColor('claret'));
     }
 }
