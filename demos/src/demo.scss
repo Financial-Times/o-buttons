@@ -89,8 +89,7 @@ p {
 // Custom themes.
 $teal-theme: (
 	'name': 'my-teal',
-	'background': 'teal-60',
-	'accent': 'white'
+	'color': 'white'
 );
 
 @include oButtonsAddCustom(
@@ -105,8 +104,7 @@ $teal-theme: (
 
 $slate-theme: (
 	'name': 'my-slate',
-	'background': 'slate',
-	'accent': 'white'
+	'color': 'white'
 );
 
 @include oButtonsAddCustom(
@@ -121,8 +119,7 @@ $slate-theme: (
 
 $lemon-theme: (
 	'name': 'my-lemon',
-	'background': 'slate',
-	'accent': 'lemon'
+	'color': 'lemon'
 );
 
 @include oButtonsAddCustom(
@@ -138,8 +135,7 @@ $lemon-theme: (
 // Custom themes with icons.
 $claret-theme: (
 	'name': 'my-claret',
-	'background': 'slate',
-	'accent': 'claret-100'
+	'color': 'claret'
 );
 @include oButtonsAddCustom(
 	$theme: $claret-theme,

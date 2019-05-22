@@ -169,7 +169,7 @@
 	$theme-selector: if($theme-name, '.o-buttons--#{$theme-name}', '');
 	// Output variant classes.
 	#{$type-selector}#{$theme-selector} {
-		@include _oButtonsVariantContent($type, $theme);
+		@include _oButtonsColorsContent($type, $theme);
 	}
 	// Output variant icon classes.
 	@each $icon in $icons {

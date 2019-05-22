@@ -27,7 +27,7 @@ $_o-buttons-shared-brand-config: (
 		'icon-padding': 40px,
 		'border-width': 1px,
 	),
-) !default;
+);
 
 @if oBrandGetCurrentBrand() == 'master' {
 	@include oBrandDefine('o-buttons', 'master', (

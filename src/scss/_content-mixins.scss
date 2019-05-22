@@ -19,7 +19,7 @@
     }
 
     @if $type {
-        @include _oButtonsVariantContent($type, $theme);
+        @include _oButtonsColorsContent($type, $theme);
     }
 
     @if $icon {
@@ -88,7 +88,7 @@
     // sass-lint:enable no-vendor-prefixes
 }
 
-@mixin _oButtonsVariantContent($type, $theme: null) {
+@mixin _oButtonsColorsContent($type, $theme: null) {
     background-color: oButtonsGetColor('default', 'background', $type, $theme);
     color: oButtonsGetColor('default', 'color', $type, $theme);
     border-color: oButtonsGetColor('default', 'border', $type, $theme);

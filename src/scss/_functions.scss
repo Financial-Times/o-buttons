@@ -10,118 +10,48 @@
 /// @param {String|List|Map} $theme A theme string/list or a custom theme map. Will default to the currently configured theme.
 /// @return {Color} - The hex colour for a button property.
 @function oButtonsGetColor($state, $property, $type, $theme: null) {
-	$variant: _oButtonsGetThemeMap($type, $theme);
-	$state-color: map-get($variant, '#{$state}-#{$property}');
-	$default-color:  map-get($variant, 'default-#{$property}');
-	@return if($state-color, $state-color, $default-color);
-}
-
-@function _oButtonsGetThemeMap($type, $theme) {
 	@if(not index(('map', 'string', 'null'), type-of($theme))) {
 		@error('Theme of type "#{type-of($theme)}" is not allowed, it must be of type map, string, or null.');
 	}
 
-	// From a custom theme.
-	@if type-of($theme) == 'map' {
-		@return _oButtonsVariantWithIconsFromCustomTheme($type, $theme);
+	@if(not index(('primary', 'secondary'), $type)) {
+		@error('Button type "#{$type}" is not avalible, it must be one of "primary" or "secondary" button types.');
 	}
-
-	// Variant for type and theme, from brand config.
-	// e.g. primary-mono
-	$variant: ();
 
 	$context: _oButtonsGet($variables: 'context', $from: $theme);
 	$color: _oButtonsGet($variables: 'color', $from: $theme);
 
+	$button-color-map: ();
+
 	@if($type == 'primary') {
-		$default-background:  _oButtonsGetPrimaryBackgroundColor($color, 'default', $context);
-		$variant: (
-			'default-color': oColorsGetTextColor($default-background, $opacity: 100),
+		$tint-config: map-get($o-colors-tints, $color);
+		$use-tint: $context == null and $tint-config and map-has-key($tint-config, 'tints');
+		$context: if($context, $context, oColorsGetColorFor('page', 'background'));
+
+		$default-background: if($use-tint, oColorsGetTint($color, 50), oColorsMix($color, $context, 100));
+		$button-color-map: (
+			'default-color': oColorsGetTextColor($default-background, 100),
 			'default-background': $default-background,
 			'default-border': transparent,
-			'hover-background': _oButtonsGetPrimaryBackgroundColor($color, 'hover', $context),
-			'focus-background': _oButtonsGetPrimaryBackgroundColor($color, 'focus', $context),
-			'active-background': _oButtonsGetPrimaryBackgroundColor($color, 'active', $context)
+			'hover-background': if($use-tint, oColorsGetTint($color, 40), oColorsMix($color, $context, 80)),
+			'focus-background': if($use-tint, oColorsGetTint($color, 40), oColorsMix($color, $context, 80)),
+			'active-background': if($use-tint, oColorsGetTint($color, 30), oColorsMix($color, $context, 70))
 		);
 	}
 
 	@if($type == 'secondary') {
-		$default-background:  _oButtonsGetPrimaryBackgroundColor($color, 'default', $context);
-		$variant: (
+		$button-color-map: (
 			'default-color': oColorsGetPaletteColor($color),
 			'default-background': oColorsGetPaletteColor('transparent'),
 			'default-border': oColorsGetPaletteColor($color),
-			'hover-background': oColorsMix($color: $color, $background: 'transparent', $percentage: 10),
-			'focus-background': oColorsMix($color: $color, $background: 'transparent', $percentage: 10),
-			'active-color': oColorsGetTextColor(oColorsGetPaletteColor($color), $opacity: 100),
+			'hover-background': oColorsMix($color, 'transparent', 10),
+			'focus-background': oColorsMix($color, 'transparent', 10),
+			'active-color': oColorsGetTextColor(oColorsGetPaletteColor($color), 100),
 			'active-background': oColorsGetPaletteColor($color)
 		);
 	}
 
-	@return $variant;
-}
-
-@function _oButtonsGetPrimaryBackgroundColor($color, $state, $context: null) {
-	$supported-states: ('default', 'hover', 'focus', 'active');
-	@if(not index($supported-states, $state)) {
-		@error 'Could not get a colour for the "#{$state}" state. The following states are supported "#{$supported-states}".';
-	}
-
-	$tint-levels: (
-		'default': 50,
-		'hover': 40,
-		'focus': 40,
-		'active': 30,
-	);
-
-	$mix-levels: (
-		'default': 100,
-		'hover': 80,
-		'focus': 80,
-		'active': 70,
-	);
-
-	$tint-config: map-get($o-colors-tints, $color);
-	$use-tint: $context == null and $tint-config and map-has-key($tint-config, 'tints');
-
-	@if($use-tint) {
-		$value: map-get($tint-levels, $state);
-		@return oColorsGetTint($color, $value);
-	}
-
-	$percentage: map-get($mix-levels, $state);
-
-	@if($context == null) {
-		@return oColorsMix($color: $color, $percentage: $percentage);
-	}
-
-	@return oColorsMix($color: $color, $background: $context, $percentage: $percentage);
-}
-
-@function _oButtonsVariantWithIconsFromCustomTheme($type, $theme) {
-	@if type-of($theme) != 'map' {
-		@error 'Expecting custom button theme to be a map.';
-	}
-	@if not $type {
-		@error 'Button type ("secondary" or "primary") must be specified to output styles for a button of theme "#{$theme}".';
-	}
-	@if not map-has-key($theme, "accent") {
-		@error "Please provide an accent color for the custom button theme";
-	}
-	@if not map-has-key($theme, "background") {
-		@error "Please provide a background color for the custom button theme";
-	}
-	$background: map-get($theme, 'background');
-	$hover: map-get($theme, 'hover');
-	$accent: map-get($theme, 'accent');
-	@return (
-		default-color: if($type == 'primary', oColorsGetPaletteColor($background), oColorsGetPaletteColor($accent)),
-		default-background: if($type == 'primary', oColorsGetPaletteColor($accent), oColorsGetPaletteColor($background)),
-		default-border: oColorsGetPaletteColor($accent),
-		hover-background: if($hover == null, oColorsMix($background, $accent), oColorsGetPaletteColor($hover)),
-		hover-color: if($hover == null, oColorsGetPaletteColor($accent), oColorsGetTextColor(oColorsGetPaletteColor($hover), 100)),
-		focus-background: if($type == 'primary', oColorsGetPaletteColor($accent), transparent),
-		active-color: oColorsGetPaletteColor($background),
-		active-background: oColorsGetPaletteColor($accent)
-	);
+	$state-color: map-get($button-color-map, '#{$state}-#{$property}');
+	$default-color:  map-get($button-color-map, 'default-#{$property}');
+	@return if($state-color, $state-color, $default-color);
 }
