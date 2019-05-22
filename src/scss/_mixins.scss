@@ -79,11 +79,11 @@
 	// Type & theme modifiers.
 	@each $type in $types {
 		@if _oButtonsSupports($type) {
-			@include _oButtonsVariantWithIcons($type: $type, $icons: $icons);
+			@include _oButtonsAddButton($type: $type, $icons: $icons);
 		}
 		@each $theme in $themes {
 			@if _oButtonsSupports('#{$type}-#{$theme}') {
-				@include _oButtonsVariantWithIcons($type, $theme, $icons);
+				@include _oButtonsAddButton($type, $theme, $icons);
 			}
 		}
 	}
@@ -141,7 +141,7 @@
 /// @param {String|Map|Null} $type - A button type the theme should support e.g. primary, secondary.
 /// @param {List|Null} $icons [null] - The icons which the button type and theme should support.
 @mixin oButtonsAddCustom($theme, $type, $icons: null) {
-	@include _oButtonsVariantWithIcons($type, $theme, $icons);
+	@include _oButtonsAddButton($type, $theme, $icons);
 }
 
 /// Button theme construct
@@ -150,7 +150,7 @@
 /// @param {String} $type
 /// @param {String|Map} $theme
 /// @param {List} $icons
-@mixin _oButtonsVariantWithIcons($type, $theme: null, $icons: null) {
+@mixin _oButtonsAddButton($type, $theme: null, $icons: null) {
 	// Get theme name if the theme is a custom theme map.
 	$theme-name: if(type-of($theme) == 'map', map-get($theme, 'name'), $theme);
 	// Requested a variant with a default theme.
@@ -169,12 +169,12 @@
 	$theme-selector: if($theme-name, '.o-buttons--#{$theme-name}', '');
 	// Output variant classes.
 	#{$type-selector}#{$theme-selector} {
-		@include _oButtonsColorsContent($type, $theme);
+		@include _oButtonsStateContent($type, $theme);
 	}
 	// Output variant icon classes.
 	@each $icon in $icons {
 		#{$type-selector}#{$theme-selector}.o-buttons-icon.o-buttons-icon--#{$icon} {
-			@include _oButtonsIconContent($icon, $type, $theme);
+			@include _oButtonsIconStatesContent($icon, $type, $theme);
 		}
 	}
 }

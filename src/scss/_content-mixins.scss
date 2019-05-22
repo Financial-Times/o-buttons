@@ -19,12 +19,12 @@
     }
 
     @if $type {
-        @include _oButtonsColorsContent($type, $theme);
+        @include _oButtonsStateContent($type, $theme);
     }
 
     @if $icon {
         @include _oButtonsIconBaseContent($size);
-        @include _oButtonsIconContent($icon, $type, $theme);
+        @include _oButtonsIconStatesContent($icon, $type, $theme);
     }
 
     @if $icon-only {
@@ -45,7 +45,7 @@
     min-width: 40px;
 }
 
-@mixin _oButtonsIconContent($icon, $type, $theme: null) {
+@mixin _oButtonsIconStatesContent($icon, $type, $theme: null) {
 
     @include _oButtonsGetIcon($icon, $type, $theme, 'normal');
 
@@ -88,7 +88,7 @@
     // sass-lint:enable no-vendor-prefixes
 }
 
-@mixin _oButtonsColorsContent($type, $theme: null) {
+@mixin _oButtonsStateContent($type, $theme: null) {
     background-color: oButtonsGetColor('default', 'background', $type, $theme);
     color: oButtonsGetColor('default', 'color', $type, $theme);
     border-color: oButtonsGetColor('default', 'border', $type, $theme);
