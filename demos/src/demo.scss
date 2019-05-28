@@ -74,77 +74,46 @@ p {
 		'mono',
 		'b2c'
 	),
-	'icons': $o-buttons-icons,
+	'icons': join($o-buttons-icons, ('book')), // Also include the book icon, which is not in the defaut set.
 	'pagination': true,
 	'groups': true
 ));
 
-// Include icon not in the defaut set.
-// This will include the base styles for a second time.
-@include oButtons($opts: (
-	'types': ('primary', 'secondary'),
-	'icons': ('book')
-));
-
 // Custom themes.
-$teal-theme: (
-	'name': 'my-teal',
-	'color': 'white'
+@include oButtonsAddCustomTheme (
+	$name: 'my-teal',
+	$opts: (
+		'color': 'white',
+		'context': 'teal'
+	),
+	$types: ('primary', 'secondary')
 );
 
-@include oButtonsAddCustom(
-	$theme: $teal-theme,
-	$type: 'primary'
+@include oButtonsAddCustomTheme (
+	$name: 'my-slate',
+	$opts: (
+		'color': 'white',
+		'context': 'slate'
+	),
+	$types: ('primary', 'secondary')
 );
 
-@include oButtonsAddCustom(
-	$theme: $teal-theme,
-	$type: 'secondary'
-);
-
-$slate-theme: (
-	'name': 'my-slate',
-	'color': 'white'
-);
-
-@include oButtonsAddCustom(
-	$theme: $slate-theme,
-	$type: 'primary'
-);
-
-@include oButtonsAddCustom(
-	$theme: $slate-theme,
-	$type: 'secondary'
-);
-
-$lemon-theme: (
-	'name': 'my-lemon',
-	'color': 'lemon'
-);
-
-@include oButtonsAddCustom(
-	$theme: $lemon-theme,
-	$type: 'primary'
-);
-
-@include oButtonsAddCustom(
-	$theme: $lemon-theme,
-	$type: 'secondary'
+@include oButtonsAddCustomTheme (
+	$name: 'my-lemon',
+	$opts: (
+		'color': 'lemon',
+		'context': 'slate'
+	),
+	$types: ('primary', 'secondary')
 );
 
 // Custom themes with icons.
-$claret-theme: (
-	'name': 'my-claret',
-	'color': 'claret'
-);
-@include oButtonsAddCustom(
-	$theme: $claret-theme,
-	$type: 'primary',
-	$icons: ('book')
-);
-
-@include oButtonsAddCustom(
-	$theme: $claret-theme,
-	$type: 'secondary',
+@include oButtonsAddCustomTheme(
+	$name: 'my-claret',
+	$opts: (
+		'color': 'claret',
+		'context': 'slate'
+	),
+	$types: ('primary', 'secondary'),
 	$icons: ('book')
 );

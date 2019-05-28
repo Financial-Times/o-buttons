@@ -1,9 +1,13 @@
 /// Custom theme class for a button of a given type. With support for given icons.
-/// @param {String|Map|Null} $theme - A theme name or a custom theme map.
+/// @param {String} $theme - A theme name.
+/// @param {Map} $theme - A custom theme map.
 /// @param {String|Map|Null} $type - A button type the theme should support e.g. primary, secondary.
 /// @param {List|Null} $icons [null] - The icons which the button type and theme should support.
-@mixin oButtonsAddCustom($theme, $type, $icons: null) {
-	@include _oButtonsAddButton($type, $theme, $icons);
+@mixin oButtonsAddCustomTheme($name, $opts, $types, $icons: null) {
+	$theme: map-merge($opts, ('name': $name));
+	@each $type in $types {
+		@include _oButtonsAddButton($type, $theme, $icons);
+	}
 }
 
 /// Button theme construct
@@ -25,6 +29,12 @@
 	}
 	@if type-of($theme) == 'map' and index($_o-buttons-themes, $theme-name) {
 		@error 'Cannot output a custom button of type "#{$type}" with theme "#{$theme-name}" as a theme of that name already exists.';
+	}
+	@if type-of($theme) == 'map' and not map-has-key($theme, 'color') {
+		@error 'Cound not output a custom button as the theme "color" was not given.';
+	}
+	@if type-of($theme) == 'map' and not map-has-key($theme, 'context') {
+		@error 'Cound not output a custom button as the theme "context" was not given.';
 	}
 	// Output classes.
 	$type-selector: '.o-buttons--#{$type}';

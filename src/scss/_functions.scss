@@ -30,9 +30,9 @@
 
 		$default-background: if($use-tint, oColorsGetTint($color, 50), oColorsMix($color, $context, 100));
 		$button-color-map: (
-			'default-color': oColorsGetTextColor($default-background, 100),
-			'default-background': $default-background,
-			'default-border': transparent,
+			'color': oColorsGetTextColor($default-background, 100),
+			'background': $default-background,
+			'border': transparent,
 			'hover-background': if($use-tint, oColorsGetTint($color, 40), oColorsMix($color, $context, 80)),
 			'focus-background': if($use-tint, oColorsGetTint($color, 40), oColorsMix($color, $context, 80)),
 			'active-background': if($use-tint, oColorsGetTint($color, 30), oColorsMix($color, $context, 70))
@@ -41,9 +41,9 @@
 
 	@if($type == 'secondary') {
 		$button-color-map: (
-			'default-color': oColorsGetPaletteColor($color),
-			'default-background': oColorsGetPaletteColor('transparent'),
-			'default-border': oColorsGetPaletteColor($color),
+			'color': oColorsGetPaletteColor($color),
+			'background': oColorsGetPaletteColor('transparent'),
+			'border': oColorsGetPaletteColor($color),
 			'hover-background': oColorsMix($color, 'transparent', 10),
 			'focus-background': oColorsMix($color, 'transparent', 10),
 			'active-color': oColorsGetTextColor(oColorsGetPaletteColor($color), 100),
@@ -52,6 +52,6 @@
 	}
 
 	$state-color: map-get($button-color-map, '#{$state}-#{$property}');
-	$default-color:  map-get($button-color-map, 'default-#{$property}');
+	$default-color:  map-get($button-color-map, '#{$property}');
 	@return if($state-color, $state-color, $default-color);
 }
