@@ -313,7 +313,7 @@ Inverse and B2C themes have remained the same.
 Removes deprecated classnames:
 
 ```diff
--.o-buttons__pagination
+-.o-buttons-pagination
 +.o-buttons-pagination
 
 -.o-buttons__group
