@@ -55,11 +55,6 @@ p {
 	padding: 1em;
 }
 
-.demo__custom-theme--teal {
-	background-color: oColorsGetPaletteColor(teal-60);
-	padding: 1em;
-}
-
 // Include o-buttons.
 @include oButtons($opts: (
 	'sizes': (
@@ -79,25 +74,7 @@ p {
 	'groups': true
 ));
 
-// Custom themes.
-@include oButtonsAddCustomTheme (
-	$name: 'my-teal',
-	$opts: (
-		'color': 'white',
-		'context': 'teal'
-	),
-	$types: ('primary', 'secondary')
-);
-
-@include oButtonsAddCustomTheme (
-	$name: 'my-slate',
-	$opts: (
-		'color': 'white',
-		'context': 'slate'
-	),
-	$types: ('primary', 'secondary')
-);
-
+// Custom theme.
 @include oButtonsAddCustomTheme (
 	$name: 'my-lemon',
 	$opts: (
@@ -107,7 +84,7 @@ p {
 	$types: ('primary', 'secondary')
 );
 
-// Custom themes with icons.
+// Custom theme with icons.
 @include oButtonsAddCustomTheme(
 	$name: 'my-claret',
 	$opts: (
