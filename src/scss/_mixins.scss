@@ -25,16 +25,16 @@
 	}
 	// Requested a variant with a custom theme.
 	@if type-of($theme) == 'map' and not $theme-name {
-		@error 'Cound not output a custom button of type "#{$type}" as no "name" key is specified in the theme map: "#{$theme}".';
+		@error 'Could not output a custom button of type "#{$type}" as no "name" key is specified in the theme map: "#{$theme}".';
 	}
 	@if type-of($theme) == 'map' and index($_o-buttons-themes, $theme-name) {
 		@error 'Cannot output a custom button of type "#{$type}" with theme "#{$theme-name}" as a theme of that name already exists.';
 	}
 	@if type-of($theme) == 'map' and not map-has-key($theme, 'color') {
-		@error 'Cound not output a custom button as the theme "color" was not given.';
+		@error 'Could not output a custom button as the theme "color" was not given.';
 	}
 	@if type-of($theme) == 'map' and not map-has-key($theme, 'context') {
-		@error 'Cound not output a custom button as the theme "context" was not given.';
+		@error 'Could not output a custom button as the theme "context" was not given.';
 	}
 	// Output classes.
 	$type-selector: '.o-buttons--#{$type}';
@@ -45,7 +45,7 @@
 	}
 	// Output variant icon classes.
 	@each $icon in $icons {
-		#{$type-selector}#{$theme-selector}.o-buttons-icon.o-buttons-icon--#{$icon} {
+		#{$type-selector}#{$theme-selector}.o-buttons-icon--#{$icon} {
 			@include _oButtonsIconStatesContent($icon, $type, $theme);
 		}
 	}
