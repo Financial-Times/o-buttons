@@ -81,6 +81,7 @@
 
 		@each $size in $sizes {
 			.o-buttons--#{$size}.o-buttons-icon {
+				background-size: _oButtonsGet('background-size', $size);
 				padding-left: _oButtonsGet('icon-padding', $size);
 			}
 		}
