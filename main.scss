@@ -61,6 +61,11 @@
 		@include _oButtonsBaseContent();
 	}
 
+	// Helper class to hide disabled buttons.
+	.o-buttons--hide-disabled[disabled] {
+		visibility: hidden;
+	}
+
 	// Base icon class.
 	@if (length($icons) > 0) {
 		.o-buttons-icon {
@@ -109,6 +114,10 @@
 				padding-left: 5px;
 				padding-right: 5px;
 				min-width: 24px;
+
+				&[disabled] {
+					visibility: hidden;
+				}
 
 				&.o-buttons--big {
 					padding-left: 9px;
