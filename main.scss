@@ -66,32 +66,32 @@
 		visibility: hidden;
 	}
 
-	// Base icon class.
+	// Sizes.
+	@each $size in $sizes {
+		.o-buttons--#{$size} {
+			@include _oButtonsSizeContent($size);
+		}
+	}
+
+	// Icons.
 	@if (length($icons) > 0) {
 		.o-buttons-icon {
 			@include _oButtonsIconBaseContent();
 		}
 
-		.o-buttons-icon__label {
-			@include oNormaliseVisuallyHidden();
-		}
-
-		// Icon only modifier. Higher specificity than size modifier.
-		.o-buttons-icon.o-buttons-icon--icon-only {
-			@include _oButtonsIconOnlyContent();
-		}
-	}
-
-
-	// Size modifiers.
-	@each $size in $sizes {
-		.o-buttons.o-buttons--#{$size} {
-			@include _oButtonsSizeContent($size);
-		}
-		@if (length($icons) > 0) {
+		@each $size in $sizes {
 			.o-buttons--#{$size}.o-buttons-icon {
 				padding-left: _oButtonsGet('icon-padding', $size);
 			}
+		}
+
+		// Higher specificity than `.o-buttons--#{$size}.o-buttons-icon`.
+		.o-buttons-icon.o-buttons-icon--icon-only {
+			@include _oButtonsIconOnlyContent();
+		}
+
+		.o-buttons-icon__label {
+			@include oNormaliseVisuallyHidden();
 		}
 	}
 
