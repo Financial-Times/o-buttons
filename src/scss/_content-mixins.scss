@@ -157,20 +157,4 @@
 	min-width: _oButtonsGet('min-width', $size);
 	padding: _oButtonsGet('padding', $size);
 	border-width: _oButtonsGet('border-width', $size);
-
-	// Center copy with vertical padding for browsers which do not support flexbox.
-	$scale-list: oTypographyGetScale(_oButtonsGet('scale', $size));
-	$font-size: nth($scale-list, 1);
-	$min-height: _oButtonsGet('min-height', $size);
-	$border-width: _oButtonsGet('border-width', $size);
-	padding-top: calc((#{$min-height} - #{$font-size}px - (#{$border-width} * 2)) / 2);
-	padding-bottom: calc((#{$min-height} - #{$font-size}px - (#{$border-width} * 2)) / 2);
-
-	// Center copy with flexbox for browsers which support it and reset padding.
-	@supports (display: inline-flex) {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: _oButtonsGet('padding', $size);
-	}
 }
