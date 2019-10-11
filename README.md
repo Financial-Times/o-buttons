@@ -220,7 +220,7 @@ Or, using Sass:
 }
 
 // Or…
-.-custom-claret-secondary-button {
+.my-secondary-button {
 	@include oButtons($theme: secondary);
 }
 ```
@@ -228,7 +228,7 @@ Or, using Sass:
 ```html
 <button class="my-button-class my-button-class--secondary">Secondary button</button>
 
-<button class="-custom-claret-secondary-button">Secondary button</button>
+<button class="my-secondary-button">Secondary button</button>
 ```
 
 #### Custom themes
