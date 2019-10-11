@@ -1,52 +1,289 @@
-/// Custom theme class for a button of a given type. With support for given icons.
-/// @param {String} $theme - A theme name.
-/// @param {Map} $theme - A custom theme map.
-/// @param {String|Map|Null} $type - A button type the theme should support e.g. primary, secondary.
-/// @param {List|Null} $icons [null] - The icons which the button type and theme should support.
-@mixin oButtonsAddCustomTheme($name, $opts, $types, $icons: null) {
-	$theme: map-merge($opts, ('name': $name));
+/// @output Styles for a custom button theme `.o-buttons--[$name]`.
+/// @example - Add a new claret theme for both primary and secondary buttons.
+///     // Outputs class .o-buttons--my-special-button
+///     @include oButtonsAddTheme(
+///         $name: 'my-special-button',
+///         $theme: ('color': 'claret-80'),
+///         $types: ('primary', 'secondary')
+///     );
+/// @example - Add a new claret theme to go on a slate background.
+///     // Outputs class .o-buttons--my-special-button
+///     @include oButtonsAddTheme(
+///         $name: 'my-special-button',
+///         $theme: ('color': 'claret-80', 'context': 'slate'),
+///         $types: ('primary', 'secondary')
+///     );
+/// @example - Add a new claret theme for buttons with icons.
+///     // Outputs class .o-buttons--my-special-button
+///     @include oButtonsAddTheme(
+///         $name: 'my-special-button',
+///         $theme: ('color': 'claret-80'),
+///         $types: ('primary', 'secondary'),
+///         $icons: ('arrow-up', 'arrow-down')
+///     );
+/// @param {String} $name - A theme name e.g. `my-special-button`.
+/// @param {Map} $theme - A custom theme map with a `color` and optional `context` key. See [the README](https://registry.origami.ft.com/components/o-buttons/readme) for more details.
+/// @param {List} $types - The types of button to output the theme for e.g. ('primary', 'secondary').
+/// @param {List|Null} $icons [null] - The button icons to output for this theme.
+@mixin oButtonsAddTheme($name, $opts, $types, $icons: null) {
+    // Add the name to the theme map.
+    $theme: map-merge(('name': $name), $opts);
+    // Create each button type for the new theme.
 	@each $type in $types {
-		@include _oButtonsAddButton($type, $theme, $icons);
+		@include _oButtonsAdd($type, $theme, $icons);
 	}
 }
 
-/// Button theme construct
-/// Outputs styles for all button states
+/// Create a single button with a custom class. To avoid duplicate CSS this is
+/// not recommended unless `o-buttons` default classes cannot be used. See [the
+/// README](https://registry.origami.ft.com/components/o-buttons/readme) for
+/// more details.
 ///
-/// @param {String} $type
-/// @param {String|Map} $theme
-/// @param {List} $icons
-@mixin _oButtonsAddButton($type, $theme: null, $icons: null) {
-	// Get theme name if the theme is a custom theme map.
-	$theme-name: if(type-of($theme) == 'map', map-get($theme, 'name'), $theme);
-	// Requested a variant with a default theme.
-	@if type-of($theme) == 'string' and not index($_o-buttons-themes, $theme) {
-		@error 'Button theme "#{$theme}" does not exist. Must be one of "#{$_o-buttons-themes}" or a custom theme map.';
+/// @example - Output a primary button with right arrow.
+///     .my-button {
+///         @include oButtonsContent($opts: (
+///             'type': 'primary',
+///             'icon': 'arrow-right'
+///         ));
+///     }
+///
+/// @example - Output a primary button with a custom lemon theme.
+///     .my-lemon-button {
+///         @include oButtonsContent($opts: (
+///             'type': 'primary',
+///             'theme': ('color': 'lemon')
+///         ));
+///     }
+///
+/// @example - Share base button styles.
+///     // output base button styles only
+///     .my-button {
+///         @include oButtonsContent($opts: ());
+///     }
+///     // output modifier classes for button types, without duplicating base styles
+///     .my-button--secondary {
+///         @include oButtonsContent($opts: (
+///             'type': 'secondary'
+///         ), $include-base-styles: false);
+///     }
+///     .my-button--primary {
+///         @include oButtonsContent($opts: (
+///             'type': 'primary'
+///         ), $include-base-styles: false);
+///     }
+/// @output Button CSS declarations without any selectors.
+/// @param {Map} $opts [('type': 'null', 'theme': null, 'size': null, 'icon': null, 'icon-only': false)] - The kind of button styles to output.
+/// @param {Boolean} $include-base-styles [true] - Whether to include base button styles, shared by all buttons.
+/// @param {Boolean} $include-base-icon-styles [true] - Whether to include base icon button styles, shared by all icon buttons (defaults to true only when outputting an icon button).
+@mixin oButtonsContent($opts: (
+    'type': null,
+    'theme': null,
+    'size': null,
+    'icon': null,
+    'icon-only': false
+), $include-base-styles: true, $include-base-icon-styles: true) {
+    $theme: map-get($opts, 'theme');
+    $type: map-get($opts, 'type');
+    $icon-only: map-get($opts, 'icon-only');
+    $size: map-get($opts, 'size');
+    $icon: map-get($opts, 'icon');
+
+    // Get button colours for the button type and theme.
+    $button-colors-map: _oButtonsGenerateColors($type, $theme);
+
+    @if $include-base-styles {
+        @include _oButtonsBaseContent($size);
+    }
+
+    @if $type {
+        @include _oButtonsStateContent($type, $button-colors-map);
+    }
+
+    @if $icon and $include-base-icon-styles {
+        @include _oButtonsIconBaseContent($size);
+    }
+
+    @if $icon {
+        @include _oButtonsIconStatesContent($icon, $button-colors-map);
+    }
+
+    @if $icon-only {
+        @include _oButtonsIconOnlyContent();
+    }
+}
+
+
+/// @output Styles for a button e.g. `.o-buttons--primary`, `.o-buttons--primary.o-buttons--inverse`.
+///
+/// @param {String} $type - The type of button to output e.g. ('primary', 'secondary').
+/// @param {String|Map} $theme - The button theme to output. Either a default theme 'inverse' or custom theme map with properties `name`, `color`, and optional `context` key.
+/// @param {List|Null} $icons [null] - The button icons to output for the button type and theme.
+@mixin _oButtonsAdd($type, $theme: null, $icons: null) {
+	// Error if the theme is not expected.
+	@if ($theme != null and type-of($theme) != 'string' and type-of($theme) != 'map') {
+		@error 'Expected the button theme to be a string, map, or `null`.';
 	}
-	// Requested a variant with a custom theme.
-	@if type-of($theme) == 'map' and not $theme-name {
-		@error 'Could not output a custom button of type "#{$type}" as no "name" key is specified in the theme map: "#{$theme}".';
-	}
-	@if type-of($theme) == 'map' and index($_o-buttons-themes, $theme-name) {
-		@error 'Cannot output a custom button of type "#{$type}" with theme "#{$theme-name}" as a theme of that name already exists.';
-	}
-	@if type-of($theme) == 'map' and not map-has-key($theme, 'color') {
-		@error 'Could not output a custom button as the theme "color" was not given.';
-	}
-	@if type-of($theme) == 'map' and not map-has-key($theme, 'context') {
-		@error 'Could not output a custom button as the theme "context" was not given.';
-	}
-	// Output classes.
+	// Generate button colours if they don't already exist for this button.
+	$button-colors: _oButtonsGetColors($type, $theme);
+    // Create CSS selectors.
+    $theme-name: if(type-of($theme) == 'map', map-get($theme, 'name'), $theme);
 	$type-selector: '.o-buttons--#{$type}';
 	$theme-selector: if($theme-name, '.o-buttons--#{$theme-name}', '');
-	// Output variant classes.
+	// Output variant styles.
 	#{$type-selector}#{$theme-selector} {
-		@include _oButtonsStateContent($type, $theme);
+		@include _oButtonsStateContent($type, $button-colors);
 	}
-	// Output variant icon classes.
+	// Output variant icon styles.
 	@each $icon in $icons {
 		#{$type-selector}#{$theme-selector}.o-buttons-icon--#{$icon} {
-			@include _oButtonsIconStatesContent($icon, $type, $theme);
+			@include _oButtonsIconStatesContent($icon, $button-colors);
 		}
 	}
+}
+
+/// Styles shared by all buttons of a given size.
+/// @param {Null|Number} $size
+@mixin _oButtonsBaseContent($size: null) {
+    @include oTypographySansBold();
+    @include _oButtonsSizeContent($size);
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: middle;
+    margin: 0;
+    border-style: solid;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s background-color, 0.15s color ease-out, 0.15s border-color ease-out;
+    user-select: none;
+    background-clip: border-box;
+    border-width: 1px;
+    // Prevent fat white type on a dark background
+    // sass-lint:disable no-vendor-prefixes
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    // sass-lint:enable no-vendor-prefixes
+
+    // Same as aria-disabled:
+    // http://www.w3.org/TR/wai-aria/states_and_properties#aria-disabled
+    // This is a common style for all button themes
+    &[disabled] {
+        pointer-events: none;
+        opacity: 0.4;
+        cursor: default;
+    }
+}
+
+/// Styles shared by all buttons of a given size with an icon.
+/// @param {Null|Number} $size
+@mixin _oButtonsIconBaseContent($size: null) {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 3px;
+    padding-left: _oButtonsGet('icon-padding', $size);
+}
+
+/// Styles for a button which is an icon only.
+@mixin _oButtonsIconOnlyContent() {
+    padding-left: 0;
+    background-position: 50%;
+    min-width: 40px;
+}
+
+/// Styles to size a button.
+/// @param {Null|Number} $size
+@mixin _oButtonsSizeContent($size: null) {
+	@include oTypographySans($scale: _oButtonsGet('scale', $size), $line-height: 1);
+	background-size: _oButtonsGet('background-size', $size);
+	min-height: _oButtonsGet('min-height', $size);
+	min-width: _oButtonsGet('min-width', $size);
+	padding: _oButtonsGet('padding', $size);
+}
+
+/// Styles to apply colours to each button state, e.g. focus, active.
+/// @param {String} $type - The type of button, e.g. 'primary'
+/// @param {Map} $button-colors-map - The colours for this button (@see _oButtonsGetColors).
+@mixin _oButtonsStateContent($type, $button-colors-map) {
+    background-color: map-get($button-colors-map, 'background');
+    color: map-get($button-colors-map, 'color');
+    border-color: map-get($button-colors-map, 'border');
+    // https://www.w3.org/TR/wai-aria-1.1/#aria-selected
+    // https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
+    &[aria-selected=true], // e.g. A selected tab or page number in pagination.
+    &[aria-current], // e.g. A selected tab or page number in pagination (for links only).
+    &[aria-pressed=true], // e.g. A "follow" button that is pressed.
+    &:active {
+        background-color: map-get($button-colors-map, 'active-background');
+        color: map-get($button-colors-map, 'active-color');
+        border-color: map-get($button-colors-map, 'active-border');
+    }
+    &:not([disabled]) {
+        &:hover {
+            background-color: map-get($button-colors-map, 'hover-background');
+            color: map-get($button-colors-map, 'hover-color');
+            border-color: map-get($button-colors-map, 'hover-border');
+            text-decoration: none;
+        }
+        &:focus {
+            background-color: map-get($button-colors-map, 'focus-background');
+            color: map-get($button-colors-map, 'focus-color');
+            border-color: map-get($button-colors-map, 'focus-border');
+        }
+    }
+}
+
+/// Styles to apply icons of different colours to each button state, e.g. focus, active.
+/// @param {String} $type - The type of button, e.g. 'primary'
+/// @param {Map} $button-colors-map - The colours for this button (@see _oButtonsGetColors).
+@mixin _oButtonsIconStatesContent($icon, $button-colors-map) {
+    $normal-icon-color: map-get($button-colors-map, 'color');
+    $hover-icon-color: map-get($button-colors-map, 'hover-color');
+    $active-icon-color: map-get($button-colors-map, 'active-color');
+    $focus-icon-color: map-get($button-colors-map, 'focus-color');
+
+    @include _oButtonsGetIcon($icon, $normal-icon-color);
+
+    // Only output the active icon if it is different to the default icon.
+    @if($normal-icon-color != $active-icon-color) {
+        // https://www.w3.org/TR/wai-aria-1.1/#aria-selected
+        // https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
+        &[aria-selected=true], // e.g. A selected tab or page number in pagination.
+        &[aria-current], // e.g. A selected tab or page number in pagination (for links only).
+        &[aria-pressed=true], // e.g. A "follow" button that is pressed.
+        &:active {
+            @include _oButtonsGetIcon($icon, $active-icon-color);
+        }
+        // Hack to get the active state colour svg to download to prevent FOIC
+        &:after {
+            @include _oButtonsGetIcon($icon, $active-icon-color);
+            content: '';
+        }
+    }
+
+    &:not([disabled]) {
+        // The hover state has higher specificity than the default or active state.
+        // So output the hover icon if it is different to either of these.
+        $unique-hover-icon: ($hover-icon-color != $active-icon-color) or ($hover-icon-color != $normal-icon-color);
+        @if($unique-hover-icon) {
+            &:hover {
+                @include _oButtonsGetIcon($icon, $hover-icon-color);
+            }
+        }
+        &:focus {
+            @include _oButtonsGetIcon($icon, $focus-icon-color);
+        }
+    }
+
+    // Add fallback for MS High Contrast mode.
+    // This only needs to be output once, not for every button state.
+    // sass-lint:disable no-vendor-prefixes
+    @media screen and (-ms-high-contrast: active) {
+        @include oIconsGetIcon($icon-name: $icon, $apply-base-styles: false, $apply-width-height: false, $color: #ffffff, $iconset-version: 1, $high-contrast-fallback: false);
+    }
+    @media screen and (-ms-high-contrast: black-on-white) {
+        @include oIconsGetIcon($icon-name: $icon, $apply-base-styles: false, $apply-width-height: false, $color: #000000, $iconset-version: 1, $high-contrast-fallback: false);
+    }
+    // sass-lint:enable no-vendor-prefixes
 }

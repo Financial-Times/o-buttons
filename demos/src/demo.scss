@@ -5,7 +5,7 @@ html {
 }
 
 body {
-	font-family: Metric, serif;
+	font-family: MetricWeb, serif;
 	margin: 1em;
 }
 
@@ -33,9 +33,6 @@ p {
 	margin-right: 10px;
 
 }
-.inverse {
-	background-color: oColorsGetPaletteColor('slate');
-}
 
 .custom-button-theme-demo body {
 	margin: 0;
@@ -45,6 +42,8 @@ p {
 	padding: 1em;
 }
 
+.inverse,
+.demo-inverse,
 .demo__custom-theme--slate {
 	background-color: oColorsGetPaletteColor(slate);
 	padding: 1em;
@@ -69,14 +68,14 @@ p {
 		'mono',
 		'b2c'
 	),
-	'icons': join($o-buttons-icons, ('book')), // Also include the book icon, which is not in the defaut set.
+	'icons': join($_o-buttons-icons, ('book')), // Also include the book icon, which is not in the defaut set.
 	'pagination': true,
 	'groups': true
 ));
 
 // Custom theme.
-@include oButtonsAddCustomTheme (
-	$name: 'my-lemon',
+@include oButtonsAddTheme (
+	$name: 'custom-lemon',
 	$opts: (
 		'color': 'lemon',
 		'context': 'slate'
@@ -85,11 +84,11 @@ p {
 );
 
 // Custom theme with icons.
-@include oButtonsAddCustomTheme(
-	$name: 'my-claret',
+@include oButtonsAddTheme(
+	$name: 'custom-claret',
 	$opts: (
-		'color': 'claret',
-		'context': 'slate'
+		'color': 'claret-80',
+		'context': 'paper'
 	),
 	$types: ('primary', 'secondary'),
 	$icons: ('book')

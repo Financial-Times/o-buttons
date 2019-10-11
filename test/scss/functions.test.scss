@@ -1,11 +1,11 @@
 @include test-module('oButtonsGetColor') {
     @include test('Gets the color for a button state and theme.') {
         $color: oButtonsGetColor($state: 'hover', $property: 'background', $type: 'primary', $theme: 'inverse');
-        @include assert-equal($color, oColorsMix(white, slate, 80));
+        @include assert-equal($color, oColorsMix(white, slate, 75));
     }
     @include test('Falls back to the default color for a state if the theme does not configure one.') {
         $color: oButtonsGetColor($state: 'hover', $property: 'border', $type: 'primary', $theme: 'inverse');
-        @include assert-equal($color, oColorsGetPaletteColor('transparent'));
+        @include assert-equal($color, transparent);
     }
     @include test('Gets the color for a button state and custom theme.') {
         $custom-theme: (color: 'claret');
