@@ -10,6 +10,7 @@ If using the `o-buttons--b2c` theme class add a class for the button type also `
 ```diff
 -<button class="o-buttons o-buttons--b2c">B2C theme</button>
 +<button class="o-buttons o-buttons--primary o-buttons--b2c">B2C theme</button>
+```
 
 Buttons no longer default to the secondary type, the type modifier class `o-buttons--secondary` is required. There is no change required for the primary button:
 ```diff
