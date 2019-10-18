@@ -15,7 +15,7 @@ There are two types of buttons, primary buttons and secondary buttons.
 
 | Type      | Selector              | Brand Support                |
 |-----------|-----------------------|------------------------------|
-| primary   | .o-buttons--secondary | master, internal, whitelabel |
+| primary   | .o-buttons--primary      | master, internal, whitelabel |
 | secondary | .o-buttons--secondary | master, internal, whitelabel |
 
 
