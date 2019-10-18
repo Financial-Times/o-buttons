@@ -1,0 +1,143 @@
+
+
+@include describe('oButtons') {
+	@include it('outputs big modifier by default') {
+		@include assert() {
+			@include output($selector: false)  {
+				@include oButtons();
+			};
+
+			@include contains($selector: false) {
+      			.o-buttons--big {
+      			    min-height: 40px;
+      			}
+			};
+		};
+    };
+
+    @include it('outputs types by default') {
+		@include assert() {
+			@include output($selector: false)  {
+				@include oButtons();
+			};
+
+            // primary is a type of button
+			@include contains($selector: false) {
+      			.o-buttons--primary {
+      			  background-color: #0d7680;
+      			}
+			};
+		};
+	};
+
+    @include it('outputs themes by default') {
+		@include assert() {
+			@include output($selector: false)  {
+				@include oButtons();
+			};
+
+            // inverse is an example of a theme
+			@include contains($selector: false) {
+      			.o-buttons--primary.o-buttons--inverse {
+      			  background-color: #ffffff;
+      			}
+			};
+		};
+	};
+
+    @include it('outputs icons by default') {
+		@include assert() {
+			@include output($selector: false)  {
+				@include oButtons();
+			};
+
+            // arrow-left is an example of an icon
+			@include contains($selector: false) {
+                .o-buttons--secondary.o-buttons-icon--arrow-left {
+                    background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-left?source=o-icons&tint=%230D7680,%230D7680&format=svg");
+                }
+			};
+		};
+	};
+
+    @include it('outputs pagination styles default') {
+		@include assert() {
+			@include output($selector: false)  {
+				@include oButtons();
+			};
+
+			@include contains($selector: false) {
+      			.o-buttons-pagination > .o-buttons {
+      			  padding-left: 5px;
+      			}
+			};
+		};
+	};
+
+    @include it('outputs group styles default') {
+		@include assert() {
+			@include output($selector: false)  {
+				@include oButtons();
+			};
+
+			@include contains($selector: false) {
+      			.o-buttons-group {
+      			  display: flex;
+      			}
+			};
+		};
+	};
+
+    @include it('outputs only base styles when an empty options map is given') {
+		@include assert() {
+			@include output($selector: false)  {
+				@include oButtons($opts: ());
+			};
+
+			@include expect($selector: false) {
+                .o-buttons {
+                    font-family: MetricWeb, sans-serif;
+                    font-weight: 600;
+                    font-family: MetricWeb, sans-serif;
+                    font-size: 14px;
+                    line-height: 1;
+                    background-size: 21px;
+                    min-height: 28px;
+                    min-width: 60px;
+                    padding: 0 8px;
+                    display: inline-block;
+                    box-sizing: border-box;
+                    vertical-align: middle;
+                    margin: 0;
+                    border-style: solid;
+                    text-align: center;
+                    text-decoration: none;
+                    cursor: pointer;
+                    transition: 0.3s background-color, 0.15s color ease-out, 0.15s border-color ease-out;
+                    user-select: none;
+                    background-clip: border-box;
+                    border-width: 1px;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    -moz-appearance: none;
+                    -webkit-appearance: none;
+                }
+
+                .o-typography--loading-sans .o-buttons {
+                    font-size: 12.18px;
+                    font-family: sans-serif;
+                }
+
+                .o-buttons[disabled] {
+                    pointer-events: none;
+                    opacity: 0.4;
+                    cursor: default;
+                }
+
+                .o-buttons--hide-disabled[disabled] {
+                    visibility: hidden;
+                }
+			};
+		};
+	};
+};
