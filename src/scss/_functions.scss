@@ -163,6 +163,8 @@
 /// @param {String|Color} $context-color - The page colour behind the button (from `o-colors` palette).
 /// @return {Map} - Colours for a primary button. Including overrides for each button state.
 @function _oButtonsGetPrimaryButtonColors($color, $context-color) {
+	$color-arg: $color;
+	$context-color-arg: $context-color;
 	$default-background: if(type-of($color) == 'string', oColorsByName($color), $color);
 	$context-color: if(type-of($context-color) == 'string', oColorsByName($context-color), $context-color);
 	$default-context: $context-color == oColorsByUsecase('page', 'background');
@@ -300,7 +302,7 @@
 	);
 
 	// Confirm the contrast of default state.
-	$contrast-error-message: 'Could not create an accessible primary button of colour "#{$color}" for a background context "#{$context-color}".';
+	$contrast-error-message: 'Could not create an accessible primary button of colour "#{$color-arg}" for a background context "#{$context-color-arg}".';
 	$default-contrast-ratio: oColorsGetContrastRatio($default-color, $default-background);
 	@if($default-contrast-ratio < 4.5) {
 		@error ($contrast-error-message + ' The default text and background colour do not pass WCAG AA contrast checks.');
@@ -499,7 +501,6 @@
 		$from: map-get($color-details, 'from');
 		$palette-color-hex: oColorsByName($name, $from);
 		@if $palette-color-hex == $color {
-			@debug $palette-color-hex, $color;
 			@return true;
 		}
 	}
