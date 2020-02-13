@@ -79,7 +79,11 @@
 
 		@each $size in $sizes {
 			.o-buttons--#{$size}.o-buttons-icon {
-				background-size: _oButtonsGet('background-size', $size);
+				// I can't find any documentation anywhere as to why this is the case,
+				// but IE11 renders the background image at a very small size if you do
+				// not double-up the background size here, declaring a width _and_ height.
+				// Removing the second value will break icons in IE11.
+				background-size: _oButtonsGet('background-size', $size) _oButtonsGet('background-size', $size);
 				padding-left: _oButtonsGet('icon-padding', $size);
 			}
 		}
