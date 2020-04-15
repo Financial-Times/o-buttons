@@ -288,11 +288,7 @@
 	}
 
 	// Only output the active icon if it is different to states with less specificity.
-	@if(
-		$active-icon-color != $normal-icon-color or
-		$active-icon-color != $hover-icon-color or
-		$active-icon-color != $focus-icon-color
-	) {
+	@if($active-icon-color != $normal-icon-color or $active-icon-color != $hover-icon-color or $active-icon-color != $focus-icon-color) {
 		// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
 		// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
 		&[aria-selected=true], // e.g. A selected tab or page number in pagination.
