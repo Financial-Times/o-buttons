@@ -232,6 +232,10 @@
 					border-color: transparent;
 				}
 
+      			&:not([disabled]):hover {
+      				background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-left?source=origami-build-tools&tint=%23FFFFFF,%23FFFFFF&format=svg");
+      			}
+
 				&:not([disabled]):focus {
 					background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-left?source=origami-build-tools&tint=%23FFFFFF,%23FFFFFF&format=svg");
 				}
