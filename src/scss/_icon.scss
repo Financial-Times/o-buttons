@@ -99,32 +99,42 @@
 
 	@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'normal');
 
-	// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
-	// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
-	&[aria-selected=true], // e.g. A selected tab or page number in pagination.
-	&[aria-current], // e.g. A selected tab or page number in pagination (for links only).
-	&[aria-pressed=true], // e.g. A "follow" button that is pressed.
-	&:active {
-		@if($normal-color != $active-color) {
-			@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'active');
-		}
-	}
-
-	&:not([disabled]) {
+	// Output hover icon colour only if it's different to the default colour.
+	@if($hover-color != $normal-color) {
 		&:hover {
 			@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'hover');
 		}
+		// Hack to get the hover state colour svg to download to prevent a
+		// flash on hover
+		&:before {
+			@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'hover');
+			content: '';
+		}
+	}
+
+	// Output focus icon colour only if it's different to the default or hover colour.
+	@if($focus-color != $normal-color or $focus-color != $hover-color) {
 		&:focus {
 			@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'focus');
 		}
 	}
 
-	// Hack to get the active state colour svg to download to prevent FOIC
-	&:after {
-		@if($normal-color != $active-color) {
+	// Output active icon colour only if it's different to other button states.
+	@if($active-color != $normal-color or $active-color != $hover-color or $active-color != $focus-color) {
+		// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
+		// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
+		&[aria-selected=true], // e.g. A selected tab or page number in pagination.
+		&[aria-current], // e.g. A selected tab or page number in pagination (for links only).
+		&[aria-pressed=true], // e.g. A "follow" button that is pressed.
+		&:active {
 			@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'active');
 		}
-		content: '';
+		// Hack to get the active state colour svg to download to prevent a
+		// flash on active
+		&:after {
+			@include _oButtonsGetIconForThemeAndState($icon-name, $theme, 'active');
+			content: '';
+		}
 	}
 
 	// Add fallback for MS High Contrast mode.

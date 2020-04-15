@@ -87,6 +87,16 @@
 		}
 	}
 	@include _oButtonsColors('default', $theme);
+
+	&:hover {
+		@include _oButtonsColors('hover', $theme);
+		text-decoration: none;
+	}
+
+	&:focus {
+		@include _oButtonsColors('focus', $theme);
+	}
+
 	// https://www.w3.org/TR/wai-aria-1.1/#aria-selected
 	// https://www.w3.org/TR/wai-aria-1.1/#aria-pressed
 	&[aria-selected=true], // e.g. A selected tab or page number in pagination.
@@ -94,15 +104,6 @@
 	&[aria-pressed=true], // e.g. A "follow" button that is pressed.
 	&:active {
 		@include _oButtonsColors('active', $theme);
-	}
-	&:not([disabled]) {
-		&:hover {
-			@include _oButtonsColors('hover', $theme);
-			text-decoration: none;
-		}
-		&:focus {
-			@include _oButtonsColors('focus', $theme);
-		}
 	}
 }
 
