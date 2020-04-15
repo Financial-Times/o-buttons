@@ -292,14 +292,10 @@
 	}
 
 	&:not([disabled]) {
-		// The hover state has higher specificity than only the default state.
-		// So output the hover icon if it is different.
-		$unique-hover-icon: $hover-icon-color != $normal-icon-color;
-		@if($unique-hover-icon) {
-			&:hover {
-				@include _oButtonsGetIcon($icon, $hover-icon-color);
-			}
+		&:hover {
+			@include _oButtonsGetIcon($icon, $hover-icon-color);
 		}
+
 		&:focus {
 			@include _oButtonsGetIcon($icon, $focus-icon-color);
 		}
