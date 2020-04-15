@@ -209,6 +209,10 @@
 				&[aria-selected=true],
 				&[aria-current],
 				&[aria-pressed=true],
+				&:not([disabled]):active:hover,
+				&:not([disabled])[aria-pressed=true]:hover,
+				&:not([disabled])[aria-selected=true]:hover,
+				&:not([disabled])[aria-current]:hover,
 				&:active {
 					background-color: #727071;
 					color: white;
@@ -269,6 +273,10 @@
 				&[aria-selected=true],
 				&[aria-current],
 				&[aria-pressed=true],
+				&:not([disabled]):active:hover,
+				&:not([disabled])[aria-pressed=true]:hover,
+				&:not([disabled])[aria-selected=true]:hover,
+				&:not([disabled])[aria-current]:hover,
 				&:active {
 					background-color: #052f33;
 					color: white;
