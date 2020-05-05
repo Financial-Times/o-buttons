@@ -97,9 +97,7 @@
 				.o-buttons {
 					font-family: MetricWeb, sans-serif;
 					font-weight: 600;
-					font-family: MetricWeb, sans-serif;
 					font-size: 14px;
-					line-height: 16px;
 					line-height: 14px;
 					background-size: 21px 21px;
 					min-height: 28px;
@@ -117,10 +115,12 @@
 					user-select: none;
 					background-clip: border-box;
 					border-width: 1px;
+					// stylelint-disable property-no-vendor-prefix
 					-webkit-font-smoothing: antialiased;
 					-moz-osx-font-smoothing: grayscale;
 					-moz-appearance: none;
 					-webkit-appearance: none;
+					// stylelint-enable property-no-vendor-prefix
 					border-radius: 0;
 				}
 
@@ -161,9 +161,7 @@
 				& {
 					font-family: MetricWeb, sans-serif;
 					font-weight: 600;
-					font-family: MetricWeb, sans-serif;
 					font-size: 16px;
-					line-height: 20px;
 					line-height: 16px;
 					background-size: 40px 40px;
 					min-height: 40px;
@@ -181,10 +179,12 @@
 					user-select: none;
 					background-clip: border-box;
 					border-width: 1px;
+					// stylelint-disable property-no-vendor-prefix
 					-webkit-font-smoothing: antialiased;
 					-moz-osx-font-smoothing: grayscale;
 					-moz-appearance: none;
 					-webkit-appearance: none;
+					// stylelint-enable property-no-vendor-prefix
 					border-radius: 0;
 					background-color: #262a33;
 					color: white;
@@ -302,7 +302,6 @@
 			@include expect() {
 				font-family: MetricWeb, sans-serif;
 				font-size: 16px;
-				line-height: 20px;
 				line-height: 16px;
 				background-size: 40px 40px;
 				min-height: 40px;
