@@ -153,7 +153,18 @@
 	// or is mixed to be darker/lighter for higher contrast.
 	// o-buttons does custom contrast checks
 	$default-base-color: oColorsGetTextColor($color, 100, $minimum-contrast: null);
-	$default-color: if($default-context, $default-base-color, _oButtonsGetMixColor($color-a: $context-color, $color-b: $default-base-color, $contrast-color: $default-background, $contrast-aim: 4.5, $preferred-mix: 100, $minimum-mix: 0));
+	$default-color: if(
+		$default-context,
+		$default-base-color,
+		_oButtonsGetMixColor(
+			$color-a: $context-color,
+			$color-b: $default-base-color,
+			$contrast-color: $default-background,
+			$contrast-aim: 4.5,
+			$preferred-mix: 100,
+			$minimum-mix: 0
+		)
+	);
 
 	// Derive the hover/focus/active background colour from the default
 	// background colour.
@@ -166,24 +177,40 @@
 		// The hover/focus background tint should be lower than the default
 		// button background. Preferably with a contrast ratio of at least 1.5,
 		// but should not have a tint value lower than ten e.g. teal-10.
-		$hover-focus-background: _oButtonsGetDarkerTint($tint: $default-background, $contrast-aim: 1.5, $minimum-tint-value: 10,);
+		$hover-focus-background: _oButtonsGetDarkerTint(
+			$tint: $default-background,
+			$contrast-aim: 1.5,
+			$minimum-tint-value: 10,
+		);
 
 		// The interactive background tint should be darker than the
 		// hover/focus background too.
-		$active-background: _oButtonsGetDarkerTint($tint: $hover-focus-background, $contrast-aim: 1.5, $minimum-tint-value: 0);
+		$active-background: _oButtonsGetDarkerTint(
+			$tint: $hover-focus-background,
+			$contrast-aim: 1.5,
+			$minimum-tint-value: 0
+		);
 
 	} @else {
 		// When lightening buttons with a mix use white. Except for the
 		// master brand where a slate button should be mixed with paper.
-		$light-mix: if(oBrandGetCurrentBrand() == 'master' and
-		$default-background == oColorsByName('slate'), oColorsByName('paper'), 'white');
+		$light-mix: if(
+			oBrandGetCurrentBrand() == 'master' and
+			$default-background == oColorsByName('slate'),
+			oColorsByName('paper'),
+			'white'
+		);
 
 		// When darkening buttons with a mix use black. Except for the
 		// master and internal brands, where buttons on slate should be mixed
 		// with slate.
-		$dark-mix: if((oBrandGetCurrentBrand() == 'master' or
-		oBrandGetCurrentBrand() == 'internal') and
-		$context-color == oColorsByName('slate'), oColorsByName('slate'), 'black');
+		$dark-mix: if(
+			(oBrandGetCurrentBrand() == 'master' or
+			oBrandGetCurrentBrand() == 'internal') and
+			$context-color == oColorsByName('slate'),
+			oColorsByName('slate'),
+			'black'
+		);
 
 		// Make the button darker for hover/focus states, and
 		// darker still for active states. Unless the button color has low
@@ -195,11 +222,25 @@
 		// Mix the background colour to make the hover/focus state darker or
 		// lighter. The contrast should be at least 1.5. If not try lowering
 		// the button colour until a minimum mix value we'll accept is reached.
-		$hover-focus-background: _oButtonsGetMixColor($color-a: $color, $color-b: $mix-color, $contrast-color: $color, $contrast-aim: 1.5, $preferred-mix: 80, $minimum-mix: 60);
+		$hover-focus-background: _oButtonsGetMixColor(
+			$color-a: $color,
+			$color-b: $mix-color,
+			$contrast-color: $color,
+			$contrast-aim: 1.5,
+			$preferred-mix: 80,
+			$minimum-mix: 60
+		);
 
 		// The active background tint should have at least a contrast of 1.5
 		// against the hover/focus background colour.
-		$active-background: _oButtonsGetMixColor($color-a: $color, $color-b: $mix-color, $contrast-color: $hover-focus-background, $contrast-aim: 1.5, $preferred-mix: 70, $minimum-mix: 50);
+		$active-background: _oButtonsGetMixColor(
+			$color-a: $color,
+			$color-b: $mix-color,
+			$contrast-color: $hover-focus-background,
+			$contrast-aim: 1.5,
+			$preferred-mix: 70,
+			$minimum-mix: 50
+		);
 	}
 
 
@@ -208,14 +249,36 @@
 	// If a different context has been given the text colour matches if possible,
 	// or is mixed to be darker/lighter for higher contrast.
 	$hover-focus-base-color: oColorsGetTextColor($hover-focus-background, 100, $minimum-contrast: null);
-	$hover-focus-color: if($default-context, $hover-focus-base-color, _oButtonsGetMixColor($color-a: $context-color, $color-b: $hover-focus-base-color, $contrast-color: $hover-focus-background, $contrast-aim: 4.5, $preferred-mix: 100, $minimum-mix: 0));
+	$hover-focus-color: if(
+		$default-context,
+		$hover-focus-base-color,
+		_oButtonsGetMixColor(
+			$color-a: $context-color,
+			$color-b: $hover-focus-base-color,
+			$contrast-color: $hover-focus-background,
+			$contrast-aim: 4.5,
+			$preferred-mix: 100,
+			$minimum-mix: 0
+		)
+	);
 
 	// Generate the active state text colour.
 	// The text colour is black/white on the default page background.
 	// If a different context has been given the text colour matches if possible,
 	// or is mixed to be darker/lighter for higher contrast.
 	$active-base-color: oColorsGetTextColor($active-background, 100, $minimum-contrast: null);
-	$active-color: if($default-context, $active-base-color, _oButtonsGetMixColor($color-a: $context-color, $color-b: $active-base-color, $contrast-color: $active-background, $contrast-aim: 4.5, $preferred-mix: 100, $minimum-mix: 0));
+	$active-color: if(
+		$default-context,
+		$active-base-color,
+		_oButtonsGetMixColor(
+			$color-a: $context-color,
+			$color-b: $active-base-color,
+			$contrast-color: $active-background,
+			$contrast-aim: 4.5,
+			$preferred-mix: 100,
+			$minimum-mix: 0
+		)
+	);
 
 	// Confirm the contrast of default state.
 	$contrast-error-message: 'Could not create an accessible primary button of colour "#{$color-arg}" for a background context "#{$context-color-arg}".';
@@ -276,7 +339,14 @@
 	// The secondary button hover/focus background is transparent.
 	// It should be 15% opacity if the contrast ratio against the button
 	// copy is passes WCAG AA contrast checks, otherwise use 10%.
-	$hover-focus-background-mix: _oButtonsGetMix($color-a: $color, $color-b: $context-color, $contrast-color: $color, $contrast-aim: 4.5, $preferred-mix: 15, $minimum-mix: 10);
+	$hover-focus-background-mix: _oButtonsGetMix(
+		$color-a: $color,
+		$color-b: $context-color,
+		$contrast-color: $color,
+		$contrast-aim: 4.5,
+		$preferred-mix: 15,
+		$minimum-mix: 10
+	);
 	// Use transparency so the button may be used on a different background
 	// context, and trust the user to test accessibility in their app.
 	// But use an opaque mix to test contrast with the known context.
@@ -284,7 +354,14 @@
 	$hover-focus-background-opaque: oColorsMix($color, $context-color, $hover-focus-background-mix);
 	// If the hover/focus state doesn't have high enough contrast darken/lighten
 	// the button foreground colour until it does.
-	$hover-focus-color: _oButtonsGetMixColor($color-a: $color, $color-b: oColorsGetTextColor($hover-focus-background-opaque, 100), $contrast-color: $hover-focus-background-opaque, $contrast-aim: 4.5, $preferred-mix: 100, $minimum-mix: 0);
+	$hover-focus-color: _oButtonsGetMixColor(
+		$color-a: $color,
+		$color-b: oColorsGetTextColor($hover-focus-background-opaque, 100),
+		$contrast-color: $hover-focus-background-opaque,
+		$contrast-aim: 4.5,
+		$preferred-mix: 100,
+		$minimum-mix: 0
+	);
 
 	// Get active colours.
 	$active-background: $default-color;
