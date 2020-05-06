@@ -97,8 +97,10 @@
 				.o-buttons {
 					font-family: MetricWeb, sans-serif;
 					font-weight: 600;
+					font-family: MetricWeb, sans-serif; // stylelint-disable-line declaration-block-no-duplicate-properties
 					font-size: 14px;
-					line-height: 14px;
+					line-height: 16px;
+					line-height: 14px; // stylelint-disable-line declaration-block-no-duplicate-properties
 					background-size: 21px 21px;
 					min-height: 28px;
 					min-width: 60px;
@@ -159,8 +161,10 @@
 				& {
 					font-family: MetricWeb, sans-serif;
 					font-weight: 600;
+					font-family: MetricWeb, sans-serif; // stylelint-disable-line declaration-block-no-duplicate-properties
 					font-size: 16px;
-					line-height: 16px;
+					line-height: 20px;
+					line-height: 16px; // stylelint-disable-line declaration-block-no-duplicate-properties
 					background-size: 40px 40px;
 					min-height: 40px;
 					min-width: 80px;
@@ -298,7 +302,8 @@
 			@include expect() {
 				font-family: MetricWeb, sans-serif;
 				font-size: 16px;
-				line-height: 16px;
+				line-height: 20px;
+				line-height: 16px; // stylelint-disable-line declaration-block-no-duplicate-properties
 				background-size: 40px 40px;
 				min-height: 40px;
 				min-width: 80px;
