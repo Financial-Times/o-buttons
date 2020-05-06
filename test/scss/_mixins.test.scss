@@ -115,12 +115,10 @@
 					user-select: none;
 					background-clip: border-box;
 					border-width: 1px;
-					// stylelint-disable property-no-vendor-prefix
 					-webkit-font-smoothing: antialiased;
 					-moz-osx-font-smoothing: grayscale;
-					-moz-appearance: none;
-					-webkit-appearance: none;
-					// stylelint-enable property-no-vendor-prefix
+					-moz-appearance: none; // stylelint-disable-line property-no-vendor-prefix
+					-webkit-appearance: none; // stylelint-disable-line property-no-vendor-prefix
 					border-radius: 0;
 				}
 
@@ -179,12 +177,10 @@
 					user-select: none;
 					background-clip: border-box;
 					border-width: 1px;
-					// stylelint-disable property-no-vendor-prefix
 					-webkit-font-smoothing: antialiased;
 					-moz-osx-font-smoothing: grayscale;
-					-moz-appearance: none;
-					-webkit-appearance: none;
-					// stylelint-enable property-no-vendor-prefix
+					-moz-appearance: none; // stylelint-disable-line property-no-vendor-prefix
+					-webkit-appearance: none; // stylelint-disable-line property-no-vendor-prefix
 					border-radius: 0;
 					background-color: #262a33;
 					color: white;

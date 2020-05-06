@@ -171,12 +171,10 @@
 	background-clip: border-box;
 	border-width: 1px;
 	// Prevent fat white type on a dark background
-	// stylelint-disable property-no-vendor-prefix
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	// stylelint-enable property-no-vendor-prefix
+	-moz-appearance: none; // stylelint-disable-line property-no-vendor-prefix
+	-webkit-appearance: none; // stylelint-disable-line property-no-vendor-prefix
 	border-radius: 0; // Edge 80 insists on a boarder radius.
 
 	// Same as aria-disabled:
