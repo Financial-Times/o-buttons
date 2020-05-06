@@ -105,7 +105,8 @@
 	// Include size styles if they haven't been included
 	// already as part of the base styles.
 	@if $size and not $include-base-styles {
-		@include _oButtonsSizeContent($size); }
+		@include _oButtonsSizeContent($size);
+	}
 
 	@if $type {
 		@include _oButtonsStateContent($type, $button-colors-map);
@@ -206,7 +207,10 @@
 /// @param {Null|Number} $size
 @mixin _oButtonsSizeContent($size: null) {
 	@include oTypographySans($scale: _oButtonsGet('scale', $size));
-	$line-height: nth(oTypographyGetScale($index: _oButtonsGet('scale', $size), $font: oTypographyGetFontFamily('sans')), 1);
+	$line-height: nth(oTypographyGetScale(
+		$index: _oButtonsGet('scale', $size),
+		$font: oTypographyGetFontFamily('sans')
+	), 1);
 	line-height: #{$line-height}px;
 	// IE11 renders the background image at a very small size if you do not
 	// double-up the background size here, declaring a width _and_ height.
