@@ -118,7 +118,7 @@ For a pagination style wrap your buttons in `.o-buttons-pagination`. In this exa
 
 ### Disabled
 
-Styles for disabled states are included in `o-buttons` however the use of disabled buttons is not recommended. Firstly disabled buttons pose accessibility issues including being difficult to see. Although disabled buttons with low contrast are allowed according to [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG21/#abstract), blind or visually impaired users may miss vital context. Secondly disabled buttons may be frustrating for the user if they are unsure why the button is disabled.
+Styles for disabled states are included in `o-buttons` however the use of disabled buttons is not recommended. Firstly, disabled buttons pose accessibility issues including being difficult to see. Although disabled buttons with low contrast are allowed according to [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG21/#abstract), blind or visually impaired users may miss vital context. Secondly, disabled buttons may be frustrating for the user if they are unsure why the button is disabled.
 
 Hampus Sethfors explains the issues with disabled buttons in more detail in an [axesslab.com article](https://axesslab.com/disabled-buttons-suck/) and suggests alternative design approaches for common uses of disabled buttons.
 
