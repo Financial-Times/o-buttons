@@ -118,11 +118,13 @@ For a pagination style wrap your buttons in `.o-buttons-pagination`. In this exa
 
 ### Disabled
 
-Styles for disabled states are included in `o-buttons` however the use of disabled buttons is not recommended. Firstly, disabled buttons pose accessibility issues including being difficult to see. Although disabled buttons with low contrast are allowed according to [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG21/#abstract), blind or visually impaired users may miss vital context. Secondly, disabled buttons may be frustrating for the user if they are unsure why the button is disabled.
+Disabled buttons have [poor contrast which makes them difficult to read](). Disabled buttons [do not give feedback to a user why they are disabled]().
+
+Avoid them unless user research shows they improve your interface.
 
 Hampus Sethfors explains the issues with disabled buttons in more detail in an [axesslab.com article](https://axesslab.com/disabled-buttons-suck/) and suggests alternative design approaches for common uses of disabled buttons.
 
-To use a disabled button regardless of these issues add the `disabled` attribute. To visually hide the disabled button until it is active add the class `o-buttons--hide-disabled`.
+Add the `disabled` attribute to make a button disabled. To visually hide the disabled button until it is active add the class `o-buttons--hide-disabled`.
 
 ```html
 <!-- Visibly disabled because of the `disabled` attribute. -->
