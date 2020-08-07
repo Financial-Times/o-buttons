@@ -2,12 +2,18 @@
 
 o-buttons provides Sass mixins and variables to create buttons.
 
+- [Usage](#usage)
 - [Markup](#markup)
 - [Sass](#sass)
 - [References](#references)
 - [Migration](#migration)
 - [Contact](#contact)
 - [Licence](#licence)
+
+## Usage
+
+There are two ways to include `o-buttons` in your project, consistent with other Origami components. See [how
+to include Origami components in your project](https://origami.ft.com/docs/components/#including-origami-components-in-your-project).
 
 ## Markup
 
