@@ -104,7 +104,7 @@ Wrap buttons with `.o-buttons-group` to group them together:
 
 ### Pagination
 
-For a pagination style wrap your buttons in `.o-buttons-pagination`. Most pagination usecase use anchor `a` tags for links which look like buttons instead of a `button` tag. When using an anchor tag in pagination do not use the `aria-selected` data attribute. Instead use `aria-current="page"` to indicate the current page, this will highlight the button for the current page visually and to screen readers.
+For a pagination style wrap your buttons in `.o-buttons-pagination`. Most pagination usecases anchor `a` tags for links which look like buttons instead of a `button` tag. When using an anchor tag in pagination do not use the `aria-selected` data attribute. Instead use `aria-current="page"` to indicate the current page, this will highlight the button for the current page visually and to screen readers.
 
 In the following example we use links to show pages 1-3 and use icon buttons to indicate more and fewer results:
 
