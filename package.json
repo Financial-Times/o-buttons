@@ -12,15 +12,15 @@
         "stylelint-config-origami-component": "^1.0.4"
     },
     "peerDependencies": {
-        "@financial-times/o-brand": "^100.0.0-4",
-        "@financial-times/o-colors": "^100.0.0-4",
-        "@financial-times/o-icons": "^100.0.0-4",
-        "@financial-times/o-normalise": "^100.0.0-4",
-        "@financial-times/o-typography": "^100.0.0-4"
+        "@financial-times/o-brand": "^100.0.0-5",
+        "@financial-times/o-colors": "^100.0.0-5",
+        "@financial-times/o-icons": "^100.0.0-5",
+        "@financial-times/o-normalise": "^100.0.0-5",
+        "@financial-times/o-typography": "^100.0.0-5"
     },
     "description": "FT buttons styles. Provides customisation options with the FT colour palette.",
     "publishConfig": {
         "registry": "http://localhost:4873"
     },
-    "version": "100.0.0-4"
+    "version": "100.0.0-5"
 }
