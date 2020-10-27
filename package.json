@@ -1,6 +1,8 @@
 {
-    "browser": "main.js",
     "name": "@financial-times/o-buttons",
+    "version": "100.0.0-7",
+    "description": "FT buttons styles. Provides customisation options with the FT colour palette.",
+    "browser": "main.js",
     "devDependencies": {
         "eslint": "^7.8.1",
         "eslint-config-origami-component": "^2.1.0",
@@ -18,9 +20,7 @@
         "@financial-times/o-normalise": "^100.0.0-7",
         "@financial-times/o-typography": "^100.0.0-7"
     },
-    "description": "FT buttons styles. Provides customisation options with the FT colour palette.",
     "publishConfig": {
         "registry": "http://localhost:4873"
-    },
-    "version": "100.0.0-7"
+    }
 }
