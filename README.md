@@ -1,5 +1,11 @@
 # o-buttons
 
+***
+
+**This component has moved to the [Origami Component System](https://github.com/Financial-Times/origami).**
+
+***
+
 o-buttons provides Sass mixins and variables to create buttons.
 
 - [Usage](#usage)
